@@ -14,7 +14,7 @@ if __name__ == '__main__':
     
 
     print("\n-------------------------------------------------------------------------")
-    print(" difftocorr.py : calculate correlation fucntion from diffraction patterns" )
+    print(" difftocorr.py : calculate correlation function from diffraction patterns" )
     print("-------------------------------------------------------------------------")
 
     #
@@ -46,7 +46,7 @@ if __name__ == '__main__':
         #print( "!!!DEBUG py3corrrelation nx ny", p.nx, p.ny, testimage.shape)
 
     #
-    # Set up an instance of the padf class
+    # Set up an instance of the correlation class
     #
     #print("DEBUG rebin:,", p.rebin)
     corr = correlation.correlation(path=p.outpath, tag=p.tag, flist=p.flist,
@@ -60,7 +60,7 @@ if __name__ == '__main__':
                  maskname=p.maskname, rebin=p.rebin, nstart=p.nstart,
                  diffcorr=p.diffcorrflag, outputdp=p.outputdp)
     #
-    # calculate the padf
+    # calculate the correlation function
     #
     corrsum = np.zeros( (p.nx//2, p.nx//2, p.nth) )
     print("\nPerforming Correlations\n")
