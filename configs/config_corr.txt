@@ -1,0 +1,26 @@
+[PY3CORRELATION]
+outpath = /Users/E38496/Work/Research/SF/Projects/2023/points/results/pathtest/
+samplepath = /Users/E38496/Work/Research/SF/Projects/2023/points/results/twopoints/dp/twopoints*.npy
+tag = twopoints
+fext = .npy
+dz = 0.005
+wl = 2e-10
+pw = 5e-5
+nq = 100
+nth = 50
+cx = 100
+cy = 100
+nthreads = 1
+nstart = 1
+npatterns = 4
+rebin = 1
+diffcorrflag = True
+maskflag = False
+outputdp = True
+bg_estimage = False
+dp_shift_flag = False
+crop_flag = False
+#nxcrop = 200
+#nycrop = 200
+#shiftx = 100
+#shifty = 100 
