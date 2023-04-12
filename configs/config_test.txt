@@ -1,0 +1,16 @@
+[PY3CORRELATION]
+outpath = /Users/E38496/Work/Research/SF/Projects/2022/carbon/results/60xyz_nth1024_rmax3/
+corrfile = /Users/E38496/Work/Research/SF/Projects/2022/carbon/results/60xyz_nth1024_rmax3/60xyz_nth1024_rmax3_runs3456_b_correlation_sum_masked.npy
+tag = 60xyz_nth1024_rmax3_runs3456_b_masked
+fext = .npy
+dz = 0.005
+wl = 2e-11
+pw = 5e-5
+nq = 100
+nth = 1024
+nr = 100
+nl = 32
+qmax = 38268343236.50898
+rmax = 2.6e-9
+method = svd
+legendre_norm = False
