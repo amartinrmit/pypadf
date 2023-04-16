@@ -233,8 +233,12 @@ class params:
 
         class attributes modified: self.d
         """
-        
-        self.configp.read( fname )
+        self.parse_args()
+        if self.args.config[0] is not None:        
+            self.configp.read( fname )
+        else:
+            print("No config file was given at the command line. No parameters have been read from file.")
+            return
 
         for k in self.configp.keys():
             for k2 in self.configp[k].keys():
@@ -261,6 +265,52 @@ class params:
 
         self.convert_paths()
 
+    
+    def parse_commandline_args( self ):
+        """
+        Read configuration paramneters of a  text file (using configparser package).
+        
+        Parameters
+        ----------
+        fname : str
+            file name for input data
+
+        Returns
+        -------
+        None
+
+        class attributes modified: self.d
+        """
+        self.parse_args()
+
+        for k in self.args.__dict__.keys():
+            if k in self.d.keys():
+                        if self.args.__dict__[k] is not None:
+                            v = self.args.__dict__[k][0]
+                        else:
+                            continue
+                        if type(v) is float:
+                            self.d[k].value = float(v)
+                        elif type(v) is int:
+                            self.d[k].value = int(v)
+                        elif type(self.d[k].value) is str:
+                            self.d[k].value = v
+                        elif type(self.d[k].value) is bool:
+                            if (v=='True') or (v==1):
+                                self.d[k].value = True
+                            elif (v=='False') or (v==0):
+                                self.d[k].value = False
+                        
+                        #if k2=='pw': print("debug params.py", type(self.d[k2].value))
+                        #self.d[k2].value = self.configp[k][k2]
+                        # print(k2, self.configp[k][k2], self.d[k2].value)
+                        self.__dict__[k] = self.d[k].value
+            else:
+                        print( "parameter o file not required (check the name) :"+k2 )
+
+        self.convert_paths()
+
+
     def convert_paths( self):
         """Convert parameter value to path object if pathflag==True
         """        
@@ -276,7 +326,7 @@ class params:
         """Add arguments to parser object for all elements of self.d
         """
         for k, v in self.d.items():
-            parser.add_argument("--"+k, v.cmdline, nargs=v.nargs, help=v.help)
+            self.parser.add_argument("--"+k, v.cmdline, nargs=v.nargs, help=v.help)
 
     def makefname( self, path, tag, suffix, fext):
         """Create a file name from a pathlib.Path() object
@@ -289,6 +339,12 @@ class params:
         """
         tmp = path / ""
         return str(tmp.resolve())
+
+    def parse_args(self):
+        """parses the command line arguments and stores them in an attribute of the params class
+        """
+        self.args = self.parser.parse_args()
+
 #
 # copy the dictionaries of two parameters whereever they have common key names
 #
