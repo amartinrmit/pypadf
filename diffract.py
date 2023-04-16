@@ -30,7 +30,8 @@ p.read_diff_parameters_from_file()
 pdbname = str(p.pdbname.resolve())
 #outpath = str(p.outpath.resolve())
 difrct = df.diffraction(pdbname, p.outpath, p.tag, p.fext, p.nx, p.wl, p.dz, p.pw, p.cenx,
-                        p.ceny, p.henkeflag, np.array([p.rx,p.ry,p.rz]),p.rtheta,p.rotflag )
+                        p.ceny, p.henkeflag, np.array([p.rx,p.ry,p.rz]),p.rtheta,p.rotflag,
+                        npulse=p.npulse,beamarea=p.beamarea )
 
 difrct.pdb.maxdims()
 mins =  (difrct.pdb.xmin,difrct.pdb.ymin,difrct.pdb.zmin)
@@ -61,6 +62,8 @@ for i in np.arange(p.npatterns):
 
     start = time.perf_counter()
     difrct.diffraction2D()
+    if p.polarisation is True: difrct.dp2d *= difrct.polarisation_factor([p.px, p.py])
+    if p.poisson is True: difrct.dp2d = difrct.poisson_sample(difrct.dp2d)
     end = time.perf_counter()
     print( i+1,"/",p.npatterns,"  Time to calculate 2D diffraction pattern:", end-start, "seconds", end="\r")
 
@@ -88,7 +91,7 @@ q = np.arange( nq) * 0.1 * 2 * np.pi
 invAngstromSymbol = r'$\mathrm{\AA}^{-1}$'
 
 
-gamma = 0.3
+gamma = 1.0
 #plt.imshow( np.log(difrct.dp2d) )
 plt.imshow( np.abs(difrct.dp2d)**gamma )
 #plt.imshow( difrct.sflist[2].sf2d)

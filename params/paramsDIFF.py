@@ -81,6 +81,23 @@ class paramsDIFF(params):
     rmax : float
         crop atoms in a spherical volume centred on the origin (units to match pdb file)
 
+    npulse : float
+        estimated number of photons per exposure (per pulse)
+        
+    beamarea : float
+        estimated beam area
+    
+    poisson : bool
+        if true, the diffraction pattern will be sampled with a Poisson distribution, generating photon statistics
+
+    polarisation : bool
+        if true, diffraction pattern will be multiplied by a polarisation factor
+
+    polx : float
+        component of the polarisation vector in the horizontal direction
+
+    poly : float
+        compnonent of the polarisation vector is the vertical direction
     """
 
     def __init__(self):
@@ -128,7 +145,21 @@ class paramsDIFF(params):
                         nargs=1,header=ch[0],pathflag=False)
         self.add_parameter("rmax", -1.0, cmdline="--rmax",cmdline2="-rmax", help="crop atoms within circular volume",
                         nargs=1,header=ch[0],pathflag=False) 
+        self.add_parameter("npulse", 1e11, cmdline="--npulse",cmdline2="-nph", help="number of photons per pulse (exposure)",
+                        nargs=1,header=ch[0],pathflag=False)
+        self.add_parameter("beamarea", 1e-14, cmdline="--beamarea",cmdline2="-ba", help="beam area in m^2",
+                        nargs=1,header=ch[0],pathflag=False) 
 
+        self.add_parameter("poisson", False, cmdline="--poisson",cmdline2="-ps", help="If true, diffraction pattern is sampled with the Poisson distribution to produce photon counts",
+                        nargs=1,header=ch[0],pathflag=False) 
+        self.add_parameter("polarisation", False, cmdline="--polarisation",cmdline2="-pol", help="bream area in m^2",
+                        nargs=1,header=ch[0],pathflag=False) 
+        self.add_parameter("polx", 1, cmdline="--polx",cmdline2="-px", help="component of polarisation vector in the horizontal direction",
+                        nargs=1,header=ch[0],pathflag=False) 
+        self.add_parameter("poly", 0, cmdline="--poly",cmdline2="-py", help="component of polarisation vector in the vertical direction",
+                        nargs=1,header=ch[0],pathflag=False)
+
+ 
     def read_diff_parameters_from_file(self):
         """Read the values of the input parameters from a text (config) file.
         

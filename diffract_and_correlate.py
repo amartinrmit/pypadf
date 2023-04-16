@@ -43,7 +43,7 @@ if __name__ == '__main__':
         #
         pdbname = p.path_to_string(p.pdbname)
         difrct = df.diffraction(pdbname, outpathdp, p.tag, p.fext, p.nx, p.wl, p.dz, p.pw, p.cenx,
-                                p.ceny, p.henkeflag, np.array([p.rx,p.ry,p.rz]),p.rtheta,p.rotflag )
+                                p.ceny, p.henkeflag, np.array([p.rx,p.ry,p.rz]),p.rtheta,p.rotflag,p.npulse,p.beamarea )
         p.samplepath = outpathdp
 
         difrct.pdb.maxdims()
@@ -119,6 +119,8 @@ if __name__ == '__main__':
 
                     start = time.perf_counter()
                     difrct.diffraction2D()
+                    if p.polarisation is True: difrct.dp2d *= difrct.polarisation_factor([p.polx, p.poly])
+                    if p.poisson is True: difrct.dp2d = difrct.poisson_sample(difrct.dp2d)
                     end = time.perf_counter()
                     #print( "Time to calculate 2D diffraction pattern:", end-start, "seconds")
                     dptimes[j] = end-start

@@ -140,11 +140,17 @@ class diffraction(sfdata):
     rmax : float
         Exclude all atoms outside a radius of rmax from the origin
         (Units are same as coordinate units in the pdb file)
+
+    npulse : float
+        estimated number of photons per exposure (per pulse)
+        
+    beamarea : float
+        estimated beam area in m^2
     """
     def __init__(self,pdbname,outpath=None,tag=None,fext=None,
                  nx=100,wl=1e-10,dz=0.1,pw=1e-5,
                  cenx=-1,ceny=-1,henkeflag=False,axis=np.array([1.0,0.0,0.0]),
-                 theta=0.0,rotflag=False,rmax=-1):
+                 theta=0.0,rotflag=False,rmax=-1, npulse=1e11, beamarea=1e-14):
         
         self.pdbname = pdbname
         self.outpath = outpath
@@ -161,6 +167,12 @@ class diffraction(sfdata):
         self.axis = axis
         self.theta = theta
         self.rmax = rmax
+        self.beamarea = beamarea
+        self.npulse = npulse
+
+        self.classical_erad = 2.8179403267e-15
+
+        np.random.seed(None)
 
     def load_pdb(self):
         """Read the atom positions from the .pdb file
@@ -245,7 +257,9 @@ class diffraction(sfdata):
             
 
         self.dp2d = np.abs(self.swave2d)**2
-        #print("lenght pdb.elements", len(self.pdb.elements), np.max(self.dp2d))
+        self.dp2d *= self.npulse*(self.classical_erad**2)/self.beamarea
+        self.dp2d = self.solid_angle_correction(self.dp2d)
+        #print("length pdb.elements", len(self.pdb.elements), np.max(self.dp2d))
         #print("<diffraction.py> - ", self.pdb.elements[ie], np.max(self.dp2d))
 
 
@@ -302,4 +316,33 @@ class diffraction(sfdata):
             else: 
                     tmplist.append(self.pdb.atomlist[i])
         self.pdb.atomlist = tmplist 
-        self.pdb.sort_atom_list() 
+        self.pdb.sort_atom_list()
+
+    def solid_angle_correction(self,dp):
+        """applies a correction for the solid angle of each pixel
+           based on pixels oriented along the scattering vector"""
+        xy = np.mgrid[0:self.nx, 0:self.nx]
+        x = (xy[0]-self.cenx)*self.pw
+        y = (xy[1]-self.ceny)*self.pw
+        costh = np.cos( np.arctan( np.sqrt(x**2 + y**2)/self.dz))
+        dpout = dp*costh*(self.pw/self.dz)**2 
+        return dpout
+
+    def polarisation_factor(self,vec):
+        """applies a polarisation correction
+           vec : numpy array; 2 floats
+                direction of polarisation vector perpendicular to the beam
+                first element is the horizontal direction; second is vertical
+           dp : numpy array
+                diffraction pattern to be corrected 
+        """
+        xy = np.mgrid[0:self.nx, 0:self.nx]
+        x = (xy[0]-self.cenx)*self.pw
+        y = (xy[1]-self.ceny)*self.pw
+        theta = np.arctan( np.sqrt(x**2 + y**2)/self.dz)
+        phi = np.angle( x+1j*y)
+        pol = v[0]*(1-(np.sin(phi)*np.sin(theta))**2) + v[1]*(1-(np.cos(phi)*np.sin(theta))**2)
+        return pol
+
+    def poisson_sample(self, dp):
+        return np.random.poisson(dp)
