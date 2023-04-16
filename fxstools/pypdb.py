@@ -315,7 +315,7 @@ class pdb:
         
         for i, al in enumerate(self.atomlist):
             if i!=0:f.write("\n")
-            strng = alstart.format(num=i+1)+al.elem.rjust(3)+"XXX".rjust(5)+"X".rjust(2)+"{n:4d}    ".format(n=i+1)
+            strng = alstart.format(num=i+1)+al.elem.rjust(3)+"XXX".rjust(6)+"X".rjust(2)+"{n:4d}    ".format(n=i+1)
             strng += xyzbit.format(x=al.x,y=al.y,z=al.z,occ=al.occ,b=al.Bfactor)+al.elem.rjust(12)
             f.write(strng)
         f.close()
