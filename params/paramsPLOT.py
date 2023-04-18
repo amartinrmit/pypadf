@@ -218,9 +218,9 @@ class paramsPLOT(params):
         print("config file name:", abspath )
         fname = self.path_to_string(self.fname)
         self.fname_basenoext = os.path.basename(os.path.splitext(fname)[0])
-        outname = self.path_to_string( self.outpath / (self.fname_basenoext+"_"+self.stype+"_plot_parameter_log.txt"))
+        outname = self.makefname( self.outpath, self.fname_basenoext+"_"+self.stype, "_fxs3Dplot_parameter_log", ".txt")
         self.write_params_to_file( outname )
 
-    def makefname( path, tag, suffix, fext):
-            outname = str(path.resolve())+tag+suffix+fext
-            return outname
+#    def makefname( path, tag, suffix, fext):
+#            outname = str(path.resolve())+tag+suffix+fext
+#            return outname
