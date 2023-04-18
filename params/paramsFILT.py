@@ -165,5 +165,5 @@ class paramsFILT(params):
         abspath = os.path.abspath(self.parser.parse_args().config[0])
         self.parse_config_file( abspath )
         print("config file name:", abspath )
-        outpath = self.path_to_string(self.outpath)
-        self.write_params_to_file( outpath+self.tag+"_blfilter_parameter_log.txt" )
+        outname = self.makefname( self.outpath, self.tag, "_blfilter_parameter_log",".txt")
+        self.write_params_to_file( outname )
