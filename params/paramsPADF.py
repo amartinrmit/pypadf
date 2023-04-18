@@ -154,5 +154,5 @@ class paramsPADF(params):
         abspath = os.path.abspath(self.parser.parse_args().config[0])
         self.parse_config_file( abspath )
         print("config file name:", abspath )
-        outname = self.path_to_string( self.outpath / (self.tag+"_py3PADF_parameter_log.txt") )
+        outname = self.makefname( self.outpath, self.tag, "_corrtopadf_parameter_log",".txt" )
         self.write_params_to_file( outname )

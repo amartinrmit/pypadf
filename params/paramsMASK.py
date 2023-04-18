@@ -126,13 +126,14 @@ class paramsMASK(params):
         abspath = os.path.abspath(self.parser.parse_args().config[0])
         self.parse_config_file( abspath )
         print("config file name:", abspath )
-        outpath = self.path_to_string(self.outpath)
+        #outpath = self.path_to_string(self.outpath)
         cf = self.path_to_string(self.corrfile)
         self.corrfile_basenoext = os.path.basename(os.path.splitext(cf)[0])
-        self.write_params_to_file( outpath+self.corrfile_basenoext+"_"+self.suffix+"_mask_parameter_log.txt" )
+        logname = self.makefname( self.outpath, self.corrfile_basenoext, self.suffix+"_maskcorr_parameter_log", ".txt")
+        self.write_params_to_file( logname )
 
 
-    def makefname( self, path, tag, suffix, fext):
-            outname = str(path.resolve())+tag+suffix+fext
-            #outname = path+tag+suffix+fext
-            return outname
+#    def makefname( self, path, tag, suffix, fext):
+#            outname = str(path.resolve())+tag+suffix+fext
+#            #outname = path+tag+suffix+fext
+#            return outname

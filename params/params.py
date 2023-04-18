@@ -331,7 +331,8 @@ class params:
     def makefname( self, path, tag, suffix, fext):
         """Create a file name from a pathlib.Path() object
         """
-        outname = str(path.resolve() / (tag+suffix+fext))
+        outpath = path / (tag+suffix+fext)
+        outname = str(outpath.resolve())
         return outname
 
     def path_to_string( self, path ):

@@ -171,7 +171,7 @@ class paramsDIFF(params):
         #self.read_parameters_from_file(cwd+self.parser.parse_args().config[0] )
         self.parse_config_file(cwd+self.parser.parse_args().config[0] )
         #outname =  self.d["outpath"].value / (self.d["tag"].value+"_parameter_log.txt")
-        outname = self.makefname( self.outpath, self.tag, "_diffraction_parameter_log.txt")
+        outname = self.makefname( self.outpath, self.tag, "_diffract_parameter_log.txt")
         self.write_params_to_file( outname )
 
         rnorm = np.sqrt( self.rx*self.rx + self.ry*self.ry + self.rz*self.rz)

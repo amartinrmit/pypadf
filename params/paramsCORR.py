@@ -272,7 +272,7 @@ class paramsCORR(params):
         self.add_parameter( "qmax", self.qmax, cmdline="--dontuse", 
                             help="dont input qmax is calculated by the code", 
                             nargs=1, header="DONTUSE", pathflag=False )
-        outname = self.makefname( self.outpath, self.tag, "_parameter_log", ".txt")
+        outname = self.makefname( self.outpath, self.tag, "_difftocorr_parameter_log", ".txt")
         self.write_params_to_file( outname )
 
     def load_flist_from_samplepath(self):
