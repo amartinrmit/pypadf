@@ -57,7 +57,7 @@ if __name__ == '__main__':
                  nxcrop=p.nxcrop, nycrop=p.nycrop,
                  dp_shift_flag=p.dp_shift_flag, 
                  shiftx=p.shiftx, shifty=p.shifty,
-                 maskname=p.maskname, rebin=p.rebin, nstart=p.nstart,
+                 maskname=p.path_to_string(p.maskname), rebin=p.rebin, nstart=p.nstart,
                  diffcorr=p.diffcorrflag, outputdp=p.outputdp)
     #
     # calculate the correlation function
