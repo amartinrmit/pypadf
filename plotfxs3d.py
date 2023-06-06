@@ -71,9 +71,11 @@ disp = pp.extract_section( fxsvol, pdims, p.stype )
 rlabel, thlabel = pp.generate_unit_labels(p.runits,p.rq)
 r1 = pdims.get_ir(fxsvol.shape[0], p.rmaxdisp)
 r0 = pdims.get_ir(fxsvol.shape[0], p.rmindisp)
+th0 = int( disp.shape[1]*p.thmindisp/(p.thmax-p.thmin))
+th1 = int( disp.shape[1]*p.thmaxdisp/(p.thmax-p.thmin))
 
 if p.stype=='reqr' or p.stype=='rconst':
-    plt.imshow(disp[r0:r1,:], origin='lower', extent=[0,p.thmax,p.rmindisp,p.rmaxdisp], aspect=360/(p.rmaxdisp-p.rmindisp), interpolation='gaussian')
+    plt.imshow(disp[r0:r1,th0:th1], origin='lower', extent=[p.thmindisp,p.thmaxdisp,p.rmindisp,p.rmaxdisp], aspect=p.asp*360/(p.rmaxdisp-p.rmindisp), interpolation='gaussian')
     if (p.chigh>0) and (p.clow>=0):
         plt.clim([p.clow, p.chigh])
     else:

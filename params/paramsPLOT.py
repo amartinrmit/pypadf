@@ -50,6 +50,12 @@ class paramsPLOT(params):
     thmax : float
         maximum value of theta in the input volume (degrees)
 
+    thmindisp : float 
+        minimum value of theta to display (degrees)
+
+    thmaxdisp : float
+        maximum value of theta to display (degrees)
+
     power : float
         multiply the radial dimension by r^power (or q^power)
 
@@ -97,6 +103,9 @@ class paramsPLOT(params):
 
     climlow : float
         lower clim on an absolute scale (takes priority over scalel)
+
+    aspect : float
+        aspect ration of reqr or rconst plots
 
     """
 
@@ -161,8 +170,16 @@ class paramsPLOT(params):
                         help="minimum theta value in volume",        
                         nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("thmax", 2*np.pi, cmdline="--thmax",cmdline2="-thx", 
+        self.add_parameter("thmax", 360, cmdline="--thmax",cmdline2="-thx", 
                         help="maximum theta value in the volume",        
+                        nargs=1,header=ch[0],pathflag=False)
+
+        self.add_parameter("thmindisp", 0.0, cmdline="--thmindisp", cmdline2="-thnd",
+                        help="minimum theta value to display",        
+                        nargs=1,header=ch[0],pathflag=False)
+
+        self.add_parameter("thmaxdisp", 360, cmdline="--thmaxdisp",cmdline2="-thxd", 
+                        help="maximum theta value to display",        
                         nargs=1,header=ch[0],pathflag=False)
 
         self.add_parameter("power", 0.0, cmdline="--power",cmdline2="-p", 
@@ -200,6 +217,8 @@ class paramsPLOT(params):
 
         self.add_parameter("rwid", 1.0, cmdline="--rwid",cmdline2="-rw", help="radial width for convolution", nargs=1, header=ch[0],pathflag=False)
         self.add_parameter("thwid", 1.0, cmdline="--thwid",cmdline2="-thw", help="angular witdth for convolution", nargs=1, header=ch[0],pathflag=False)
+
+        self.add_parameter("asp", 1.0, cmdline="--asp",cmdline2="-as", help="aspect ratio", nargs=1, header=ch[0],pathflag=False)
 
 
     def read_config_file(self):

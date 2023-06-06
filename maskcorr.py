@@ -26,14 +26,28 @@ print( "Correlation loaded:", corrfile )
 s = corr.shape
 
 
+#
+# mask theta
+#
+if p.maskth:
+     ithw = int(s[2]*p.thlim/360)
+     corr[:,:,:ithw]  = 0
+     corr[:,:,-ithw:] = 0
+
+
 #print("27 DEBUG min max", np.min(corr), np.max(corr))
 #
 # subtract the mean value
 #
 if p.submean:
+        if p.thlimnorm>0:
+            ith0 = int(s[2]*p.thlimnorm/360)
+        else:
+            ith0 = 0
+
         for i in range(s[0]):
             for j in range(s[1]):
-                corr[i,j,:] += -np.average(corr[i,j,:])
+                corr[i,j,:] += -np.average(corr[i,j,ith0:-ith0])
 
 #
 # sintheta correction
