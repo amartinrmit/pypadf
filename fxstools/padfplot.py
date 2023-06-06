@@ -146,7 +146,7 @@ def convolve_gaussian_n( image, rad=3, rady=1, radz=1):
      c = make_gaussian_n( image.shape[0], image.shape[1], image.shape[2], rad, rady, radz, cenx=0, ceny=0, cenz=0 )
      fc = np.fft.fftn( c )
      fimage = np.fft.fftn( image )
-     output = np.abs(np.fft.ifftn( np.conjugate(fc)*fimage ))
+     output = np.fft.ifftn( np.conjugate(fc)*fimage )
      return output
 
 # scale the correlation slice by gamma
