@@ -60,6 +60,10 @@ class paramsMASK(params):
 
     thlim : float
         half-width of theta range to mask centred on theta=0. Units: degrees     
+    
+    thlimnorm : float
+        bounds range for calculating the theta average. Ignored if less than 0. Units: degrees
+    
     """
 
 
@@ -110,7 +114,10 @@ class paramsMASK(params):
         self.add_parameter("qmasklow", 10.0, cmdline="--qmasklow",cmdline2="-qml", help="lower bound on q mask (A^-1)",        
                         nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("thlim", 0.1, cmdline="--thlim",cmdline2="-thx", help="bound on theta mask near zeron (radians)",        
+        self.add_parameter("thlim", 10, cmdline="--thlim",cmdline2="-thx", help="bound on theta mask near zero (radians)",        
+                        nargs=1,header=ch[0],pathflag=False)
+        
+        self.add_parameter("thlimnorm", -1.0, cmdline="--thlimnorm",cmdline2="-thxnorm", help="bound on theta range near zero for subtracting mean (radians)",        
                         nargs=1,header=ch[0],pathflag=False)
 
 
