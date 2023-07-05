@@ -68,21 +68,26 @@ disp = pp.extract_section( fxsvol, pdims, p.stype )
 #
 # Plot the section of the 3D volume
 #
-rlabel, thlabel = pp.generate_unit_labels(p.runits,p.rq)
+rlabel, thlabel = pp.generate_unit_labels(p.runits,p.rq,p.rscale)
 r1 = pdims.get_ir(fxsvol.shape[0], p.rmaxdisp)
 r0 = pdims.get_ir(fxsvol.shape[0], p.rmindisp)
 th0 = int( disp.shape[1]*p.thmindisp/(p.thmax-p.thmin))
 th1 = int( disp.shape[1]*p.thmaxdisp/(p.thmax-p.thmin))
-
+thstep = (p.thmaxdisp-p.thmindisp)/(disp.shape[1]-1)
+ax = plt.gca()
 if p.stype=='reqr' or p.stype=='rconst':
-    plt.imshow(disp[r0:r1,th0:th1], origin='lower', extent=[p.thmindisp,p.thmaxdisp,p.rmindisp,p.rmaxdisp], aspect=p.asp*360/(p.rmaxdisp-p.rmindisp), interpolation='gaussian')
-    if (p.chigh>0) and (p.clow>=0):
+    plt.imshow(disp[r0:r1,th0:th1], origin='lower', extent=[p.thmindisp,p.thmaxdisp-1.0*thstep,p.rmindisp/p.rscale,p.rmaxdisp/p.rscale], aspect=p.asp*360*p.rscale/(p.rmaxdisp-p.rmindisp), interpolation='gaussian')
+    if (p.chigh>0) and (p.chigh>p.clow):
         plt.clim([p.clow, p.chigh])
     else:
         plt.clim([np.min(disp[r0:r1,:])*p.scalel,np.max(disp[r0:r1,:])*p.scale])
+    #plt.ticklabel_format(axis='y', style='sci', scilimits=(0,0))
     plt.colorbar()
     plt.ylabel(rlabel)
     plt.xlabel(thlabel)
+    #plt.locator_params(axis='x',nbins=9)
+    ax.set_xticks(np.arange(p.thmindisp,p.thmaxdisp,(p.thmaxdisp-p.thmindisp)/p.nthbins))
+    plt.locator_params(axis='y',nbins=p.nrbins)
 
 elif p.stype=='thconst':
     plt.imshow(disp[r0:r1,r0:r1], origin='lower', extent=[p.rmindisp,p.rmaxdisp,p.rmindisp,p.rmaxdisp], aspect=1, interpolation='gaussian')

@@ -107,6 +107,14 @@ class paramsPLOT(params):
     aspect : float
         aspect ration of reqr or rconst plots
 
+    rscale : float
+        scale the y-axis of the plot to fix how the exponent is displayed
+
+    nrbins : int
+        set the number of tick labels on the radial axis
+
+    nthbins : int
+        set the number of tick labels on the theta axis
     """
 
 
@@ -220,7 +228,13 @@ class paramsPLOT(params):
 
         self.add_parameter("asp", 1.0, cmdline="--asp",cmdline2="-as", help="aspect ratio", nargs=1, header=ch[0],pathflag=False)
 
+        self.add_parameter( "rscale", 1.0, cmdline="--rscale", cmdline2="-rsc", help="order of magnitude scale for y-axis to fix how the exponent is displayed.", nargs=1, header=ch[0], pathflag=False) 
 
+        self.add_parameter( "nrbins", 5, cmdline="--nrbins", cmdline2="-nrb", help="number of tick labels to display on the radial axis", nargs=1, header=ch[0], pathflag=False) 
+
+        self.add_parameter( "nthbins", 6, cmdline="--nthbins", cmdline2="-nthb", help="number of tick labels to display on the theta axis", nargs=1, header=ch[0], pathflag=False)
+
+ 
     def read_config_file(self):
         """Read the values of the input parameters from a text (config) file.
         

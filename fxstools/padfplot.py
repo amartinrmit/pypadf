@@ -85,7 +85,8 @@ def multiply_by_sintheta( corr, thmin, thmax):
 
 
 # generate unit labels (replacing Angstrom symbols)
-def generate_unit_labels( runits,rq ):
+def generate_unit_labels( runits,rq,rscale ):
+
 
     if runits in ['A','Angstrom']:
             ustr = u'\u00c5'
@@ -96,6 +97,9 @@ def generate_unit_labels( runits,rq ):
 
     if rq=='q':
             ustr += r'$^{-1}$'    
+
+    if rscale!=1:
+        ustr = " x "+str(rscale)+" "+ustr
 
     rlabel = rq+r' ('+ustr+')'
  
@@ -177,17 +181,17 @@ def extract_section( corr, ppdims, stype='reqr' ):
 
     elif stype=='rconst': 
         ir = ppdims.get_ir(corr.shape[0],ppdims.rval)
-        disp = corr[:,ir,:]
+        disp = np.real(corr[:,ir,:])
 
     elif stype=='thconst':        
         ith = ppdims.get_ith(corr.shape[2],ppdims.thval)
-        disp = corr[:,:,ith]
+        disp = np.real(corr[:,:,ith])
 
     elif stype=='thline': 
         ir  = ppdims.get_ir(corr.shape[0],ppdims.rval)
         ir2 = ppdims.get_ir(corr.shape[0],ppdims.rval2)
         w = ppdims.get_rwid_index(corr.shape[0])
-        disp = np.sum(np.sum(corr[ir-w:ir+1+w,ir2-w:ir2+1+w,:],0),0)
+        disp = np.real(np.sum(np.sum(corr[ir-w:ir+1+w,ir2-w:ir2+1+w,:],0),0))
 
     elif stype=='rline':        
         ith = ppdims.get_ith(corr.shape[2],ppdims.thval)
