@@ -251,9 +251,9 @@ class params:
                         elif type(self.d[k2].value) is str:
                             self.d[k2].value = self.configp[k][k2]
                         elif type(self.d[k2].value) is bool:
-                            if (self.configp[k][k2]=='True') or (self.configp[k][k2]==1):
+                            if (self.configp[k][k2].lower()=='true') or (self.configp[k][k2]==1):
                                 self.d[k2].value = True
-                            elif (self.configp[k][k2]=='False') or (self.configp[k][k2]==0):
+                            elif (self.configp[k][k2].lower()=='false') or (self.configp[k][k2]==0):
                                 self.d[k2].value = False
                         
                         #if k2=='pw': print("debug params.py", type(self.d[k2].value))
@@ -289,16 +289,16 @@ class params:
                             v = self.args.__dict__[k][0]
                         else:
                             continue
-                        if type(v) is float:
+                        if type(self.d[k].value) is float:
                             self.d[k].value = float(v)
-                        elif type(v) is int:
+                        elif type(self.d[k].value) is int:
                             self.d[k].value = int(v)
                         elif type(self.d[k].value) is str:
                             self.d[k].value = v
                         elif type(self.d[k].value) is bool:
-                            if (v=='True') or (v==1):
+                            if (v.lower()=='true') or (v==1):
                                 self.d[k].value = True
-                            elif (v=='False') or (v==0):
+                            elif (v.lower()=='false') or (v==0):
                                 self.d[k].value = False
                         
                         #if k2=='pw': print("debug params.py", type(self.d[k2].value))
