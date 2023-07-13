@@ -77,7 +77,15 @@ class correlation:
 
     flist : list (str)
         list of file names (strings) for diffraction images
-        including paths
+        including paths (used if fromlist is True)
+
+    dps : numpy array (3 dimensions)
+        array of diffraction patterns 
+        (used if fromlist is False)
+
+    fromlist : Bool
+        if TRUE read diffraction patterns from flist,
+        if FALSE use diffraction patterns from dps
 
     nx : int
 `       number of rows in input diffraction array
@@ -152,13 +160,13 @@ class correlation:
         
 
 
-    def __init__(self, path="/scratch/amartin1", tag="tag", flist=[],
+    def __init__(self, path="/scratch/amartin1", tag="tag", flist=[], dps=[],
                  nx=128, ny=-1, wl=1e-10, pw=1.0, dz=1.0, nth=200,
                  nthreads=1, npatterns=100, bg_estimate=False,
                  mask_flag=0, crop_flag=0, nxcrop=0, nycrop=0,
                  dp_shift_flag=0, shiftx=0, shifty=0,
                  maskname="None", rebin=-1, nstart=0,
-                 diffcorr=False, outputdp=False):
+                 diffcorr=False, outputdp=False, fromlist=True):
 
         """Constructs the correlation class
         """
@@ -176,6 +184,9 @@ class correlation:
         self.diffcorrflag = diffcorr
         self.outputdp = outputdp
         self.flist = flist
+        self.dps = []
+        self.fromlist = fromlist
+
 
         self.ny = ny
         if self.ny<0:
@@ -283,9 +294,14 @@ class correlation:
             mask_scb = self.shift_crop_bin(mask, True)
 
         # copy the following lines to the main script
-        if self.npatterns > len(self.flist):
-            self.npatterns = len(self.flist)
-            print("npatterns larger than length of flist. Npatterns reset to length of flist.", self.npatterns)
+        if self.fromlist==True:
+            if self.npatterns > len(self.flist):
+                self.npatterns = len(self.flist)
+                print("npatterns larger than length of flist. Npatterns reset to length of flist.", self.npatterns)
+        else:
+            if self.npatterns > self.dps.shape[0]:
+                self.npatterns = self.dps.shape[0]
+                print("npatterns larger than first dimension of diffraction pattern data array. npatterns reset to length to the number of diffraction patterns", self.npatterns)
 
         manager = mp.Manager()            
         return_dict = manager.dict()
@@ -305,22 +321,32 @@ class correlation:
                 #    print("Calculating background cross-correlation ", m)
 
                 # Jack 31.10
-                if self.npatterns > len(self.flist):
-                    print("WARNING: npatterns greater than number of files in dir...")
-                    print("...quitting")
-                    quit()
+                if self.fromlist:
+                    if self.npatterns > len(self.flist):
+                        print("WARNING: npatterns greater than number of files in dir...")
+                        print("...quitting")
+                        quit()
                 
                 oddeven = (i*self.nthreads+j)%2
 
                 if (self.bg_estimate is True) or (self.diffcorrflag is True):
                     m = random_oddeven_index( self.npatterns, oddeven )
-                    image = io.read_image(self.flist[m - 1], nx=self.nxorig, ny=self.nyorig)
+                    if self.fromlist:
+                        image = io.read_image(self.flist[m - 1], nx=self.nxorig, ny=self.nyorig)
+                    else:
+                        image = self.dps[m-1,:,:]
                     m2 = m
                     while m2==m:
                         m2 = random_oddeven_index( self.npatterns, oddeven)
-                    image2 = io.read_image(self.flist[m2 - 1], nx=self.nxorig, ny=self.nyorig)
+                    if self.fromlist:
+                        image2 = io.read_image(self.flist[m2 - 1], nx=self.nxorig, ny=self.nyorig)
+                    else:
+                        image2 = self.dps[m2-1,:,:]
                 else:
-                    image = io.read_image(self.flist[m - 1], nx=self.nxorig, ny=self.nyorig)
+                    if self.fromlist:
+                        image = io.read_image(self.flist[m - 1], nx=self.nxorig, ny=self.nyorig)
+                    else:
+                        image = self.dps[m-1,:,:]
                 #print("debug max(image):", np.max(image) )
 
 
