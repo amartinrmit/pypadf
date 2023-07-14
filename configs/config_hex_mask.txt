@@ -1,0 +1,13 @@
+[PYPADFMASK]
+corrfile = <path to the input correlation file>/hexdc_np1000_a_correlation_sum.npy
+outpath = <path for output> 
+suffix = _allmasks
+submean = True
+sintheta = True
+maskq = True
+maskth = True
+qmin = 0
+qmax =      249997656.3
+qmaskhigh = 200000000
+qmasklow  = 50000000
+thlim = 30
