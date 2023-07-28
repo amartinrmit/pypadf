@@ -17,6 +17,7 @@ import argparse
 import configparser
 import pathlib
 import os
+import glob
 
 # noinspection PyAttributeOutsideInit
 
@@ -236,6 +237,7 @@ class params:
         self.parse_args()
         if self.args.config[0] is not None:        
             self.configp.read( fname )
+            self.d['config'].value = fname
         else:
             print("No config file was given at the command line. No parameters have been read from file.")
             return
@@ -345,6 +347,25 @@ class params:
         """parses the command line arguments and stores them in an attribute of the params class
         """
         self.args = self.parser.parse_args()
+
+    def checkpaths(self):
+        patherror = False
+        for k in self.d.keys():
+            #print(k, self.d[k].value)
+            if isinstance(self.d[k].value, pathlib.PurePath):
+                tmp = self.path_to_string(self.d[k].value.resolve())
+                #print(tmp, type(tmp)) 
+                if os.path.exists(tmp):
+                    continue
+                    #print("Found path:", k, tmp)
+                elif len(glob.glob(tmp))!=0:
+                    continue
+                else:
+                    print(f'Input value error. The file/directory "{k}" does not exist: {tmp}')
+                    patherror = True
+        if patherror:
+            print('Exiting... input paths or files given do not exist. Please check config file and/or command line arguments.')
+            exit()
 
 #
 # copy the dictionaries of two parameters whereever they have common key names

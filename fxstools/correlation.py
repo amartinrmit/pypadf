@@ -316,6 +316,10 @@ class correlation:
         if (self.npatterns%self.nthreads)!=0:
             print( "nthreads is not divisor or npatterns, remainder is ignored. Total number of patterns processed will be:", (self.npatterns//self.nthreads)*self.nthreads)
 
+        if ((self.bg_estimate==True) or (self.diffcorrflag==True)) and (self.npatterns<4):
+            print("At least 4 patterns are required to run background or difference corrlations. npatterns:", self.npatterns)
+            exit()
+
         for i in np.arange(self.npatterns // self.nthreads):
             processes = []
             d = []

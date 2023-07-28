@@ -277,8 +277,9 @@ class paramsCORR(params):
         self.parse_config_file( abspath )
         self.parse_commandline_args()
         print("config file name:", abspath )
-        self.qmax_calc()
         self.check_corrtype()
+        self.checkpaths()
+        self.qmax_calc()
         self.add_parameter( "qmax", self.qmax, cmdline="--dontuse", 
                             help="dont input qmax is calculated by the code", 
                             nargs=1, header="DONTUSE", pathflag=False )

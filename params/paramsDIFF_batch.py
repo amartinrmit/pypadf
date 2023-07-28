@@ -63,6 +63,7 @@ class paramsDIFFBATCH(paramsDIFF):
         abspath = os.path.abspath(self.parser.parse_args().config[0])
         self.parse_config_file( abspath )
         self.parse_commandline_args()
+        self.checkpaths()
 #        self.read_config_file(cwd+self.parser.parse_args().config[0] )
         print("config file name:", abspath )
         outname = self.makefname( self.outpath, self.tag, "_diffraction_batch_parameter_log", ".txt")

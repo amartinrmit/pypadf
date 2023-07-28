@@ -133,6 +133,7 @@ class paramsMASK(params):
         abspath = os.path.abspath(self.parser.parse_args().config[0])
         self.parse_config_file( abspath )
         self.parse_commandline_args()
+        self.checkpaths()
         print("config file name:", abspath )
         #outpath = self.path_to_string(self.outpath)
         cf = self.path_to_string(self.corrfile)

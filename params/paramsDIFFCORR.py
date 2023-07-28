@@ -193,7 +193,7 @@ class paramsDIFFCORR(params):
                            help="type of correlation to perform: 'standard'(default), 'background', 'difference'",
                            nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("samplepath", "None", cmdline="--samplepath",cmdline2="-sp", 
+        self.add_parameter("samplepath", ".", cmdline="--samplepath",cmdline2="-sp", 
                    help="Path or filelist where diffraction files are located.",
                    nargs=1,header=ch[0],pathflag=True)
 
@@ -254,7 +254,7 @@ class paramsDIFFCORR(params):
                  help="flag to peform mask correlation",
                  nargs=1,header=ch[0],pathflag=False)
         
-        self.add_parameter("maskname", "None", cmdline="--maskname",cmdline2="-mk",
+        self.add_parameter("maskname", ".", cmdline="--maskname",cmdline2="-mk",
                            help="File path to mask file.",
                            nargs=1,header=ch[0],pathflag=True)
         
@@ -294,7 +294,7 @@ class paramsDIFFCORR(params):
         # diffraction parameters 
         self.add_parameter("pdbname", "None", cmdline="--pdbname",cmdline2="-po", help="Name of the pdb file containing atomic coordinates",
                 nargs=1,header=ch[0],pathflag=True)
-        self.add_parameter("diffoutpath", "None", cmdline="--diffoutpath",cmdline2="-do", help="Path where diffraction files will be written.",
+        self.add_parameter("diffoutpath", ".", cmdline="--diffoutpath",cmdline2="-do", help="Path where diffraction files will be written.",
                         nargs=1,header=ch[0],pathflag=True)
         self.add_parameter("fext", "None", cmdline="--fext",cmdline2="-x", help="extension for 2D diffraction output.",
                         nargs=1,header=ch[0],pathflag=False)
@@ -354,6 +354,7 @@ class paramsDIFFCORR(params):
         self.parse_config_file(abspath)
         self.parse_commandline_args()
         print("config file name:", abspath )
+        self.checkpaths()
         self.qmax_calc()
         self.check_corrtype()
         self.add_parameter( "qmax", self.qmax, cmdline="--dontuse", 
