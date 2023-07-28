@@ -43,6 +43,9 @@ class paramsCORR(params):
         prefix for all output file names
         (used not to overwrite previous calculations)
 
+    corrtype : str
+        type of correlation to perform. Options: 'standard' (default), 'background', 'difference'
+
     method : str
         method for matrix inversion 'svd' or 'legendre'
         'svd' inverts matrix with singular value decomposition
@@ -112,9 +115,6 @@ class paramsCORR(params):
         rebinning factor. Must be a power of 2 (e.g. 2, 4, 8, 16)
         if set to 1, then diffraction patterns are not rebinned
 
-    diffcorrflag : bool
-        Calculate a difference correlation (True/False)    
-
     outputdpflag : bool
         Write out diffraction patterns to file (True/False)
 
@@ -137,10 +137,14 @@ class paramsCORR(params):
 
     nycrop : int
         number of columns in cropped diffraction pattern.
-    
-    bgestimate : bool
-        Calculate the background correlation (True/False)
     """
+    
+#    bgestimate : bool
+#        Calculate the background correlation (True/False)
+#    diffcorrflag : bool
+#        Calculate a difference correlation (True/False)    
+
+  
 
 
     def __init__(self):
@@ -166,6 +170,10 @@ class paramsCORR(params):
         
         self.add_parameter("tag", "None", cmdline="--tag",cmdline2="-t",
                            help="text string prefix for each output file.",
+                           nargs=1,header=ch[0],pathflag=False)
+
+        self.add_parameter("corrtype", "standard", cmdline="--corrtype",cmdline2="-ct",
+                           help="type of correlation to perform: 'standard'(default), 'background', 'difference'",
                            nargs=1,header=ch[0],pathflag=False)
 
         self.add_parameter("samplepath", "None", cmdline="--samplepath",cmdline2="-sp", 
@@ -204,22 +212,22 @@ class paramsCORR(params):
                            help="Integer factor to rebin by (multiple of 2)",
                            nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("wl", 0.0, cmdline="--wl", cmdline2="-w", help="wavelength (A)",
+        self.add_parameter("wl", 1.0, cmdline="--wl", cmdline2="-w", help="wavelength (A)",
                         nargs=1,header=ch[0],pathflag=False)
         
-        self.add_parameter("dz", 0.0, cmdline="--dz", cmdline2="-z", help="detector distance (m)",
+        self.add_parameter("dz", 1.0, cmdline="--dz", cmdline2="-z", help="detector distance (m)",
                         nargs=1,header=ch[0],pathflag=False)
         
-        self.add_parameter("pw", 0.0, cmdline="--pw", cmdline2="-pw", help="pixel width (m)",
+        self.add_parameter("pw", 1.0, cmdline="--pw", cmdline2="-pw", help="pixel width (m)",
                         nargs=1,header=ch[0],pathflag=False)
         
-        self.add_parameter("bg_estimate", False, cmdline="--bg_estimate",cmdline2="-bg", 
-                        help="flag to set correlation background calculation",
-                        nargs=1,header=ch[0],pathflag=False)
+        #self.add_parameter("bg_estimate", False, cmdline="--bg_estimate",cmdline2="-bg", 
+        #                help="flag to set correlation background calculation",
+        #                nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("diffcorrflag", False, cmdline="--diffcorrflag",cmdline2="-dc", 
-                 help="flag to set difference correlation calculation",
-                 nargs=1,header=ch[0],pathflag=False)
+        #self.add_parameter("diffcorrflag", False, cmdline="--diffcorrflag",cmdline2="-dc", 
+        #         help="flag to set difference correlation calculation",
+        #         nargs=1,header=ch[0],pathflag=False)
         
         self.add_parameter("outputdp", False, cmdline="--outputdp",cmdline2="-od", 
                  help="flag to write diffraction patterns to file",
@@ -270,6 +278,7 @@ class paramsCORR(params):
         self.parse_commandline_args()
         print("config file name:", abspath )
         self.qmax_calc()
+        self.check_corrtype()
         self.add_parameter( "qmax", self.qmax, cmdline="--dontuse", 
                             help="dont input qmax is calculated by the code", 
                             nargs=1, header="DONTUSE", pathflag=False )
@@ -304,3 +313,9 @@ class paramsCORR(params):
         """
         thmax = np.arctan( (self.nq)*self.pw/self.dz)
         self.qmax = (2/self.wl) * np.sin( thmax/2.0 )
+
+    def check_corrtype(self):
+        self.corrtype.lower()
+        if self.corrtype not in ['standard','background','difference']:
+            print("Error: config parameter 'corrtype' must have a value of 'standard','background','difference'")
+

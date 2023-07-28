@@ -79,6 +79,9 @@ class correlation:
         list of file names (strings) for diffraction images
         including paths (used if fromlist is True)
 
+    corrtype : str
+        type of correlation to perform: 'standard', 'background', 'difference'
+
     dps : numpy array (3 dimensions)
         array of diffraction patterns 
         (used if fromlist is False)
@@ -166,7 +169,7 @@ class correlation:
                  mask_flag=0, crop_flag=0, nxcrop=0, nycrop=0,
                  dp_shift_flag=0, shiftx=0, shifty=0,
                  maskname="None", rebin=-1, nstart=0,
-                 diffcorr=False, outputdp=False, fromlist=True):
+                 diffcorr=False, outputdp=False, fromlist=True, corrtype='standard'):
 
         """Constructs the correlation class
         """
@@ -180,8 +183,9 @@ class correlation:
         self.cy = ny // 2
         self.nth = nth
         self.nx = nx
-        self.bg_estimate = bg_estimate
-        self.diffcorrflag = diffcorr
+        #self.bg_estimate = bg_estimate
+        #self.diffcorrflag = diffcorr
+        self.set_bg_diff_flags(corrtype)
         self.outputdp = outputdp
         self.flist = flist
         self.dps = []
@@ -284,7 +288,7 @@ class correlation:
         -------
         corrsum : numpy array (floats)
             summed correaltion function from all the data        
-        """ 
+        """
         #print("Debug 1 - correlation.py")
         if self.mask_flag == 1:
             maskname = self.maskname  # self.path+self.tag+"_mask_processed.dbin"
@@ -307,6 +311,10 @@ class correlation:
         return_dict = manager.dict()
         pcorr = np.zeros( (self.nthreads, self.nx // 2, self.nx // 2, self.nth) )
         corrsum = np.zeros( (self.nx // 2, self.nx // 2, self.nth, 2) )
+
+        #Note about number of patterns
+        if (self.npatterns%self.nthreads)!=0:
+            print( "nthreads is not divisor or npatterns, remainder is ignored. Total number of patterns processed will be:", (self.npatterns//self.nthreads)*self.nthreads)
 
         for i in np.arange(self.npatterns // self.nthreads):
             processes = []
@@ -384,7 +392,7 @@ class correlation:
                
                 # mask diffraction pattern
                 if self.mask_flag == 1:
-                    print("dp mask applied")
+                    #print("dp mask applied")
                     image *= mask_scb
                     if (self.bg_estimate is True) or (self.diffcorrflag is True):
                         image2 *= mask_scb
@@ -973,3 +981,15 @@ class correlation:
             self.inputpath = self.path
         if self.inputtag == "None":
             self.inputtag = self.tag
+
+    def set_bg_diff_flags(self,corrtype):
+        corrtype.lower()
+        if corrtype == 'standard':
+            self.bg_estimate = False
+            self.diffcorrflag = False
+        if corrtype == 'background':
+            self.bg_estimate = True
+            self.diffcorrflag = False
+        if corrtype == 'difference':
+            self.bg_estimate = False
+            self.diffcorrflag = True

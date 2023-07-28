@@ -42,6 +42,9 @@ class paramsDIFFCORR(params):
     tag : str
         prefix for all output file names
         (used not to overwrite previous calculations)
+    
+    corrtype : str
+        type of correlation to perform. Options: 'standard' (default), 'background', 'difference'
 
     method : str
         method for matrix inversion 'svd' or 'legendre'
@@ -185,6 +188,10 @@ class paramsDIFFCORR(params):
         self.add_parameter("tag", "None", cmdline="--tag",cmdline2="-t", 
                            help="text string prefix for each output file.",
                            nargs=1,header=ch[0],pathflag=False)
+        
+        self.add_parameter("corrtype", "standard", cmdline="--corrtype",cmdline2="-ct",
+                           help="type of correlation to perform: 'standard'(default), 'background', 'difference'",
+                           nargs=1,header=ch[0],pathflag=False)
 
         self.add_parameter("samplepath", "None", cmdline="--samplepath",cmdline2="-sp", 
                    help="Path or filelist where diffraction files are located.",
@@ -231,13 +238,13 @@ class paramsDIFFCORR(params):
         self.add_parameter("pw", 0.0, cmdline="--pw", cmdline2="-pw",help="pixel width (m)",
                         nargs=1,header=ch[0],pathflag=False)
         
-        self.add_parameter("bg_estimate", False, cmdline="--bg_estimate",cmdline2="-bg", 
-                        help="flag to set correlation background calculation",
-                        nargs=1,header=ch[0],pathflag=False)
-
-        self.add_parameter("diffcorrflag", False, cmdline="--diffcorrflag",cmdline2="-dc", 
-                 help="flag to set difference correlation calculation",
-                 nargs=1,header=ch[0],pathflag=False)
+#        self.add_parameter("bg_estimate", False, cmdline="--bg_estimate",cmdline2="-bg", 
+#                        help="flag to set correlation background calculation",
+#                        nargs=1,header=ch[0],pathflag=False)
+#
+#        self.add_parameter("diffcorrflag", False, cmdline="--diffcorrflag",cmdline2="-dc", 
+#                 help="flag to set difference correlation calculation",
+#                 nargs=1,header=ch[0],pathflag=False)
         
         self.add_parameter("outputdp", False, cmdline="--outputdp",cmdline2="-od",
                  help="flag to write diffraction patterns to file",
@@ -348,6 +355,7 @@ class paramsDIFFCORR(params):
         self.parse_commandline_args()
         print("config file name:", abspath )
         self.qmax_calc()
+        self.check_corrtype()
         self.add_parameter( "qmax", self.qmax, cmdline="--dontuse", 
                             help="dont input qmax is calculated by the code", 
                             nargs=1, header="DONTUSE", pathflag=False )
@@ -391,3 +399,8 @@ class paramsDIFFCORR(params):
         """
         thmax = np.arctan( (self.nq)*self.pw/self.dz)
         self.qmax = (2/self.wl) * np.sin( thmax/2.0 )
+    
+    def check_corrtype(self):
+        self.corrtype.lower()
+        if self.corrtype not in ['standard','background','difference']:
+            print("Error: config parameter 'corrtype' must have a value of 'standard','background','difference'")

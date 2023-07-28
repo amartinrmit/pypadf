@@ -52,18 +52,29 @@ if __name__ == '__main__':
     corr = correlation.correlation(path=p.outpath, tag=p.tag, flist=p.flist,
                  nx=p.nx, ny=p.ny, wl=p.wl, pw=p.pw, dz=p.dz, nth=p.nth,
                  nthreads=p.nthreads, npatterns=p.npatterns, 
-                 bg_estimate=p.bg_estimate,
                  mask_flag=p.maskflag, crop_flag=p.cropflag, 
                  nxcrop=p.nxcrop, nycrop=p.nycrop,
                  dp_shift_flag=p.dp_shift_flag, 
                  shiftx=p.shiftx, shifty=p.shifty,
                  maskname=p.path_to_string(p.maskname), rebin=p.rebin, nstart=p.nstart,
-                 diffcorr=p.diffcorrflag, outputdp=p.outputdp)
+                 outputdp=p.outputdp, corrtype=p.corrtype)
+    #
+    # Check the rebin and crop values
+    #
+    if (corr.crop_flag==True) and (corr.rebin_flag==1) and ((corr.nxcrop%corr.rebin!=0) or (corr.nycrop%corr.rebin!=0)):
+        print("Warning: Crop and rebin flags set, but rebin factor does not divide the nxcrop and/or nycrop values.")
+        print("This may cause a sub-bin sized error in the diffraction pattern center. Maybe an issue if you have sharp Bragg peaks.")
+        print("Consider values that do divide: e.g. nxcrop=1024; rebin= 2 or 4") 
+
+
     #
     # calculate the correlation function
     #
     corrsum = np.zeros( (p.nx//2, p.nx//2, p.nth) )
-    print("\nPerforming Correlations\n")
+    print("\nPerforming Correlations")
+    print(f'Background estimate?   {corr.bg_estimate}')
+    print(f'Difference correlation?  {corr.diffcorrflag}')
+    print("\n")
     corrsum = corr.calculate_correlation()
 
     print("\n")
