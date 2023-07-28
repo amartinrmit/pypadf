@@ -308,7 +308,7 @@ class params:
                         # print(k2, self.configp[k][k2], self.d[k2].value)
                         self.__dict__[k] = self.d[k].value
             else:
-                        print( "parameter o file not required (check the name) :"+k2 )
+                        print( "parameter o file not required (check the name) :"+k )
 
         self.convert_paths()
 

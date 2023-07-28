@@ -178,7 +178,7 @@ class paramsPLOT(params):
                         help="minimum theta value in volume",        
                         nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("thmax", 360, cmdline="--thmax",cmdline2="-thx", 
+        self.add_parameter("thmax", 360.0, cmdline="--thmax",cmdline2="-thx", 
                         help="maximum theta value in the volume",        
                         nargs=1,header=ch[0],pathflag=False)
 
@@ -186,7 +186,7 @@ class paramsPLOT(params):
                         help="minimum theta value to display",        
                         nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("thmaxdisp", 360, cmdline="--thmaxdisp",cmdline2="-thxd", 
+        self.add_parameter("thmaxdisp", 360.0, cmdline="--thmaxdisp",cmdline2="-thxd", 
                         help="maximum theta value to display",        
                         nargs=1,header=ch[0],pathflag=False)
 
@@ -214,7 +214,7 @@ class paramsPLOT(params):
 
         self.add_parameter("scalel", 1.0, cmdline="--scalel",cmdline2="-scl", help="lower clim val in np.min(image)*scalel", nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("clow", -1.0, cmdline="--clow",cmdline2="-cl", help="absolute clim lower limit (priotity over scale)", nargs=1,header=ch[0],pathflag=False)
+        self.add_parameter("clow", -1.0, cmdline="--clow",cmdline2="-cl", help="absolute clim lower limit (priority over scale)", nargs=1,header=ch[0],pathflag=False)
 
         self.add_parameter("chigh", -1.0, cmdline="--chigh",cmdline2="-ch", help="absolute clim upper limit (priority over scalel)", nargs=1,header=ch[0],pathflag=False)
 

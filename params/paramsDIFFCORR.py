@@ -161,6 +161,10 @@ class paramsDIFFCORR(params):
 
     poly : float
         compnonent of the polarisation vector is the vertical direction
+    
+    writeconfigs : bool
+        write prefilled config files for corrtopadf.py, maskcorr.py, fxsplot3d.py;
+        default parameters need to be modified before use
     """
 
 
@@ -290,6 +294,10 @@ class paramsDIFFCORR(params):
         self.add_parameter("writefreq", -1, cmdline="--writefreq",cmdline2="-wf",
                  help="write out correlation function at this freqency",
                  nargs=1,header=ch[0],pathflag=False)
+        
+        self.add_parameter("writeconfigs", True, cmdline="--writeconfigs",cmdline2="-wc", 
+                 help="write template config files for corrtopadf.py, maskcorr.py and fxsplot3d.py",
+                 nargs=1,header=ch[0],pathflag=False)
 
         # diffraction parameters 
         self.add_parameter("pdbname", "None", cmdline="--pdbname",cmdline2="-po", help="Name of the pdb file containing atomic coordinates",
@@ -405,3 +413,91 @@ class paramsDIFFCORR(params):
         self.corrtype.lower()
         if self.corrtype not in ['standard','background','difference']:
             print("Error: config parameter 'corrtype' must have a value of 'standard','background','difference'")
+    
+    def write_padf_config(self,corrfile, tag):
+        outname = self.makefname( self.config.parents[0], 'config_'+tag, '_padf', '.txt')
+        f = open(outname, 'w')
+        f.write("[PYPADF]\n")
+        f.write("#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py\n")
+        f.write(f"corrfile = {corrfile} \n")
+        f.write(f"outpath = {str(self.outpath.resolve())}\n")
+        f.write(f"tag = "+tag+"\n")
+        f.write(f'wl = {self.wl}\n')
+        f.write(f'nq = {self.nq}\n')
+        f.write(f'nth = {self.nth}\n')
+        f.write(f'qmax = {self.qmax}\n')
+        rmax = self.nq/(self.qmax)
+        f.write(f'rmax = {rmax}\n')
+        f.write(f'#\n')
+        f.write(f'#THESE PARAMETERS ARE DEFAULT VALUES\n')
+        f.write(f'nr = {self.nq}\n')
+        f.write(f'nl = 32\n')
+        f.write(f'method = svd\n')
+        f.write(f'legendre_norm = True')
+        f.close()
+
+
+    def write_mask_config(self,corrfile, tag):
+        outname = self.makefname( self.config.parents[0], 'config_'+tag, '_mask', '.txt')
+        f = open(outname, 'w')
+        f.write("[MASK]\n")
+        f.write("#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py\n")
+        f.write(f"corrfile = {corrfile} \n")
+        f.write(f"outpath = {str(self.outpath.resolve())}\n")
+        f.write(f'qmin = 0.0\n')
+        f.write(f'qmax = {self.qmax}\n')
+        f.write(f'#\n')
+        f.write(f'#THESE PARAMETERS ARE DEFAULT VALUES\n')
+        f.write(f'suffix = submean_sinth\n')
+        f.write(f'submean = True\n')
+        f.write(f'sintheta = True\n')
+        f.write(f'maskq = False\n')
+        f.write(f'maskth = False\n')
+        f.write(f'qmasklow = {self.qmax*0.8}\n')
+        f.write(f'qmaskhigh = {self.qmax*0.8}\n')
+        f.write(f'thlim = 10\n')
+        f.write(f'thlimnorm = 10\n')
+        f.close()
+
+    def write_plot_config(self,corrfile, tag):
+        outname = self.makefname( self.config.parents[0], 'config_'+tag, '_plot', '.txt')
+        f = open(outname, 'w')
+        f.write("[FXSPLOT]\n")
+        f.write("#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py\n")
+        f.write(f"fname = {corrfile} \n")
+        f.write(f"outpath = {str(self.outpath.resolve())}\n")
+        f.write(f'rmin = 0.0\n')
+        f.write(f'rmax = {self.qmax}\n')
+        f.write(f'rmindisp = 0.0\n')
+        f.write(f'rmaxdisp = {self.qmax}\n')
+        f.write(f'rq = q\n')
+        f.write(f'runits = m\n')
+        f.write(f'thmin = 0.0\n')
+        f.write(f'thmax = 360.0\n')
+        f.write(f'thmindisp = 0.0\n')
+        f.write(f'thmaxdisp = 360.0\n')
+        f.write(f'#\n')
+        f.write(f'#THESE PARAMETERS ARE DEFAULT VALUES\n')
+        f.write(f'suffix = submean_sinth\n')
+        f.write(f'submean = True\n')
+        f.write(f'sintheta = True\n')
+        f.write(f'convolve = False\n')
+        f.write(f'power = 0.0\n')
+        f.write(f'stype = reqr\n')        
+        f.write(f'rval = {self.qmax/2}\n')
+        f.write(f'rpval = {self.qmax/2}\n')
+        f.write(f'thval = 0\n')
+        f.write(f'scale = 1.0\n')
+        f.write(f'scalel = 1.0\n')
+        f.write(f'#clow = 0.0\n')
+        f.write(f'#chigh = 1.0\n')
+        f.write(f'log = False\n')
+        f.write(f'#gamma = 0.3\n')
+        f.write(f'rwid = {self.qmax/50}\n')
+        f.write(f'thwid = 3.0\n')
+        f.write(f'#asp = 1\n')
+        f.write(f'#rscale = 1e-9\n')
+        f.write(f'#nrbins = 5\n')
+        f.write(f'#nthbins = 6\n') 
+        f.close()
+

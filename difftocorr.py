@@ -84,9 +84,18 @@ if __name__ == '__main__':
     #outname = p.outpath+p.tag+"_correlation_sum.dbin"  #append diff or bg as appropriate
     #padfio.write_dbin( outname, corrsum ) 
     outname = p.outpath / (p.tag+"_a_correlation_sum.npy")  #append diff or bg as appropriate
-    np.save( outname, corrsum[:,:,:,0] ) 
+    np.save( outname, corrsum[:,:,:,0] )
     print("Written correlation sum:", outname)
+    if p.writeconfigs: 
+        p.write_padf_config(outname, p.tag+"_a")
+        p.write_mask_config(outname, p.tag+"_a")
+        p.write_plot_config(outname, p.tag+"_a")
+
     outname = p.outpath / (p.tag+"_b_correlation_sum.npy")  #append diff or bg as appropriate
     np.save( outname, corrsum[:,:,:,1] ) 
     print("Written correlation sum:", outname)
+    #if p.writeconfigs: 
+    #    p.write_padf_config(outname, p.tag+"_b")
+    #    p.write_mask_config(outname, p.tag+"_b")
+    #    p.write_plot_config(outname, p.tag+"_b")
     print("Correlations Done.")
