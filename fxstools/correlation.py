@@ -299,12 +299,12 @@ class correlation:
 
         # copy the following lines to the main script
         if self.fromlist==True:
-            if self.npatterns > len(self.flist):
-                self.npatterns = len(self.flist)
+            if self.npatterns > (len(self.flist)-self.nstart):
+                self.npatterns = (len(self.flist)-self.nstart)
                 print("npatterns larger than length of flist. Npatterns reset to length of flist.", self.npatterns)
         else:
-            if self.npatterns > self.dps.shape[0]:
-                self.npatterns = self.dps.shape[0]
+            if self.npatterns > (self.dps.shape[0]-self.nstart):
+                self.npatterns = self.dps.shape[0]-self.nstart
                 print("npatterns larger than first dimension of diffraction pattern data array. npatterns reset to length to the number of diffraction patterns", self.npatterns)
 
         manager = mp.Manager()            
