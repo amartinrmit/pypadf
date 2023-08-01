@@ -28,7 +28,6 @@ if __name__ == '__main__':
     # Read input parameters from a file
     #
     p.read_config_file()
-    p.qmax_calc()
 
     #
     # make the filelist
@@ -44,6 +43,7 @@ if __name__ == '__main__':
         testimage = padfio.read_image(p.flist[0]) 
         p.nx, p.ny = testimage.shape[0], testimage.shape[1]
         #print( "!!!DEBUG py3corrrelation nx ny", p.nx, p.ny, testimage.shape)
+
 
     #
     # Set up an instance of the correlation class
@@ -66,6 +66,12 @@ if __name__ == '__main__':
         print("This may cause a sub-bin sized error in the diffraction pattern center. Maybe an issue if you have sharp Bragg peaks.")
         print("Consider values that do divide: e.g. nxcrop=1024; rebin= 2 or 4") 
 
+    #
+    #  append qmax to the parameter log file
+    #
+    outname = p.makefname( p.outpath, p.tag, "_difftocorr_parameter_log", ".txt")
+    corr.append_qmax_to_parameter_log(outname)
+    p.qmax = corr.qmax
 
     #
     # calculate the correlation function

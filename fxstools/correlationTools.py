@@ -381,3 +381,4 @@ class angular_correlation:
         pc = np.sum( c1*c2, 1 ) /np.sqrt( np.sum(c1*c1, 1) * np.sum(c2*c2, 1))
         return pc
 
+        

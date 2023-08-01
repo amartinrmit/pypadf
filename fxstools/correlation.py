@@ -176,6 +176,7 @@ class correlation:
 
         self.wl = wl
         self.pixel_width = pw
+        self.pwsave = self.pixel_width
         self.detector_z = dz
         self.path = path
         self.tag = tag
@@ -243,8 +244,10 @@ class correlation:
         self.inputpath = "None"
         self.inputtag = "None"
        
-        self.ac = crtls.angular_correlation() 
-        self.qbins = self.ac.qbins( self.nx//2, self.nx//2, self.detector_z, 
+        self.ac = crtls.angular_correlation()
+        self.qpmax = self.maxpixeldist()  
+        self.qmax_calc()
+        self.qbins = self.ac.qbins( self.nx//2, self.qpmax, self.detector_z, 
                                          self.wl, self.pixel_width )
         #print(self.cx, self.cy,"check in init")
 
@@ -997,3 +1000,24 @@ class correlation:
         if corrtype == 'difference':
             self.bg_estimate = False
             self.diffcorrflag = True
+ 
+    # set the pixel length to max pixel radius used
+    def maxpixeldist( self ):
+        if self.crop_flag:
+            mpdist = np.min([self.nxcrop,self.nycrop])/2
+        else:
+            mpdist = np.min([self.nx,self.ny])/2
+        return mpdist
+
+    def qmax_calc(self):
+        """Calculate the maximum q value at the edge of the detector (or diffraction pattern)
+           
+            Assumes diffraction pattern is centred in the array
+        """
+        thmax = np.arctan(self.qpmax*self.pwsave/self.detector_z)
+        self.qmax = (2/self.wl) * np.sin( thmax/2.0 )
+
+    def append_qmax_to_parameter_log(self, fname):
+        with open(fname, 'a') as f:
+            f.write('qmax = '+str(self.qmax))
+            f.close()

@@ -287,12 +287,12 @@ class paramsCORR(params):
         print("config file name:", abspath )
         self.check_corrtype()
         self.checkpaths()
-        self.qmax_calc()
-        self.add_parameter( "qmax", self.qmax, cmdline="--dontuse", 
-                            help="dont input qmax is calculated by the code", 
-                            nargs=1, header="DONTUSE", pathflag=False )
+        #self.qmax_calc()
         outname = self.makefname( self.outpath, self.tag, "_difftocorr_parameter_log", ".txt")
         self.write_params_to_file( outname )
+        self.add_parameter( "qmax", 1.0, cmdline="--dontuse", 
+                            help="dont input qmax is calculated by the code", 
+                            nargs=1, header="DONTUSE", pathflag=False )
 
     def load_flist_from_samplepath(self):
         """List the diffraction files in the samplepath
@@ -315,13 +315,13 @@ class paramsCORR(params):
                 print("Check the sample path - not a valid directory, \
                       filelist or regular expression")
 
-    def qmax_calc(self):
-        """Calculate the maximum q value at the edge of the detector (or diffraction pattern)
-           
-            Assumes diffraction pattern is centred in the array
-        """
-        thmax = np.arctan( (self.nq)*self.pw/self.dz)
-        self.qmax = (2/self.wl) * np.sin( thmax/2.0 )
+    #def qmax_calc(self):
+    #    """Calculate the maximum q value at the edge of the detector (or diffraction pattern)
+    #       
+    #        Assumes diffraction pattern is centred in the array
+    #    """
+    #    thmax = np.arctan( (min([self.nxcrop,self.nycrop]]))*self.pw/self.dz)
+    #    self.qmax = (2/self.wl) * np.sin( thmax/2.0 )
 
     def check_corrtype(self):
         self.corrtype.lower()
