@@ -68,9 +68,9 @@ To see all options:
 
 ## view diffraction
 
-To inspect a diffraction pattern: AM can this also take a config file? for consistancy? low priority
+To inspect a diffraction pattern:
 
-    python plot-dp.py -f ./data/dp/hex_1.npy
+    python plotdiffraction.py -f ./tmp/diff/hex_1.npy
 
 ## Make mask
 A mask is required. just takes the first hex pattern and makes it an array of 1s
