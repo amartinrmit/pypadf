@@ -194,7 +194,7 @@ class diffraction(sfdata):
         """Calculate the 2D diffraction pattern
         """
         #intialise scattered wave
-        self.swave2d = np.zeros( (self.nx,self.nx), dtype=np.complex )
+        self.swave2d = np.zeros( (self.nx,self.nx), dtype=np.complex128 )
 
         if self.rotflag:
             rmat = rotation_matrix( self.axis, self.theta )
@@ -203,7 +203,7 @@ class diffraction(sfdata):
 
  
             
-            tmp = np.zeros( (self.nx,self.nx), dtype=np.complex )
+            tmp = np.zeros( (self.nx,self.nx), dtype=np.complex128 )
             for a in self.pdb.sorted_atom_list[ie]:
                 
 
@@ -239,7 +239,7 @@ class diffraction(sfdata):
             #
             # 2nd jit attempt
             #
-            tmp = np.zeros( (self.nx,self.nx), dtype=np.complex )
+            tmp = np.zeros( (self.nx,self.nx), dtype=np.complex128 )
             for a in self.pdb.sorted_atom_list[ie]:
                 
                 v = np.array([a.x, a.y, a.z])

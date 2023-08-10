@@ -284,8 +284,8 @@ class padfcl:
               qln1 = self.blqq.jnuzeros[0,iq+1] / (2*np.pi*self.rmax*self.mult)
               qln2 = self.blqq.jnuzeros[0,iq2+1] / (2*np.pi*self.rmax*self.mult)
               
-              ic = np.round( self.nq*(qln1/self.qmax) ).astype(np.int)
-              jc = np.round( self.nq*(qln2/self.qmax) ).astype(np.int)
+              ic = np.round( self.nq*(qln1/self.qmax) ).astype(int)
+              jc = np.round( self.nq*(qln2/self.qmax) ).astype(int)
               if (ic>=nq) or (jc>=nq): continue 
               
               # CALCULATE AND INVERT FMAT; MAY NOT HAVE TO INVERT JUST SOLVE
@@ -410,8 +410,8 @@ class padfcl:
              
              else:
                   # FIND THE NEAREST Q INDEX IN THE CORRELATION DATA
-                  ic = np.round( self.nq*(qln1/self.qmax) ).astype(np.int)
-                  jc = np.round( self.nq*(qln2/self.qmax) ).astype(np.int)
+                  ic = np.round( self.nq*(qln1/self.qmax) ).astype(int)
+                  jc = np.round( self.nq*(qln2/self.qmax) ).astype(int)
                   
                   if (ic>=nq) or (jc>=nq): continue 
                  
@@ -519,8 +519,8 @@ class padfcl:
               #print("Amatrix max", iq, iq2, np.max(Amatrix))
 
                 # FIND THE NEAREST Q INDEX IN THE CORRELATION DATA
-              #ic = np.round( self.nq*(qln1/self.qmax) ).astype(np.int)
-              #jc = np.round( self.nq*(qln2/self.qmax) ).astype(np.int)
+              #ic = np.round( self.nq*(qln1/self.qmax) ).astype(int)
+              #jc = np.round( self.nq*(qln2/self.qmax) ).astype(int)
               #
               #if (ic>=nq) or (jc>=nq): continue 
            
@@ -1050,7 +1050,7 @@ class padfcl:
         nq = self.blqq.l[0].nq
         #print("DEBUG BLQQ_CALC_FAST nq", nq)
         qlist = []
-        qindices = np.zeros( (nq,nq,2) ).astype(np.int) - np.int(1)
+        qindices = np.zeros( (nq,nq,2) ).astype(int) - 1
         for iq in np.arange(nq):
            for iq2 in np.arange(nq):
 
@@ -1064,8 +1064,8 @@ class padfcl:
               qlist.append( np.array([ic2, jc2]) )
 
 
-              ic = np.round( self.nq*(qln1/self.qmax) ).astype(np.int)
-              jc = np.round( self.nq*(qln2/self.qmax) ).astype(np.int)
+              ic = np.round( self.nq*(qln1/self.qmax) ).astype(int)
+              jc = np.round( self.nq*(qln2/self.qmax) ).astype(int)
               if (ic>=nq) or (jc>=nq): continue 
               qindices[iq,iq2,0] = ic
               qindices[iq,iq2,1] = jc             
@@ -1074,16 +1074,16 @@ class padfcl:
         qlist = np.array(qlist) 
         #print( "qlist shape", qlist.shape )
         corr_interp = np.zeros( (nq, nq, self.nth) )
-        corr_interp2 = np.zeros( (nq, nq, self.nth) )
+        # corr_interp2 = np.zeros( (nq, nq, self.nth) )
         #print( self.corrvol.shape)
         for ith in np.arange( self.nth ):
              #print("\r ith", ith)
              corr_interp[:,:,ith] = map_coordinates( self.corrvol[:,:,ith], qlist.transpose(), order=order ).reshape( (nq,nq) )
          
-        for iq in np.arange(nq):
-           for iq2 in np.arange(nq):
-                 if (qindices[iq,iq2,0]>=0) and (qindices[iq,iq2,1]>=0):
-                      corr_interp2[iq,iq2,:] = self.corrvol[qindices[iq,iq2,0],qindices[iq,iq2,1],:]
+        # for iq in np.arange(nq):
+           # for iq2 in np.arange(nq):
+                 # if (qindices[iq,iq2,0]>=0) and (qindices[iq,iq2,1]>=0):
+                      # corr_interp2[iq,iq2,:] = self.corrvol[qindices[iq,iq2,0],qindices[iq,iq2,1],:]
 
 
         #print("qlist", qlist)

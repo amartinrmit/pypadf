@@ -264,7 +264,7 @@ class angular_correlation:
         else:
             fpolar2 = fpolar
       
-        out = np.zeros( (polar.shape[0],polar.shape[0],polar.shape[1]) , dtype=np.complex)
+        out = np.zeros( (polar.shape[0],polar.shape[0],polar.shape[1]) , dtype=np.complex128)
         for i in np.arange(polar.shape[0]):
             for j in np.arange(polar.shape[0]):
                 out[i,j,:] = fpolar[i,:]*fpolar2[j,:].conjugate()
