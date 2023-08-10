@@ -66,7 +66,7 @@ To see all options:
 
 
 ## Step 2: Inspect Diffraction Pattern
-==todo== maybe this should have a config file?
+**todo** maybe this should have a config file?
 
 To inspect a diffraction pattern:
 
@@ -78,7 +78,7 @@ To inspect a diffraction pattern:
 
 ## Step 2.5: Make mask
 
-==todo== is there a way to set up the configs so we dont require a mask?
+**todo** is there a way to set up the configs so we dont require a mask?
 
 We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask).
 
@@ -95,7 +95,7 @@ Again, parameters can be overridden on the command line.
     python difftocorr.py --config ./configs/config_hex_corr.txt --npatterns 10000
 
 
-== is there a way to turn this off and just include configs for the next steps? ==
+**is there a way to turn this off and just include configs for the next steps?**
 This will generate new config files to plot the correlation and create the PADF
 
 ## View correlation
