@@ -52,7 +52,7 @@ Install required packages. The following are conda instructions, but pip should 
 
 First step will be to simulate a some diffraction patterns. Parameters can be read from a config file.
 
-    python diffract.py --config ./configs/config_hex_dp.txt
+    python diffract.py --config ./configs/config_hex_diff.txt
 
 This will create 2 diffraction patterns and save them to `./data/dp/`. 
 Any parameter in the config file can be overided on the commandline. To generate more patterns:
