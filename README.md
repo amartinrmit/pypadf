@@ -66,11 +66,10 @@ To see all options:
 
 
 ## Step 2: Inspect Diffraction Pattern
-**todo** maybe this should have a config file?
 
 To inspect a diffraction pattern:
 
-    python plotdiffraction.py -f ./tmp/diff/hex_1.npy
+    python plotdiffraction.py --fname ./tmp/diff/hex_1.npy
 
 
 
@@ -78,9 +77,8 @@ To inspect a diffraction pattern:
 
 ## Step 2.5: Make mask
 
-**todo** is there a way to set up the configs so we dont require a mask?
 
-We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask).
+We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./tmp/mask`.
 
     python3 make-mask.py
 
@@ -92,24 +90,37 @@ Correlate 2 diffraction patterns.
 
 Again, parameters can be overridden on the command line.
 
-    python difftocorr.py --config ./configs/config_hex_corr.txt --npatterns 10000
+    python difftocorr.py --config ./configs/config_hex_corr.txt --npatterns 1000
 
 
-**is there a way to turn this off and just include configs for the next steps?**
 This will generate new config files to plot the correlation and create the PADF
 
 ## View correlation
 
-The generated config file from running `difftocorr.py` can be used to plot the q1=q2 plane of the correlation function
+The generated config file from running `difftocorr.py` can be used to plot the q1=q2 plane of the correlation function.
 
     python plotfxs3d.py --config ./configs/config_hex_a_plot.txt
+
+To better see the correlation intensity, try chaning the colorscale:
+
     python plotfxs3d.py --config ./configs/config_hex_a_plot.txt --chigh 0.00005 --clow -0.00005
+
+You can also try correlating with fewer patterns, and replotting to see the difference. 
 
 
 ## PADF
 
-The generated config file from running `difftocorr.py` can be used to generate the padf. This will save the output function to the same fold as the input correlation function.
+The generated config file from running `difftocorr.py` can be used to generate the padf. This will save the output function to the same fold as the input correlation file.
 
     python corrtopadf.py --config ./configs/config_hex_a_padf.txt
+
+
+
+# Notes:
+- is there a way to set up the configs so we dont require a mask?
+- is there a way to turn this off auto-generation of configs and just include template configs for the padf and plotting steps?
+- if we want to keep the auto-generation, we should be more selective in the .gitignore to remove the pregenerated ones?
+- Plotting for padf? when I tried running the script with the same config but chaning the --fname, it just plotted the q correlation again.
+
 
 
