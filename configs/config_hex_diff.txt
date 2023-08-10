@@ -1,6 +1,6 @@
 [PYDIFFRACTION]
-pdbname = hexagon.pdb
-outpath = <put a path for your output>
+pdbname = ./configs/hexagon.pdb
+outpath = ./tmp/diff/
 tag = hex
 fext = .npy
 nx = 200

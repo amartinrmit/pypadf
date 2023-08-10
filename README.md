@@ -10,20 +10,21 @@ Compute the pair-angle distribution function (PADF) from a fluctuation scatterin
 
 Clone this repo and move into it:
 
-    git clonehttps://github.com/amartinrmit/pypadf.git
+    git clone https://github.com/amartinrmit/pypadf.git
     cd pypadf
 
-All commands are assumed to be run from this directory.
+All of the following commands are assumed to be run from this directory.
 
-Create directory to save outputs. Template config files will save data to these directories, configs can be edited if required.
+Create directory to save outputs. Template config files will save data to these directories, but can be edited to a directory of your choosing.
 
-    mkdir data/dp
-    mkdir data/mask
-    mkdir data/corr
-    mkdir data/padf
+    mkdir ./tmp
+    mkdir ./tmp/diff
+    mkdir ./tmp/mask
+    mkdir ./tmp/corr
+    mkdir ./tmp/padf
 
 
-DEV: For a clean install, remove any previous environments:
+DEV: For a clean install, remove any previous pypadf environments:
 
     conda remove -n pypadf --all
 
@@ -47,21 +48,20 @@ Install required packages. The following are conda instructions, but pip should 
 
 
 
-
-###  Simulate diffraction pattern (dp):
+###  Simulate diffraction patterns:
 
 First step will be to simulate a some diffraction patterns. Parameters can be read from a config file.
 
-    python simulate-dp.py --config ./configs/config_hex_dp.txt
+    python diffract.py --config ./configs/config_hex_dp.txt
 
 This will create 2 diffraction patterns and save them to `./data/dp/`. 
 Any parameter in the config file can be overided on the commandline. To generate more patterns:
 
-    python simulate-dp.py --config ./configs/config_hex_dp.txt --npatterns 1000
+    python diffract.py --config ./configs/config_hex_dp.txt --npatterns 1000
 
 To see all options:
     
-    python simulate-dp.py --help
+    python diffract.py --help
 
 
 
