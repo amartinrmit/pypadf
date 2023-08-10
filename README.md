@@ -21,7 +21,7 @@ Create directory to save outputs. Template config files will save data to these 
     mkdir ./tmp/diff
     mkdir ./tmp/mask
     mkdir ./tmp/corr
-    mkdir ./tmp/padf
+    
 
 
 DEV: For a clean install, remove any previous pypadf environments:
@@ -47,17 +47,16 @@ Install required packages. The following are conda instructions, but pip should 
 ## Worked example
 
 
-
-###  Simulate diffraction patterns:
+### Step 1: Simulate Diffraction Patterns
 
 First step will be to simulate a some diffraction patterns. Parameters can be read from a config file.
 
     python diffract.py --config ./configs/config_hex_diff.txt
 
-This will create 2 diffraction patterns and save them to `./data/dp/`. 
+This will create 2 diffraction patterns and save them to `./tmp/dp/`. 
 Any parameter in the config file can be overided on the commandline. To generate more patterns:
 
-    python diffract.py --config ./configs/config_hex_dp.txt --npatterns 1000
+    python diffract.py --config ./configs/config_hex_diff.txt --npatterns 1000
 
 To see all options:
     
@@ -66,51 +65,51 @@ To see all options:
 
 
 
-## view diffraction
+## Step 2: Inspect Diffraction Pattern
+==todo== maybe this should have a config file?
 
 To inspect a diffraction pattern:
 
     python plotdiffraction.py -f ./tmp/diff/hex_1.npy
 
-## Make mask
-A mask is required. just takes the first hex pattern and makes it an array of 1s
-AM I couldn't work out how to make the configs run without a mask
+
+
+
+
+## Step 2.5: Make mask
+
+==todo== is there a way to set up the configs so we dont require a mask?
+
+We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask).
 
     python3 make-mask.py
 
-## correlate
+## Step 3: Correlate 
 
 Correlate 2 diffraction patterns.
 
-    python dp-to-corr.py --config ./configs/config_hex_corr.txt
+    python difftocorr.py --config ./configs/config_hex_corr.txt
 
 Again, parameters can be overridden on the command line.
 
-    python dp-to-corr.py --config ./configs/config_hex_corr.txt --npatterns 10000
+    python difftocorr.py --config ./configs/config_hex_corr.txt --npatterns 10000
 
-## view correlation
+
+== is there a way to turn this off and just include configs for the next steps? ==
+This will generate new config files to plot the correlation and create the PADF
+
+## View correlation
+
+The generated config file from running `difftocorr.py` can be used to plot the q1=q2 plane of the correlation function
 
     python plotfxs3d.py --config ./configs/config_hex_a_plot.txt
     python plotfxs3d.py --config ./configs/config_hex_a_plot.txt --chigh 0.00005 --clow -0.00005
 
 
-## 
+## PADF
 
+The generated config file from running `difftocorr.py` can be used to generate the padf. This will save the output function to the same fold as the input correlation function.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    python corrtopadf.py --config ./configs/config_hex_a_padf.txt
 
 

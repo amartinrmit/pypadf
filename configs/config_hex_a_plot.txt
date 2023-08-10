@@ -1,0 +1,37 @@
+[FXSPLOT]
+#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py
+fname = tmp/corr/hex_a_correlation_sum.npy 
+outpath = /home/pat/Documents/phd/python_projects/pypadf/tmp/corr
+rmin = 0.0
+rmax = 249997656.2878411
+rmindisp = 0.0
+rmaxdisp = 249997656.2878411
+rq = q
+runits = m
+thmin = 0.0
+thmax = 360.0
+thmindisp = 0.0
+thmaxdisp = 360.0
+#
+#THESE PARAMETERS ARE DEFAULT VALUES
+suffix = submean_sinth
+submean = True
+sintheta = True
+convolve = False
+power = 0.0
+stype = reqr
+rval = 124998828.14392056
+rpval = 124998828.14392056
+thval = 0
+scale = 1.0
+scalel = 1.0
+#clow = 0.0
+#chigh = 1.0
+log = False
+#gamma = 0.3
+rwid = 4999953.1257568225
+thwid = 3.0
+#asp = 1
+#rscale = 1e-9
+#nrbins = 5
+#nthbins = 6

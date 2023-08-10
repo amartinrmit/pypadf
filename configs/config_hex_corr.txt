@@ -1,7 +1,7 @@
 [PY3CORRELATION]
-outpath = <set the output here>
-samplepath = <path where diffraction pattens are saved>/dp/hexdc_np1000*.npy
-maskname = <path to mask file>/<mask file>
+outpath = ./tmp/corr/
+samplepath = ./tmp/diff/hex*.npy
+maskname = ./tmp/mask/hex_mask.npy
 tag = hex
 #fext = .npy
 dz = 0.5
@@ -19,7 +19,7 @@ outputdp = True
 bg_estimate = False
 dp_shift_flag = True
 cropflag = True
-nxcrop = 400
-nycrop = 400
+nxcrop = 100
+nycrop = 100
 shiftx = 0
 shifty = 0 

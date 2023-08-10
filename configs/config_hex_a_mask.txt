@@ -1,0 +1,17 @@
+[MASK]
+#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py
+corrfile = tmp/corr/hex_a_correlation_sum.npy 
+outpath = /home/pat/Documents/phd/python_projects/pypadf/tmp/corr
+qmin = 0.0
+qmax = 249997656.2878411
+#
+#THESE PARAMETERS ARE DEFAULT VALUES
+suffix = submean_sinth
+submean = True
+sintheta = True
+maskq = False
+maskth = False
+qmasklow = 199998125.0302729
+qmaskhigh = 199998125.0302729
+thlim = 10
+thlimnorm = 10
