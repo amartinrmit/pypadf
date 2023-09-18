@@ -51,8 +51,9 @@ corrvol *= 1.0/(p.beamnorm**2)
 #
 # Set up an instance of the padf class
 #
-#print("DEBUG pyblfilter.py qmax, rmax", p.qmax, p.rmax)
-padf = plib.padfcl( nl=p.nl, nlmin=p.nlmin, nr=p.nr, nq=p.nq, 
+# (2 is added to nl so that nl represents 2x the actual number of spherical harmonics used)
+#
+padf = plib.padfcl( nl=p.nl+2, nlmin=p.nlmin, nr=p.nr, nq=p.nq, 
                    qmin=p.qmin, qmax=p.qmax, rmax=p.rmax, nth=p.nth,
                    corrvol=corrvol, wl=p.wl, method=p.method,legendre_norm=p.legendre_norm)
 
