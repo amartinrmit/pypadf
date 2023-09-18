@@ -67,6 +67,13 @@ if __name__ == '__main__':
         print("Consider values that do divide: e.g. nxcrop=1024; rebin= 2 or 4") 
 
     #
+    # load mask and compute mask correlation 
+    #
+    if corr.mask_flag:
+        corr.load_mask_from_file()
+        corr.calculate_mask_correlation()
+
+    #
     #  append qmax to the parameter log file
     #
     outname = p.makefname( p.outpath, p.tag, "_difftocorr_parameter_log", ".txt")
@@ -82,6 +89,15 @@ if __name__ == '__main__':
     print(f'Difference correlation?  {corr.diffcorrflag}')
     print("\n")
     corrsum = corr.calculate_correlation()
+
+
+    #
+    # mask correction
+    #   
+    if corr.mask_flag:
+        corrsum[:,:,:,0] = corr.mask_correction(corrsum[:,:,:,0])
+        corrsum[:,:,:,1] = corr.mask_correction(corrsum[:,:,:,1])
+
 
     print("\n")
     #

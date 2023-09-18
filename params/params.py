@@ -361,11 +361,13 @@ class params:
                 elif len(glob.glob(tmp))!=0:
                     continue
                 else:
-                    print(f'Input value error. The file/directory "{k}" does not exist: {tmp}')
+                    print(f'Warning: Input value error. The file/directory "{k}" does not exist: {tmp}')
                     patherror = True
-        if patherror:
-            print('Exiting... input paths or files given do not exist. Please check config file and/or command line arguments.')
-            exit()
+
+        # sometimes paths might not exist, e.g. if maskflag is not set.
+        #if patherror:
+        #    print('Exiting... input paths or files given do not exist. Please check config file and/or command line arguments.')
+        #    exit()
 
 #
 # copy the dictionaries of two parameters whereever they have common key names

@@ -122,8 +122,8 @@ class angular_correlation:
         newx = rarr*np.cos( tharr ) + cenx
         newy = rarr*np.sin( tharr ) + ceny
         #print( "pp debug newx newy", np.min(newx), np.max(newx), newx.shape)
-        np.save( "newx.npy", newx)
-        np.save( "newy.npy", newy)
+        #np.save( "newx.npy", newx)
+        #np.save( "newy.npy", newy)
         newdata = sdn.map_coordinates( data, [newx.flatten(), newy.flatten()], order=3 )
 
         out = newdata.reshape( nr, nth )

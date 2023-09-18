@@ -90,6 +90,12 @@ if __name__ == '__main__':
         # CHECK ALL PARAMETER NAMES GOING INTO THE DIFFRACTION AND CORRRELATION CLASSES!!!!!
         # CHECK ANY PATHS USED IN THIS MAIN SCRIPT!!!!
 
+        #
+        # load mask and compute mask correlation 
+        #
+        if corr.mask_flag:
+            corr.load_mask_from_file()
+            corr.calculate_mask_correlation()
 
         print("\nSimulating Diffraction and Correlating")
         print(f'Background estimate?   {corr.bg_estimate}')
@@ -193,6 +199,13 @@ if __name__ == '__main__':
             print( "Cycle took  :", time.perf_counter()-startcycle, " seconds")
 
 
+        #
+        # mask correction
+        #   
+        if corr.mask_flag:
+            corrsum[:,:,:,0] = corr.mask_correction(corrsum[:,:,:,0])
+            corrsum[:,:,:,1] = corr.mask_correction(corrsum[:,:,:,1])
+        
         #
         # write the correlation function to file
         #

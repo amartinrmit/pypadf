@@ -123,7 +123,7 @@ class correlation:
         Correct correlation with mask correlation function (True/False)
     
     maskname : str
-        path and filename of mask image to use (if maskflag is True)
+        path and filename of mask image to use (if mask_flag is True)
         Mask takes values 0 for pixels to ignore and 1 for pixels to include.
 
     rebin : int
@@ -294,11 +294,11 @@ class correlation:
         """
         #print("Debug 1 - correlation.py")
         if self.mask_flag == 1:
-            maskname = self.maskname  # self.path+self.tag+"_mask_processed.dbin"
-            mask = io.read_image(maskname, nx=self.nxorig, ny=self.nyorig).astype(np.float64)
-            mask *= 1.0 / np.max(mask)
+            #maskname = self.maskname  # self.path+self.tag+"_mask_processed.dbin"
+            #mask = io.read_image(maskname, nx=self.nxorig, ny=self.nyorig).astype(np.float64)
+            #mask *= 1.0 / np.max(mask)
             # print "DEBUG <correlation.py calculate_correlation()> mask.shape", mask.shape
-            mask_scb = self.shift_crop_bin(mask, True)
+            mask_scb = self.mask_scb #self.shift_crop_bin(mask, True)
 
         # copy the following lines to the main script
         if self.fromlist==True:
@@ -556,10 +556,30 @@ class correlation:
         filter[:, :, width:self.nth - width] = 1.0
         csmod = (cs * filter + np.roll(cs * filter, self.nth // 2, 2)) / (filter + np.roll(filter, self.nth // 2, 2))
         return csmod
+
+
+    #
+    # read the mask from file
+    #
+    def load_mask_from_file(self):
+
+        if self.mask_flag == 1:
+            self.mask = io.read_image(self.maskname, nx=self.nxorig, ny=self.nyorig).astype(np.float64)
+            self.mask *= 1.0 / np.max(self.mask)
+            self.mask_scb = self.shift_crop_bin(self.mask, True)
+
+
+    def calculate_mask_correlation(self):
+        """
+        Calculates the angular corrrelation of the mask file
+        """ 
+        polar = self.ac.polar_plot_with_qbins( self.mask_scb, self.qbins, self.nth, 0, 2*np.pi, self.cx, self.cy, False)
+        self.maskcorr = self.ac.polarplot_angular_intershell_correlation( polar )   
+
     #
     # Divide by mask function correlation
     #
-    def mask_correction(self, cs, mask):
+    def mask_correction(self, cs):
         """
         Apply a mask correction to a correlation volume.
         Calculate the mask correlation
@@ -568,9 +588,6 @@ class correlation:
         ----------
         cs : vol object
             input correlation function
-
-        mask : numpy array (floats)
-            input mask array
     
         Returns
         -------
@@ -578,15 +595,10 @@ class correlation:
             mask-corrected correlation volume        
         """ 
 
-        maskcorr = io.read_correlation(self.path + self.tag + "_mask_correlation.dbin")
-        #        print "DEBUG <correlation.py; mask_correlation()> maskcorr.shape", maskcorr.shape
-        maskcorr = maskcorr.reshape(self.nx // 2, self.nx // 2, self.nth)
-        imaskcorr = np.where(maskcorr > 0.05 * np.max(maskcorr))
-        cs = io.read_correlation(self.path + self.tag + ftailin)
-        cs = cs.reshape(self.nx // 2, self.nx // 2, self.nth)
+        imaskcorr = np.where(self.maskcorr > 0.05 * np.max(self.maskcorr))
         corr_masked = cs * 0.0
         #        print "DEBUG <correlation.py; mask_correlation()> cs.shape, maskcorr.shape", cs.shape, maskcorr.shape
-        corr_masked[imaskcorr] = cs[imaskcorr] / maskcorr[imaskcorr]
+        corr_masked[imaskcorr] = cs[imaskcorr] / self.maskcorr[imaskcorr]
         return corr_masked
 
     #
@@ -927,57 +939,6 @@ class correlation:
             tmp = self.binary_mask(tmp)
 
         return tmp
-
-    def calculate_mask_correlation(self, dontreadfile=False):
-        """
-        Calculates the angular corrrelation of the mask file
-        [DEBUG: may not currenlty work!]
- 
-        Parameters
-        ----------
-        dontreadfile : bool
-            If True, then mask is set to a value of 1 everywhere
-            If False, mask is read from file
-
-        Returns
-        -------
-         N/A
-         [TODO: verify the final location of the mask correlation]
-        
-        """ 
-
-        if (dontreadfile == True):
-            mask = np.ones((self.nxorig, self.nyorig))
-        else:
-            mask = io.read_image(self.maskname, nx=self.nxorig, ny=self.nyorig).astype(np.float64)
-            mask *= 1.0 / np.max(mask)
-            #print("DEBUG <correlation.py; calculate_mask_correlation> mask.shape", mask.shape, mask.dtype)
-
-        mask = self.shift_crop_bin(mask, True)
-
-        # shift diffraction pattern
-        #        if self.dp_shift_flag == 1:
-        #            mask = self.array_shift(mask, self.shiftx, self.shifty)
-
-        #         # crop diffraction pattern
-        #        if self.crop_flag == 1:
-        #            mask = self.crop_image(mask, self.nxcrop)
-
-        # rebin image
-        #        if self.rebin_flag == 1:
-        #            mask = self.rebin_pattern( mask, self.rebin )
-        #            mask = self.binary_mask( mask )
-
-        tag = self.tag
-        self.tag = tag + "_mask"
-        maskname = self.path + self.tag + "_processed.dbin"
-        io.write_dbin(maskname, mask)
-        #     print "DEBUG <correlation.py; calculate_mask_correlation> processsed mask.shape", mask.shape, mask.dtype
-        self.dpname = maskname
-        self.corrfname = self.path + self.tag + "_corr_config.txt"
-        self.write_corr_config(self.corrfname)
-        self.corr_calc(self.corrfname)
-        self.tag = tag
 
 
     def set_inputpath(self):
