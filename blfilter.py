@@ -34,10 +34,10 @@ fname = p.path_to_string( p.padffile )
 padf = padfio.read_image( fname )
 
 
-pcl = padflib.padfcl(p.nl,p.nlmin,p.nr,p.nth,p.nq,p.qmin,p.qmax,p.rmax,padf,wl=p.wl) 
+pcl = padflib.padfcl(p.nl+2,p.nlmin,p.nr,p.nth,p.nq,p.qmin,p.qmax,p.rmax,padf,wl=p.wl) 
 
 
-nl,nlmin,nr,nth,nq,qmin,qmax,rmax,wl = p.nl,p.nlmin,p.nr,p.nth,p.nq,p.qmin,p.qmax,p.rmax,p.wl
+nl,nlmin,nr,nth,nq,qmin,qmax,rmax,wl = p.nl+2,p.nlmin,p.nr,p.nth,p.nq,p.qmin,p.qmax,p.rmax,p.wl
 
 print("Min and max q values:",p.qmin, p.qmax)
 print("Min and max l values", p.nlmin, nl)
