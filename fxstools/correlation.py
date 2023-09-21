@@ -323,6 +323,7 @@ class correlation:
             print("At least 4 patterns are required to run background or difference corrlations. npatterns:", self.npatterns)
             exit()
 
+        t0 = time.perf_counter()
         for i in np.arange(self.npatterns // self.nthreads):
             processes = []
             d = []
@@ -440,7 +441,7 @@ class correlation:
                 #print( "max corrsum:", np.max(corrsum), np.max(return_dict[j]) ) 
             
             stop = time.perf_counter()
-            print("Chunked correlations took (i.e. all threads to finish)", stop-start," seconds") 
+            print(f"correlated: {i*self.nthreads+1} / {self.npatterns}; time: {stop-t0:.2}s (last {self.nthreads} patterns:, {stop-start:.2}s); time remaining: {(stop-t0)*((self.npatterns/(i*self.nthreads+1))-1):.2}s", end='\r') 
 
         corrsum *= 1.0 / float(self.npatterns)
         return corrsum
