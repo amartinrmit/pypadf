@@ -926,7 +926,7 @@ class correlation:
 
         # shift diffraction pattern
         if self.dp_shift_flag == 1:
-            tmp = self.array_shift(image, self.shiftx, self.shifty)
+            tmp = self.array_shift(tmp, self.shiftx, self.shifty)
 
         # crop diffraction pattern
         if self.crop_flag == 1:
