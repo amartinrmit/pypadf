@@ -347,7 +347,7 @@ class paramsCORR(params):
         f.write(f'nr = {self.nq}\n')
         f.write(f'nl = 32\n')
         f.write(f'method = svd\n')
-        f.write(f'legendre_norm = True')
+        f.write(f'lnorm = True')
         f.close()
 
     def write_mask_config(self,corrfile, tag):

@@ -140,7 +140,7 @@ class paramsPADF(params):
         self.add_parameter("beamnorm", 1.0, cmdline="--beamnorm",cmdline2="-b", help="dimensionless norm to convert intensity to structure factor squared",
                         nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("legendre_norm", True, cmdline="--lnorm",cmdline2="-ln", help="Normalise  the legendre polynomials",
+        self.add_parameter("lnorm", True, cmdline="--lnorm",cmdline2="-ln", help="Normalise  the legendre polynomials",
                             nargs=1,header=ch[0],pathflag=False)   
 
     def read_config_file(self):
