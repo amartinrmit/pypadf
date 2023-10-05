@@ -75,8 +75,10 @@ if p.maskq:
               print("qmasklow value is out of (qmin,qmax) range")
               exit()
 
-        corr[:iqlow,:iqlow,:] = 0
-        corr[iqhigh:,iqhigh:,:] = 0
+        corr[:iqlow,:,:] = 0
+        corr[:,:iqlow,:] = 0
+        corr[iqhigh:,:,:] = 0
+        corr[:,iqhigh:,:] = 0
 
 #
 # mask theta
