@@ -11,12 +11,6 @@ Clone this repo and move into it:
 
 All of the following commands are assumed to be run from this directory.
 
-Create directory to save outputs. Template config files will save data to these directories, but can be edited to a directory of your choosing.
-
-    mkdir ./demo/output
-    mkdir ./demo/output/diff
-    mkdir ./demo/output/mask
-    mkdir ./demo/output/corr
 
 Requirements can be installed with conda or pip. To install with conda (suggested), create and activate a conda environment and install the packages.
 
@@ -29,16 +23,26 @@ Requirements can be installed with conda or pip. To install with conda (suggeste
     conda install h5py -y
     conda install imageio -y
 
-## Worked example
+## Worked Example
 
-#### Step 1: Simulate Diffraction Patterns
+#### Create Output Directories 
+To illustrate the pypadf package, we will run the scripts with provided config files in `./demo/configs`. These template config files save certain outputs to directories which we will now create.
 
-First step will be to simulate a some diffraction patterns. Parameters can be read from a config file.
+    mkdir ./demo/output
+    mkdir ./demo/output/diff
+    mkdir ./demo/output/mask
+    mkdir ./demo/output/corr
+
+Alternatively, the config files can be edited for an output directory of your choosing.
+
+#### Simulate Diffraction Patterns
+
+We will now simulate some diffraction patterns. Parameters are read from a config file.
 
     python diffract.py --config ./demo/configs/config_hex_diff.txt
 
-This will create 2 diffraction patterns and save them to `./demo/output/diff`. 
-Any parameter in the config file can be overided on the commandline. To generate more patterns:
+This will create 2 diffraction patterns and save them to the output directory `./demo/output/diff`. 
+Any parameter in the config file can be overided on the commandline. To generate more patterns for the demonstration:
 
     python diffract.py --config ./demo/configs/config_hex_diff.txt --npatterns 1000
 
@@ -46,35 +50,27 @@ To see all options:
     
     python diffract.py --help
 
-
-
-
-#### Step 2: Inspect Diffraction Pattern
+#### Inspect Diffraction Pattern
 
 To inspect a diffraction pattern:
 
     python plotdiffraction.py --fname ./demo/output/diff/hex_0.npy
 
-
-
-
-
-#### Step 2.5: Make mask
+#### Make Mask
 
 We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./demo/output/mask`.
 
     python make-mask.py ./demo/output/diff/hex_0.npy ./demo/output/mask/hex_mask.npy
 
-#### Step 3: Correlate 
+#### Correlate the Diffraction Patterns
 
 Correlate 2 diffraction patterns. The number of patterns will be split into two correlation functions, an A half and a B half.
 
     python difftocorr.py --config ./demo/configs/config_hex_corr.txt
 
-Again, parameters can be overridden on the command line.
+Again, parameters can be overrided on the command line.
 
     python difftocorr.py --config ./demo/configs/config_hex_corr.txt --npatterns 1000
-
 
 This will generate new config files to plot the correlation and create the PADF
 
@@ -93,7 +89,7 @@ You can also try correlating with fewer patterns, and replotting to see the diff
 
 #### PADF
 
-The generated config file from running `difftocorr.py` can be used to generate the padf. This will save the output function to the same fold as the input correlation file.
+The generated config file from running `difftocorr.py` can be used to generate the PADF. This will save the output function to the same fold as the input correlation file.
 
     python corrtopadf.py --config ./demo/configs/config_hex_a_padf.txt
 
