@@ -1,16 +1,13 @@
-[PYPADF]
-#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py
-corrfile = demo/output/corr/hex_a_correlation_sum.npy 
-outpath = /home/pat/Documents/phd/python_projects/pypadf/demo/output/corr
+[PADF]
+corrfile = ./demo/output/corr/hex_a_correlation_sum.npy
+outpath = ./demo/output/padf/
 tag = hex_a
-wl = 2e-11
-nq = 50
+wl =  0.2e-10
 nth = 90
-qmax = 249997656.2878411
-rmax = 2.0000187498730485e-07
-#
-#THESE PARAMETERS ARE DEFAULT VALUES
-nr = 50
-nl = 32
+nq =  50
+nr =  50
+nl =  32
+qmax =  249997656.3
+rmax =  40e-9
 method = svd
-lnorm = True
+legendre_norm = False
