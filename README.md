@@ -29,7 +29,7 @@ Requirements can be installed with conda or pip. To install with conda (suggeste
     conda install h5py -y
     conda install imageio -y
 
-To install with pip, install the packages.
+Alternatively, the same packages can be installed via pip (untested).
 
     pip install numpy
     pip install scipy
