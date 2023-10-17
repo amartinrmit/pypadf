@@ -61,13 +61,13 @@ To inspect a diffraction pattern:
 
 #### Step 2.5: Make mask
 
-We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./tmp/mask`.
+We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./demo/output/mask`.
 
     python make-mask.py ./demo/output/diff/hex_0.npy ./demo/output/mask/hex_mask.npy
 
 #### Step 3: Correlate 
 
-Correlate 2 diffraction patterns.
+Correlate 2 diffraction patterns. The number of patterns will be split into two correlation functions, an A half and a B half.
 
     python difftocorr.py --config ./demo/configs/config_hex_corr.txt
 
