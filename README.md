@@ -38,7 +38,7 @@ First step will be to simulate a some diffraction patterns. Parameters can be re
 
     python diffract.py --config ./demo/configs/config_hex_diff.txt
 
-This will create 2 diffraction patterns and save them to `./tmp/dp/`. 
+This will create 2 diffraction patterns and save them to `./demo/output/diff`. 
 Any parameter in the config file can be overided on the commandline. To generate more patterns:
 
     python diffract.py --config ./demo/configs/config_hex_diff.txt --npatterns 1000
@@ -64,17 +64,17 @@ To inspect a diffraction pattern:
 
 We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./tmp/mask`.
 
-    python3 make-mask.py ./demo/output/diff/hex_0.npy ./demo/output/mask/hex_mask.npy
+    python make-mask.py ./demo/output/diff/hex_0.npy ./demo/output/mask/hex_mask.npy
 
 #### Step 3: Correlate 
 
 Correlate 2 diffraction patterns.
 
-    python difftocorr.py --config ./configs/config_hex_corr.txt
+    python difftocorr.py --config ./demo/configs/config_hex_corr.txt
 
 Again, parameters can be overridden on the command line.
 
-    python difftocorr.py --config ./configs/config_hex_corr.txt --npatterns 1000
+    python difftocorr.py --config ./demo/configs/config_hex_corr.txt --npatterns 1000
 
 
 This will generate new config files to plot the correlation and create the PADF
@@ -101,6 +101,22 @@ The generated config file from running `difftocorr.py` can be used to generate t
 
 
 # Notes:
+- I dont get why a new file hexagon_shifted.pdb gets created, it doesn't fix the runtime warning for invalid value encountered in scalar remainder during diffraction pattern generation
+
+- when generating 1000 diffraction patterns, it says x/1000 patterns made
+- when generating 1000 correaltion functions, it says x/999 patterns made
+
+- plotfxs3d: there is a print statement that says "section extracted: reqr". this probably shouldn't be there?
+
+- corrtopadf: step one says correlation to blrr but should be blqq
+
+
+
+
+
+
+
+
 - is there a way to set up the configs so we dont require a mask?
 - is there a way to turn this off auto-generation of configs and just include template configs for the padf and plotting steps?
 - if we want to keep the auto-generation, we should be more selective in the .gitignore to remove the pregenerated ones?
