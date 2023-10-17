@@ -68,7 +68,7 @@ We will create a mask file that is 1 for every pixel in the difraction pattern (
 
 #### Step 3: Correlate 
 
-Correlate 2 diffraction patterns.
+Correlate 2 diffraction patterns. The number of patterns will be split into two correlation functions, an A half and a B half.
 
     python difftocorr.py --config ./demo/configs/config_hex_corr.txt
 
