@@ -9,6 +9,9 @@ tests/configs/config_hexdc_a_plot.txt
 tests/configs/config_hexdc_a_padf.txt
 tests/configs/hexagon_shifted.pdb
 
+
+demo/output/
+
 #pycache and cython files
 __pycache__/
 *.pyc

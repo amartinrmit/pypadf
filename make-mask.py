@@ -4,9 +4,9 @@ import numpy as np
 
 
 
-diff = np.load('./tmp/diff/hex_0.npy')
+diff = np.load('./demo/output/diff/hex_0.npy')
 
 diff *= 1/diff
 
-np.save('./tmp/mask/hex_mask.npy', diff)
+np.save('./demo/output/mask/hex_mask.npy', diff)
 
