@@ -5,8 +5,8 @@ def check_and_make_dir(d):
     if not os.path.exists(d):
         os.makedirs(d)
     else:
-        print(f"rm {d}/*.npy") 
-        os.system(f"rm {d}/*.npy") 
+        print(f"rm {d}/*.npy")
+        os.system(f"rm {d}/*.npy")
 
 def check_for_output( d, f):
     check = os.path.exists( d+"/"+f)

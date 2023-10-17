@@ -1,0 +1,15 @@
+[PYDIFFRACTION]
+pdbname = ./demo/configs/hexagon.pdb
+outpath = ./demo/output/diff/
+tag = hex
+fext = .npy
+nx = 200
+dz = 0.125
+wl = 1.0e-10
+pw = 5e-4
+henkeflag = False
+npatterns = 6
+rotflag = True
+npulse = 1e17
+beamarea = 1e-14
+poisson = False

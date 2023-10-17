@@ -13,10 +13,11 @@ All of the following commands are assumed to be run from this directory.
 
 Create directory to save outputs. Template config files will save data to these directories, but can be edited to a directory of your choosing.
 
-    mkdir ./tmp
-    mkdir ./tmp/diff
-    mkdir ./tmp/mask
-    mkdir ./tmp/corr
+    mkdir ./demo/output
+    mkdir ./demo/output/diff
+    mkdir ./demo/output/mask
+    mkdir ./demo/output/corr
+    mkdir ./demo/output/padf
 
 Requirements can be installed with conda or pip. To install with conda (suggested), create and activate a conda environment and install the packages.
 
