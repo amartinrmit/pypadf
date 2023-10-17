@@ -14,7 +14,7 @@ All of the following commands are assumed to be run from this directory.
 
 Requirements can be installed with conda or pip. To install with conda (suggested), create and activate a conda environment and install the packages.
 
-    conda create --name pypadf python==3.8 -y
+    conda create --name pypadf python==3.9 -y
     conda activate pypadf
     conda install numpy -y
     conda install scipy -y
