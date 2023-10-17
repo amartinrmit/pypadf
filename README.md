@@ -83,11 +83,11 @@ This will generate new config files to plot the correlation and create the PADF
 
 The generated config file from running `difftocorr.py` can be used to plot the q1=q2 plane of the correlation function.
 
-    python plotfxs3d.py --config ./configs/config_hex_a_plot.txt
+    python plotfxs3d.py --config ./demo/configs/config_hex_a_plot.txt
 
 To better see the correlation intensity, try chaning the colorscale:
 
-    python plotfxs3d.py --config ./configs/config_hex_a_plot.txt --chigh 0.00005 --clow -0.00005
+    python plotfxs3d.py --config ./demo/configs/config_hex_a_plot.txt --chigh 0.00005 --clow -0.00005
 
 You can also try correlating with fewer patterns, and replotting to see the difference. 
 
@@ -96,7 +96,7 @@ You can also try correlating with fewer patterns, and replotting to see the diff
 
 The generated config file from running `difftocorr.py` can be used to generate the padf. This will save the output function to the same fold as the input correlation file.
 
-    python corrtopadf.py --config ./configs/config_hex_a_padf.txt
+    python corrtopadf.py --config ./demo/configs/config_hex_a_padf.txt
 
 
 
