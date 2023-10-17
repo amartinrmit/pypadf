@@ -10,8 +10,7 @@ import fxstools.correlation as correlation
 
 
 
-if __name__ == '__main__': 
-    
+if __name__ == '__main__':
 
     print("\n-------------------------------------------------------------------------")
     print(" difftocorr.py : calculate correlation function from diffraction patterns" )

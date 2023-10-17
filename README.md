@@ -17,7 +17,6 @@ Create directory to save outputs. Template config files will save data to these 
     mkdir ./demo/output/diff
     mkdir ./demo/output/mask
     mkdir ./demo/output/corr
-    mkdir ./demo/output/padf
 
 Requirements can be installed with conda or pip. To install with conda (suggested), create and activate a conda environment and install the packages.
 
