@@ -18,19 +18,26 @@ Create directory to save outputs. Template config files will save data to these 
     mkdir ./tmp/mask
     mkdir ./tmp/corr
 
-Create and activate a conda environment. Not nessercary, but advised.
+Requirements can be installed with conda or pip. To install with conda (suggested), create and activate a conda environment and install the packages.
 
     conda create --name pypadf
     conda activate pypadf
-
-Install required packages. The following are conda instructions, but pip should work as well.
-
     conda install numpy -y
     conda install scipy -y
     conda install matplotlib -y
     conda install numba -y
     conda install h5py -y
     conda install imageio -y
+
+To install with pip, install the packages.
+
+    pip install numpy
+    pip install scipy
+    pip install matplotlib
+    pip install numba
+    pip install h5py
+    pip install imageio
+    
 
 ## Worked example
 
