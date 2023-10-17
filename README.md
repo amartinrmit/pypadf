@@ -2,11 +2,7 @@
 
 Compute the pair-angle distribution function (PADF) from a fluctuation scattering dataset
 
-
-
-
-
-## Build
+## Build and Install
 
 Clone this repo and move into it:
 
@@ -21,12 +17,6 @@ Create directory to save outputs. Template config files will save data to these 
     mkdir ./tmp/diff
     mkdir ./tmp/mask
     mkdir ./tmp/corr
-    
-
-
-DEV: For a clean install, remove any previous pypadf environments:
-
-    conda remove -n pypadf --all
 
 Create and activate a conda environment. Not nessercary, but advised.
 
@@ -42,12 +32,9 @@ Install required packages. The following are conda instructions, but pip should 
     conda install h5py -y
     conda install imageio -y
 
-
-
 ## Worked example
 
-
-### Step 1: Simulate Diffraction Patterns
+#### Step 1: Simulate Diffraction Patterns
 
 First step will be to simulate a some diffraction patterns. Parameters can be read from a config file.
 
@@ -65,7 +52,7 @@ To see all options:
 
 
 
-## Step 2: Inspect Diffraction Pattern
+#### Step 2: Inspect Diffraction Pattern
 
 To inspect a diffraction pattern:
 
@@ -75,14 +62,13 @@ To inspect a diffraction pattern:
 
 
 
-## Step 2.5: Make mask
-
+#### Step 2.5: Make mask
 
 We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./tmp/mask`.
 
     python3 make-mask.py
 
-## Step 3: Correlate 
+#### Step 3: Correlate 
 
 Correlate 2 diffraction patterns.
 
@@ -95,7 +81,7 @@ Again, parameters can be overridden on the command line.
 
 This will generate new config files to plot the correlation and create the PADF
 
-## View correlation
+#### View correlation
 
 The generated config file from running `difftocorr.py` can be used to plot the q1=q2 plane of the correlation function.
 
@@ -108,7 +94,7 @@ To better see the correlation intensity, try chaning the colorscale:
 You can also try correlating with fewer patterns, and replotting to see the difference. 
 
 
-## PADF
+#### PADF
 
 The generated config file from running `difftocorr.py` can be used to generate the padf. This will save the output function to the same fold as the input correlation file.
 
