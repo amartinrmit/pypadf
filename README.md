@@ -41,7 +41,7 @@ We will now simulate some diffraction patterns. Parameters are read from a confi
 
     python diffract.py --config ./demo/configs/config_hex_diff.txt
 
-This will create 2 diffraction patterns and save them to the output directory `./demo/output/diff`. 
+This will create 6 diffraction patterns and save them to the output directory `./demo/output/diff`. 
 Any parameter in the config file can be overided on the commandline. To generate more patterns for the demonstration:
 
     python diffract.py --config ./demo/configs/config_hex_diff.txt --npatterns 1000
@@ -64,7 +64,7 @@ We will create a mask file that is 1 for every pixel in the difraction pattern (
 
 #### Correlate the Diffraction Patterns
 
-Correlate 2 diffraction patterns. The number of patterns will be split into two correlation functions, an A half and a B half.
+Correlate 6 diffraction patterns. The number of patterns will be split into two correlation functions, an A half from 3 patterns, and a B half from the other 3 patterns.
 
     python difftocorr.py --config ./demo/configs/config_hex_corr.txt
 
