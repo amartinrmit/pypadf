@@ -30,28 +30,18 @@ Requirements can be installed with conda or pip. To install with conda (suggeste
     conda install h5py -y
     conda install imageio -y
 
-Alternatively, the same packages can be installed via pip (untested).
-
-    pip install numpy
-    pip install scipy
-    pip install matplotlib
-    pip install numba
-    pip install h5py
-    pip install imageio
-    
-
 ## Worked example
 
 #### Step 1: Simulate Diffraction Patterns
 
 First step will be to simulate a some diffraction patterns. Parameters can be read from a config file.
 
-    python diffract.py --config ./configs/config_hex_diff.txt
+    python diffract.py --config ./demo/configs/config_hex_diff.txt
 
 This will create 2 diffraction patterns and save them to `./tmp/dp/`. 
 Any parameter in the config file can be overided on the commandline. To generate more patterns:
 
-    python diffract.py --config ./configs/config_hex_diff.txt --npatterns 1000
+    python diffract.py --config ./demo/configs/config_hex_diff.txt --npatterns 1000
 
 To see all options:
     
@@ -64,7 +54,7 @@ To see all options:
 
 To inspect a diffraction pattern:
 
-    python plotdiffraction.py --fname ./tmp/diff/hex_1.npy
+    python plotdiffraction.py --fname ./demo/output/diff/hex_0.npy
 
 
 
@@ -74,7 +64,7 @@ To inspect a diffraction pattern:
 
 We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./tmp/mask`.
 
-    python3 make-mask.py
+    python3 make-mask.py ./demo/output/diff/hex_0.npy ./demo/output/mask/hex_mask.npy
 
 #### Step 3: Correlate 
 

@@ -1,12 +1,13 @@
 
 
 import numpy as np
+import sys
 
 
 
-diff = np.load('./demo/output/diff/hex_0.npy')
+diff = np.load(sys.argv[1])
 
 diff *= 1/diff
 
-np.save('./demo/output/mask/hex_mask.npy', diff)
+np.save(sys.argv[2], diff)
 
