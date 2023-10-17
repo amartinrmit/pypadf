@@ -20,7 +20,7 @@ Create directory to save outputs. Template config files will save data to these 
 
 Requirements can be installed with conda or pip. To install with conda (suggested), create and activate a conda environment and install the packages.
 
-    conda create --name pypadf
+    conda create --name pypadf python==3.8
     conda activate pypadf
     conda install numpy -y
     conda install scipy -y
