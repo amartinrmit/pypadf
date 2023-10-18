@@ -14,6 +14,8 @@ All of the following commands are assumed to be run from this directory.
 
 Requirements can be installed with conda or pip. To install with conda (suggested), create and activate a conda environment and install the packages.
 
+-PA: change format to list installed packages, rather then give explicit linux commands
+
     conda create --name pypadf python==3.9 -y
     conda activate pypadf
     conda install numpy -y
@@ -22,6 +24,19 @@ Requirements can be installed with conda or pip. To install with conda (suggeste
     conda install numba -y
     conda install h5py -y
     conda install imageio -y
+
+## Tests
+
+
+To run a quick check to see if everything is install and working:
+
+    cd tests #just move into test dir
+    python hextest.py
+
+
+
+
+
 
 ## Worked Example
 
