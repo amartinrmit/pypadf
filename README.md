@@ -34,11 +34,10 @@ To run a quick check to see if everything is install and working:
     python hextest.py
 
 
+Try running the tests again after editing the configs.
 
 
-
-
-## Worked Example
+## Worked Example (Linux)
 
 #### Create Output Directories 
 To illustrate the pypadf package, we will run the scripts with provided config files in `./demo/configs`. These template config files save certain outputs to directories which we will now create.
