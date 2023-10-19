@@ -329,7 +329,9 @@ class paramsCORR(params):
             print("Error: config parameter 'corrtype' must have a value of 'standard','background','difference'")
 
     def write_padf_config(self,corrfile, tag):
-        outname = self.makefname( self.config.parents[0], 'config_'+tag, '_padf', '.txt')
+        outdir = self.config.parents[0] / "generated_configs"
+        outdir.mkdir(parents=False, exist_ok=True)
+        outname = self.makefname( outdir, 'config_'+tag, '_padf', '.txt')
         f = open(outname, 'w')
         f.write("[PYPADF]\n")
         f.write("#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py\n")
@@ -351,7 +353,9 @@ class paramsCORR(params):
         f.close()
 
     def write_mask_config(self,corrfile, tag):
-        outname = self.makefname( self.config.parents[0], 'config_'+tag, '_mask', '.txt')
+        outdir = self.config.parents[0] / "generated_configs"
+        outdir.mkdir(parents=False, exist_ok=True)
+        outname = self.makefname( outdir, 'config_'+tag, '_mask', '.txt')
         f = open(outname, 'w')
         f.write("[MASK]\n")
         f.write("#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py\n")
@@ -373,7 +377,9 @@ class paramsCORR(params):
         f.close()
 
     def write_plot_config(self,corrfile, tag):
-        outname = self.makefname( self.config.parents[0], 'config_'+tag, '_plot', '.txt')
+        outdir = self.config.parents[0] / "generated_configs"
+        outdir.mkdir(parents=False, exist_ok=True)
+        outname = self.makefname( outdir, 'config_'+tag, '_plot', '.txt')
         f = open(outname, 'w')
         f.write("[FXSPLOT]\n")
         f.write("#THESE PARAMETERS HAVE BEEN GENERATED FROM difftocorr.py\n")
