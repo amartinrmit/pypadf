@@ -303,10 +303,10 @@ class diffraction(sfdata):
         tmplist = []
         for i, atom in enumerate(self.pdb.atomlist):
             r = np.random.rand(3)
-            self.pdb.atomlist[i].x = (self.pdb.atomlist[i].x + mins[0] + r[0]*uc.a)%uc.a - mins[0] 
-            self.pdb.atomlist[i].y = (self.pdb.atomlist[i].y + mins[1] + r[1]*uc.b)%uc.b - mins[1]
+            if uc.a>0: self.pdb.atomlist[i].x = (self.pdb.atomlist[i].x + mins[0] + r[0]*uc.a)%uc.a - mins[0] 
+            if uc.b>0: self.pdb.atomlist[i].y = (self.pdb.atomlist[i].y + mins[1] + r[1]*uc.b)%uc.b - mins[1]
             ## todo: if uc.c is 0 then we get a runtime error
-            self.pdb.atomlist[i].z = (self.pdb.atomlist[i].z + mins[2] + r[2]*uc.c)%uc.c - mins[2]
+            if uc.c>0: self.pdb.atomlist[i].z = (self.pdb.atomlist[i].z + mins[2] + r[2]*uc.c)%uc.c - mins[2]
             if recentre==True:
                 self.pdb.atomlist[i].x += -uc.a/2
                 self.pdb.atomlist[i].y += -uc.b/2
