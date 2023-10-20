@@ -1,7 +1,7 @@
 [PY3CORRELATION]
-outpath = ./demo/output/corr/
-samplepath = ./demo/output/diff/hex*.npy
-#maskname = ./demo/output/mask/hex_mask.npy
+outpath = ./output/corr/
+samplepath = ./output/diff/hex*.npy
+#maskname = ./output/mask/hex_mask.npy
 tag = hex
 dz = 0.5
 wl = 0.2e-10

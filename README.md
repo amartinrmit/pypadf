@@ -1,18 +1,18 @@
 # pypadf
-
+***
 Compute the pair-angle distribution function (PADF) from a fluctuation scattering dataset
 
-## Build and Install
+### Build, Install, Test
 
-Clone this repo and move into it:
+Clone this repo:
 
     git clone https://github.com/amartinrmit/pypadf.git
-    cd pypadf
 
-All of the following commands are assumed to be run from this directory.
+The following packages are required by pypadf:
 
+    numpy, scipy, matplotlib, numba, h5py, imageio
 
-Requirements can be installed with conda or pip. To install with conda (suggested), create and activate a conda environment and install the packages.
+To install with conda (suggested), create and activate a conda environment and install the packages.
 
     conda create --name pypadf python==3.9 -y
     conda activate pypadf
@@ -23,7 +23,14 @@ Requirements can be installed with conda or pip. To install with conda (suggeste
     conda install h5py -y
     conda install imageio -y
 
-## Worked Example
+The `tests` directory will run through the scripts To run a quick check to see if everything is installed and working:
+
+    python hextest.py
+
+Try running the tests again after editing the configs.
+
+
+### Worked Example (Linux)
 
 #### Create Output Directories 
 To illustrate the pypadf package, we will run the scripts with provided config files in `./demo/configs`. These template config files save certain outputs to directories which we will now create.
@@ -42,13 +49,11 @@ We will now simulate some diffraction patterns. Parameters are read from a confi
     python diffract.py --config ./demo/configs/config_hex_diff.txt
 
 This will create 6 diffraction patterns and save them to the output directory `./demo/output/diff`. 
-Any parameter in the config file can be overided on the commandline. To generate more patterns for the demonstration:
-
-    python diffract.py --config ./demo/configs/config_hex_diff.txt --npatterns 1000
 
 To see all options:
     
     python diffract.py --help
+
 
 #### Inspect Diffraction Pattern
 
@@ -56,11 +61,12 @@ To inspect a diffraction pattern:
 
     python plotdiffraction.py --fname ./demo/output/diff/hex_0.npy
 
-#### Make Mask
+##### Make Mask
 
 We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./demo/output/mask`.
 
     python make-mask.py ./demo/output/diff/hex_0.npy ./demo/output/mask/hex_mask.npy
+
 
 #### Correlate the Diffraction Patterns
 
@@ -68,11 +74,14 @@ Correlate 6 diffraction patterns. The number of patterns will be split into two 
 
     python difftocorr.py --config ./demo/configs/config_hex_corr.txt
 
-Again, parameters can be overrided on the command line.
-
-    python difftocorr.py --config ./demo/configs/config_hex_corr.txt --npatterns 1000
 
 This will generate new config files to plot the correlation and create the PADF
+
+#### Diffraction and correlate
+
+If you don't want to save 1000 diffraction patterns, then you can run diffract and correlate to generate the patterns, and correlate directly.
+
+    python diffract_and_correlate.py --config .///.;.
 
 #### View correlation
 
@@ -104,11 +113,6 @@ The generated config file from running `difftocorr.py` can be used to generate t
 - plotfxs3d: there is a print statement that says "section extracted: reqr". this probably shouldn't be there?
 
 - corrtopadf: step one says correlation to blrr but should be blqq
-
-
-
-
-
 
 
 

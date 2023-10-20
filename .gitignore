@@ -1,16 +1,8 @@
 #tmp folder for saving
 tmp/
-tests/output/
-tests/configs/config_hex_a_mask.txt
-tests/configs/config_hex_a_plot.txt
-tests/configs/config_hex_a_padf.txt
-tests/configs/config_hexdc_a_mask.txt
-tests/configs/config_hexdc_a_plot.txt
-tests/configs/config_hexdc_a_padf.txt
-tests/configs/hexagon_shifted.pdb
-
-
 demo/output/
+demo/configs/generated_configs/
+demo/configs/hexagon_shifted.pdb
 
 #pycache and cython files
 __pycache__/

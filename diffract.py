@@ -36,7 +36,7 @@ difrct = df.diffraction(pdbname, p.outpath, p.tag, p.fext, p.nx, p.wl, p.dz, p.p
 difrct.pdb.maxdims()
 mins =  (difrct.pdb.xmin,difrct.pdb.ymin,difrct.pdb.zmin)
 
-if(p.alen<difrct.pdb.xlen)or(p.blen<difrct.pdb.ylen)or(p.blen<difrct.pdb.zlen):
+if(p.alen<difrct.pdb.xlen)or(p.blen<difrct.pdb.ylen)or(p.clen<difrct.pdb.zlen):
     uc = df.unitcell(a=difrct.pdb.xlen,b=difrct.pdb.ylen,c=difrct.pdb.zlen)
 else:
     uc = df.unitcell(a=p.alen,b=p.blen,c=p.clen)
