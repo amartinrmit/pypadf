@@ -23,14 +23,11 @@ To install with conda (suggested), create and activate a conda environment and i
     conda install h5py -y
     conda install imageio -y
 
-The `tests` directory will run through the scripts To run a quick check to see if everything is installed and working:
-
-    python hextest.py
-
-Try running the tests again after editing the configs.
 
 
 ### Worked Example (Linux)
+
+Within the `demo` directory, there is a script `hextest.py` that will run all the relevant `pypadf` scripts. Running this script will create a series of subdirectories within `demo`, and various simulated data files. This script can be used to ensure everything is installed correctly. The follwing steps illustrate the process of running each step individually, such that the process can be modifyied for your needs.
 
 #### Create Output Directories 
 To illustrate the pypadf package, we will run the scripts with provided config files in `./demo/configs`. These template config files save certain outputs to directories which we will now create.
