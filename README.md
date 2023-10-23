@@ -1,6 +1,6 @@
 # pypadf
 ***
-Compute the pair-angle distribution function (PADF) from a fluctuation scattering dataset
+Compute the pair-angle distribution function (PADF) from a fluctuation scattering dataset.
 
 ### Build, Install, Test
 
@@ -23,11 +23,18 @@ To install with conda (suggested), create and activate a conda environment and i
     conda install h5py -y
     conda install imageio -y
 
+Move to the `demo` directory, and run the `hextest.py` script to run through each step of the PADF calculation.
+
+    python hextest.py
+
+This will automattically make an output directory to save various simulated quantaties during the PADF calculation. If the `hextest.py` script runs with no errors, then everything should be installed correctly.
+
 
 
 ### Worked Example (Linux)
 
-Within the `demo` directory, there is a script `hextest.py` that will run all the relevant `pypadf` scripts. Running this script will create a series of subdirectories within `demo`, and various simulated data files. This script can be used to ensure everything is installed correctly. The follwing steps illustrate the process of running each step individually, such that the process can be modifyied for your needs.
+The following steps go into further depth of running each step of the PADF calculation.
+
 
 #### Create Output Directories 
 To illustrate the pypadf package, we will run the scripts with provided config files in `./demo/configs`. These template config files save certain outputs to directories which we will now create.
@@ -98,25 +105,4 @@ You can also try correlating with fewer patterns, and replotting to see the diff
 The generated config file from running `difftocorr.py` can be used to generate the PADF. This will save the output function to the same fold as the input correlation file.
 
     python corrtopadf.py --config ./demo/configs/config_hex_a_padf.txt
-
-
-
-# Notes:
-- I dont get why a new file hexagon_shifted.pdb gets created, it doesn't fix the runtime warning for invalid value encountered in scalar remainder during diffraction pattern generation
-
-- when generating 1000 diffraction patterns, it says x/1000 patterns made
-- when generating 1000 correaltion functions, it says x/999 patterns made
-
-- plotfxs3d: there is a print statement that says "section extracted: reqr". this probably shouldn't be there?
-
-- corrtopadf: step one says correlation to blrr but should be blqq
-
-
-
-- is there a way to set up the configs so we dont require a mask?
-- is there a way to turn this off auto-generation of configs and just include template configs for the padf and plotting steps?
-- if we want to keep the auto-generation, we should be more selective in the .gitignore to remove the pregenerated ones?
-- Plotting for padf? when I tried running the script with the same config but chaning the --fname, it just plotted the q correlation again.
-
-
 
