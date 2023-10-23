@@ -28,12 +28,12 @@ Setting any of the following variables to `False` will skip that step in the pip
 
 
 
-### Worked Example (Linux)
+# Worked Example (Linux)
 
 Alternatively, you can run each script individually for greater control of the analysis pipeline. The following steps go into further depth of running each step of the PADF calculation individually.
 
 
-#### Create Output Directories 
+## Create Output Directories 
 To illustrate the pypadf package, we will run the scripts with provided config files in `./demo/configs`. These template config files save certain outputs to directories which we will now create.
 
     mkdir -p ./output
@@ -42,11 +42,12 @@ To illustrate the pypadf package, we will run the scripts with provided config f
     mkdir -p ./output/corr
     mkdir -p ./output/dc
     mkdir -p ./output/padf
+    mkdir -p ./output/figs
 
 
 Alternatively, the config files can be edited for an output directory of your choosing.
 
-#### Simulate Diffraction Patterns
+## Simulate Diffraction Patterns
 
 We will now simulate some diffraction patterns. Parameters are read from a config file.
 
@@ -59,51 +60,41 @@ To see all options:
     python ../diffract.py --help
 
 
-#### Inspect Diffraction Pattern
+## Inspect Diffraction Pattern
 
 To inspect a diffraction pattern:
 
     python ../plotdiffraction.py --fname ./output/diff/hex_0.npy
 
-#### Correlate the Diffraction Patterns
+## Correlate the Diffraction Patterns
 
 Correlate 6 diffraction patterns. The number of patterns will be split into two correlation functions, an A half from 3 patterns (`output/corr/hex_a_correlation_sum.npy`) and a B half from the other 3 patterns (`output/corr/hex_a_correlation_sum.npy`).
 
     python ../difftocorr.py --config ./configs/config_hex_corr.txt
 
 
-#### Diffraction and correlate
+## Diffraction and correlate
 
 If you don't want to save 1000 diffraction patterns, then you can run diffract and correlate to generate the patterns, and correlate directly.
 
     python ../diffract_and_correlate.py --config ./configs/config_hex_dc.txt
 
 
-#### PADF
+## PADF
 
-The generated config file from running `difftocorr.py` can be used to generate the PADF. This will save the output function to the same fold as the input correlation file.
+This script will generate the PADF from the correlation function made in the previous step.
 
     python ../corrtopadf.py --config ./configs/config_hex_padf.txt
 
 
 
-#### View correlation (Not working)
+## View PADF
 
-The generated config file from running `difftocorr.py` can be used to plot the q1=q2 plane of the correlation function.
+This script will run produce a plot of r1=r2 plane within the PADF we generated in the previous steps.
 
     python ../plotfxs3d.py --config ./configs/config_hex_plot.txt
 
 
-
-
-
-
-
-##### Make Mask (Not needed)
-
-We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./demo/output/mask`.
-
-    python ../make-mask.py ./output/diff/hex_0.npy ./output/mask/hex_mask.npy
 
 
 
