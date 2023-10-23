@@ -2,11 +2,13 @@
 ***
 Compute the pair-angle distribution function (PADF) from a fluctuation scattering dataset.
 
-### Build, Install, Test
+### Install
 
 Clone this repo:
 
     git clone https://github.com/amartinrmit/pypadf.git
+
+### Requirements
 
 The following packages are required by pypadf:
 
@@ -22,6 +24,8 @@ To install with conda (suggested), create and activate a conda environment and i
     conda install numba -y
     conda install h5py -y
     conda install imageio -y
+
+### Demonstration
 
 Move to the `demo` directory, and run the `hextest.py` script to run through each step of the PADF calculation.
 
