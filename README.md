@@ -25,10 +25,11 @@ To install with conda (suggested), create and activate a conda environment and i
     conda install h5py -y
     conda install imageio -y
 
-### Demonstration
+### All-In-One Demonstration
 
 Move to the `demo` directory, and run the `hextest.py` script to run through each step of the PADF calculation.
 
+    cd demo
     python hextest.py
 
 This will automattically make an output directory to save various simulated quantaties during the PADF calculation. If the `hextest.py` script runs with no errors, then everything should be installed correctly.
@@ -53,20 +54,21 @@ Setting any of the following variables to `False` will skip that step in the pip
 
 
 
-This is a draft tutorial and can't be garrunteed to work yet.
 
-### Worked Example (Linux)
+### Individual Script Demonstration (Linux)
 
 The following steps go into further depth of running each step of the PADF calculation.
 
 
 #### Create Output Directories 
-To illustrate the pypadf package, we will run the scripts with provided config files in `./demo/configs`. These template config files save certain outputs to directories which we will now create.
+To illustrate the pypadf package, we will run the scripts with provided config files in `./demo/configs`. These template config files save certain outputs to directories which we will now create. From the top level directory, move into the demo folder and create the output directories.
 
+    cd demo
     mkdir ./output
     mkdir ./output/diff
     mkdir ./output/mask
     mkdir ./output/corr
+    mkdir ./output/dc
 
 Alternatively, the config files can be edited for an output directory of your choosing.
 
@@ -94,7 +96,6 @@ To inspect a diffraction pattern:
 We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./demo/output/mask`.
 
     python ../make-mask.py ./output/diff/hex_0.npy ./output/mask/hex_mask.npy
-
 
 #### Correlate the Diffraction Patterns
 
