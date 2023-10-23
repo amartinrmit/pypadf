@@ -1,6 +1,6 @@
 [PY3CORRELATION]
 # Please see parameter explanations 
-# in congig_hex_diff.txt and config_hex_corr.txt
+# in config_hex_diff.txt and config_hex_corr.txt
 # except where noted below 
 
 outpath = ./output/dc/
