@@ -1,13 +1,36 @@
 [PYPADFMASK]
+# q-space correlation function to apply mask to
 corrfile = ./output/corr/
+
+# path where output files are saved
 outpath = ./output/corr
+
+# a suffix to append to all output files
 suffix = _allmasks
+
+# subtract the mean value from each q,q' ring of the correlation function
 submean = True
+
+# multiple the correlation function by |sin\theta|
 sintheta = True
+
+# set this flag to apply a band pass filter on the q dimensions
 maskq = True
+
+# set this flag to mask values close to theta=0
 maskth = True
+
+# the q value of the lowest q ring in the correlation volume (arb. units)
 qmin = 0
+
+# the maximum q value in the correlation volume (arb.units)
 qmax =      249997656.3
+
+# the lower bound on the band pass filter (same units as qmin/qmax)
 qmaskhigh = 200000000
+
+# the upper bound on the band pass q-filter (same units as qmin/qmax)
 qmasklow  = 50000000
+
+# the width of the mask near theta=0 (degrees)
 thlim = 30

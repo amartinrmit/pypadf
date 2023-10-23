@@ -1,15 +1,45 @@
 [PYDIFFRACTION]
+
+# the name of the pdb file with atomic coordinates
 pdbname = ./configs/hexagon.pdb
+
+# the path where output files will be saved
 outpath = ./output/diff/
+
+# the tag is prepended to all output files
+# change it if you don't want to overwrite previous results
 tag = hex
+
+# the file extention for output files
 fext = .npy
+
+# the number of pixels along the side of the detector
 nx = 200
+
+# the sample to detector distance (metres)
 dz = 0.125
+
+# the photon wavelength (metres) 
 wl = 1.0e-10
+
+# the pixel width (metres)
 pw = 5e-4
+
+# Use Henke parameters for the wavelength dependence
+# of the x-ray scattering factors (True/False)
 henkeflag = False
+
+# Number of diffraction patterns to calculate
 npatterns = 6
+
+# rotate the sample randomly for each pattern
 rotflag = True
+
+# number of photons in the x-ray pulse
 npulse = 1e17
+
+# the area of the beam spot
 beamarea = 1e-14
+
+# Add Poisson noise
 poisson = False

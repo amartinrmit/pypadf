@@ -1,22 +1,62 @@
 [PY3CORRELATION]
+
+# the path where output files will be saved
 outpath = ./output/corr/
+
+# path where diffraction files are located
 samplepath = ./output/diff/hex*.npy
+
+# a binary mask of good detector pixels, if required
 #maskname = ./output/mask/hex_mask.npy
+
+# the tag is prepended to all output files
+# change it if you don't want to overwrite previous results
 tag = hex
+
+# sample to detector distance (metres)
 dz = 0.5
+
+# photon wavelength (metres)
 wl = 0.2e-10
+
+# width of a detector pixel (metres)
 pw = 5e-5
+
+# no. of radial q samples to use for the correlation function
 nq = 50
+
+# no. of theta samples to use for the correlation function
 nth = 90
+
+# number of CPU threads to use
 nthreads = 1
+
+# number of the starting diffraction pattern
 nstart = 1
+
+# number of diffraction patterns to correlate
 npatterns = 6
+
+# rebin each diffraction pattern by this factor
 rebin = 2
+
+# Set this flag to use the mask
 maskflag = False
+
+# set this flag to output processed (=shifted, cropped, rebinned)  diffraction patterns
 outputdp = True
+
+# shift the centre of the diffraction pattern
 dp_shift_flag = True
+
+# set this flag to crop the diffraction patterns
 cropflag = True
+
+# x and y width of crop area (pixels)
 nxcrop = 100
 nycrop = 100
+
+# number of pixels to shift in x and y
+# can use sub-pixel shifts (=decimel values)
 shiftx = 0
 shifty = 0 

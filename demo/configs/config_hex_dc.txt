@@ -1,4 +1,8 @@
 [PY3CORRELATION]
+# Please see parameter explanations 
+# in congig_hex_diff.txt and config_hex_corr.txt
+# except where noted below 
+
 outpath = ./output/dc/
 pdbname = ./configs/hexagon.pdb
 tag = hexdc
@@ -22,7 +26,7 @@ outputdp = True
 #bg_estimate = False
 dp_shift_flag = False
 cropflag = False
-periodicshift = False
+periodicshift = False  # periodically translate sample using the unit cell
 rotflag = True
 #nxcrop = 200
 #nycrop = 200
@@ -30,7 +34,12 @@ rotflag = True
 #shifty = 100 
 nx = 512
 ny = 512
+
+# a unit cell (alen, blen, clen) in Angstroms
+# used for random translations of the structure
 alen = 300
 blen = 300
 clen = 300
+
+# write out correlations every writefreq no. of iterations
 writefreq = 1000
