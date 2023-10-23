@@ -87,6 +87,13 @@ The generated config file from running `difftocorr.py` can be used to generate t
 
 
 
+#### View correlation (Not working)
+
+The generated config file from running `difftocorr.py` can be used to plot the q1=q2 plane of the correlation function.
+
+    python ../plotfxs3d.py --config ./configs/config_hex_plot.txt
+
+
 
 
 
@@ -97,20 +104,6 @@ The generated config file from running `difftocorr.py` can be used to generate t
 We will create a mask file that is 1 for every pixel in the difraction pattern (essentially no mask) and save it to `./demo/output/mask`.
 
     python ../make-mask.py ./output/diff/hex_0.npy ./output/mask/hex_mask.npy
-
-
-
-#### View correlation (Not working)
-
-The generated config file from running `difftocorr.py` can be used to plot the q1=q2 plane of the correlation function.
-
-    python ../plotfxs3d.py --config ./configs/config_hex_a_corr_plot.txt
-
-To better see the correlation intensity, try chaning the colorscale:
-
-    python ../plotfxs3d.py --config ./configs/config_hex_a_corr_plot.txt --chigh 0.00005 --clow -0.00005
-
-You can also try correlating with fewer patterns, and replotting to see the difference. 
 
 
 
