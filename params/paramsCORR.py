@@ -284,6 +284,7 @@ class paramsCORR(params):
         abspath = os.path.abspath(self.parser.parse_args().config[0])
         self.parse_config_file( abspath )
         self.parse_commandline_args()
+        self.convert_paths()
         print("config file name:", abspath )
         self.check_corrtype()
         self.checkpaths()

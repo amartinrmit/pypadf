@@ -154,6 +154,7 @@ class paramsPADF(params):
         abspath = os.path.abspath(self.parser.parse_args().config[0])
         self.parse_config_file( abspath )
         self.parse_commandline_args()
+        self.convert_paths()
         self.checkpaths()
         print("config file name:", abspath )
         outname = self.makefname( self.outpath, self.tag, "_corrtopadf_parameter_log",".txt" )

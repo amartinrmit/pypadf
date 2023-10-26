@@ -265,7 +265,7 @@ class params:
                 else:
                         print( "parameter in config file not required (check the name) :"+k2 )
 
-        self.convert_paths()
+        #self.convert_paths()
 
     
     def parse_commandline_args( self ):
@@ -310,7 +310,7 @@ class params:
             else:
                         print( "parameter o file not required (check the name) :"+k )
 
-        self.convert_paths()
+        #self.convert_paths()
 
 
     def convert_paths( self):

@@ -24,6 +24,7 @@ print("pypadf version ",p.version,"\n")
 # Read input parameters from a file
 #
 p.read_config_file()
+print("Plotting :", p.fname)
 
 #
 # set up plotting dimensions

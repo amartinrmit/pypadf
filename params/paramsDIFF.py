@@ -171,7 +171,9 @@ class paramsDIFF(params):
         #self.read_parameters_from_file(cwd+self.parser.parse_args().config[0] )
         self.parse_config_file(cwd+self.parser.parse_args().config[0] )
         self.parse_commandline_args()
+        self.convert_paths()
         self.checkpaths()
+
         #outname =  self.d["outpath"].value / (self.d["tag"].value+"_parameter_log.txt")
         outname = self.makefname( self.outpath, self.tag, "_diffract_parameter_log.txt")
         self.write_params_to_file( outname )

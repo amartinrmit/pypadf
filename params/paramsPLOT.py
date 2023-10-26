@@ -249,6 +249,7 @@ class paramsPLOT(params):
         abspath = os.path.abspath(self.parser.parse_args().config[0])
         self.parse_config_file( abspath )
         self.parse_commandline_args()
+        self.convert_paths()
         self.checkpaths()
         print("config file name:", abspath )
         fname = self.path_to_string(self.fname)

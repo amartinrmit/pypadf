@@ -362,6 +362,7 @@ class paramsDIFFCORR(params):
         self.parse_config_file(abspath)
         self.parse_commandline_args()
         print("config file name:", abspath )
+        self.convert_paths()
         self.checkpaths()
         self.qmax_calc()
         self.check_corrtype()
