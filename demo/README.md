@@ -59,6 +59,9 @@ To see all options:
     
     python ../diffract.py --help
 
+Parameters from the config file can be overwritten with commandline arguments. For example, the number of diffraction patterns to calculate can be changed at the command line with
+
+    python ../diffract.py --config ./configs/config_hex_diff.txt --npatterns 10
 
 ## 3) Inspect A Diffraction Pattern
 
@@ -91,6 +94,9 @@ The script `plotfx23d.py` will run produce a plot of r1=r2 plane within the PADF
 
     python ../plotfxs3d.py --config ./configs/config_hex_plot.txt
 
+To display the correlation plot, we can use the same config file and update some key parameters
+
+python ../plotfxs3d.py --config configs/config_hex_plot.txt --fname ./output/corr/hex_a_correlation_sum.npy --rq q --rmax 0.25 --rmaxdisp 0.25 --rmindisp 0.05 --sintheta False --submean True
 
 
 
