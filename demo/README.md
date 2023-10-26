@@ -90,7 +90,7 @@ The script `corrtopadf.py` will generate the PADF from the correlation function 
 
 ## 6) View PADF
 
-The script `plotfx23d.py` will run produce a plot of r1=r2 plane within the PADF we generated in the previous steps.
+The script `plotfxs3d.py` will run produce a plot of r1=r2 plane within the PADF we generated in the previous steps.
 
     python ../plotfxs3d.py --config ./configs/config_hex_plot.txt
 
