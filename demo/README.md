@@ -59,7 +59,7 @@ To see all options:
     
     python ../diffract.py --help
 
-Parameters from the config file can be overwritten with commandline arguments. For example, the number of diffraction patterns to calculate can be changed at the command line with
+Parameters from the config file can be overwritten with commandline arguments. For example, the number of diffraction patterns can be changed at the command line with
 
     python ../diffract.py --config ./configs/config_hex_diff.txt --npatterns 10
 
@@ -76,7 +76,7 @@ Once we have generated a set of diffraction patterns, we can correlate them with
     python ../difftocorr.py --config ./configs/config_hex_corr.txt
 
 
-Alternatively, we have supplied the script `diffract_and_correlate.py` that will simulate a set of diffraction patterns and correlate them directly. This will not save the itermeadite diffractiopn patterns, and can save storage space. 
+Alternatively, we have supplied the script `diffract_and_correlate.py` that will simulate a set of diffraction patterns and correlate them directly. This will not save the itermediate diffraction patterns, and can save storage space. 
 
     python ../diffract_and_correlate.py --config ./configs/config_hex_dc.txt
 
