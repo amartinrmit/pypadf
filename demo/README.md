@@ -96,7 +96,7 @@ The script `plotfxs3d.py` will run produce a plot of r1=r2 plane within the PADF
 
 To display the correlation plot, we can use the same config file and update some key parameters
 
-python ../plotfxs3d.py --config configs/config_hex_plot.txt --fname ./output/corr/hex_a_correlation_sum.npy --rq q --rmax 0.25 --rmaxdisp 0.25 --rmindisp 0.05 --sintheta False --submean True
+    python ../plotfxs3d.py --config configs/config_hex_plot.txt --fname ./output/corr/hex_a_correlation_sum.npy --rq q --rmax 0.25 --rmaxdisp 0.25 --rmindisp 0.05 --sintheta False --submean True
 
 
 
