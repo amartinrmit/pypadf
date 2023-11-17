@@ -42,12 +42,14 @@ if p.maskth:
 if p.submean:
         if p.thlimnorm>0:
             ith0 = int(s[2]*p.thlimnorm/360)
+            ith1 = -int(s[2]*p.thlimnorm/360)
         else:
             ith0 = 0
+            ith1 = s[2]
 
         for i in range(s[0]):
             for j in range(s[1]):
-                corr[i,j,:] += -np.average(corr[i,j,ith0:-ith0])
+                corr[i,j,:] += -np.average(corr[i,j,ith0:ith1])
 
 #
 # sintheta correction
