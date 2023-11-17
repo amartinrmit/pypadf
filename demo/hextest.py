@@ -28,13 +28,13 @@ test_padf = True
 test_plot = True
 test_dc   = True
 
-
+npatterns = 6   #change this to 1000 to reproduce the paper results; set it to a low number like 6 to quickly check the code is working 
 
 # diffraction calculation
 if test_diff:
     check_and_make_dir("./output/diff")
     print("\n Performing diffract.py test")
-    os.system("python ../diffract.py --config ./configs/config_hex_diff.txt")
+    os.system(f"python ../diffract.py --config ./configs/config_hex_diff.txt --npatterns {npatterns}")
     test = check_for_output( "./output/diff", "hex_0.npy")
     #print("\n diffract.py test :", test)
     print_result( "diffract.py", test)
@@ -43,7 +43,7 @@ if test_diff:
 if test_corr:
     check_and_make_dir("./output/corr")
     print("\n Performing difftocorr.py test")
-    os.system("python ../difftocorr.py --config ./configs/config_hex_corr.txt")
+    os.system(f"python ../difftocorr.py --config ./configs/config_hex_corr.txt --npatterns {npatterns}")
     test = check_for_output( "./output/corr", "hex_a_correlation_sum.npy")
     print("\n difftocorr.py test :", test)
     print_result( "difftocorr.py", test)

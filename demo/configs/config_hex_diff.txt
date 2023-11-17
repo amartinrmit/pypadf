@@ -17,13 +17,13 @@ fext = .npy
 nx = 200
 
 # the sample to detector distance (metres)
-dz = 0.125
+dz = 0.5
 
 # the photon wavelength (metres) 
-wl = 1.0e-10
+wl = 0.2e-10
 
 # the pixel width (metres)
-pw = 5e-4
+pw = 5e-5
 
 # Use Henke parameters for the wavelength dependence
 # of the x-ray scattering factors (True/False)

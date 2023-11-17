@@ -1,6 +1,6 @@
 [PYPADFMASK]
 # q-space correlation function to apply mask to
-corrfile = ./output/corr/
+corrfile = ./output/corr/hex_a_correlation_sum.npy
 
 # path where output files are saved
 outpath = ./output/corr
