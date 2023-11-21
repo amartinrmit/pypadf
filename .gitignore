@@ -1,6 +1,7 @@
 #tmp folder for saving
 tmp/
 demo/output/
+demo/output_save_22Nov23/
 demo/configs/generated_configs/
 demo/configs/hexagon_shifted.pdb
 

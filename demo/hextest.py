@@ -21,14 +21,14 @@ def print_result( sname, result):
     print(f"****** {sname} test : {result}" )
     print("*******************************\n")
 
-test_diff = False
-test_corr = False
-test_mask = False
+test_diff = True
+test_corr = True
+test_mask = True
 test_padf = True
 test_plot = True
 test_dc   = False
 
-npatterns = 1000   #change this to 1000 to reproduce the paper results; set it to a low number like 6 to quickly check the code is working 
+npatterns = 8   #change this to 1000 to reproduce the paper results; set it to a low number like 6 to quickly check the code is working 
 
 # diffraction calculation
 if test_diff:

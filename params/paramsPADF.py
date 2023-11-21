@@ -116,7 +116,7 @@ class paramsPADF(params):
         self.add_parameter("nr", int(100), cmdline="--nr",cmdline2="-nr", help="Number of real-space radial samples",
                         nargs=1,header=ch[0],pathflag=False)
 
-        self.add_parameter("nq", int(100), cmdline="--nq",cmdline2="-nq", help="Number of q-space radial samples",
+        self.add_parameter("nq", int(100), cmdline="--nq",cmdline2="-nq", help="Number of q-space radial samples; only required for .dbin input",
                         nargs=1,header=ch[0],pathflag=False)
 
         self.add_parameter("nth", int(100), cmdline="--nth",cmdline2="-nth", help="Number of theta samples",

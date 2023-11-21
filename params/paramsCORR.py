@@ -23,7 +23,7 @@ class paramsCORR(params):
     params class instance with PADF input parameters  
 
     Input parameter names - see help() for information about a specific parameter:
-    config, outpath, tag, samplepath, nx, ny, nl, nlmin, nr, nq, nth, qmin, qmax, rmax, wl
+    config, outpath, tag, samplepath, nx, ny, nl, nlmin, nr,  nth, qmin, qmax, rmax, wl
     nthreads, dz, pw, nstart, npatterns, maskflag, maskname, rbin, diffcorrflag, outputdpflag,
     dpshiftflag, nxcrop, nycrop, shiftx, shifty, bg_estimate
     Parameters
@@ -66,10 +66,6 @@ class paramsCORR(params):
 
     nr : int
         number of radial samples in real space
-
-    nq : int
-        number of radial samples in q-space (must match input correlation file)
-        this is essential when using dbin format
 
     nth : int
         number of angular samples
@@ -184,9 +180,9 @@ class paramsCORR(params):
                    help="Path or filelist where diffraction files are located.",
                    nargs=1,header=ch[0],pathflag=True)
 
-        self.add_parameter("nq", int(100), cmdline="--nq",cmdline2="-nq", 
-                           help="Number of q-space radial samples",
-                           nargs=1,header=ch[0],pathflag=False)
+        #self.add_parameter("nq", int(100), cmdline="--nq",cmdline2="-nq", 
+        #                   help="Number of q-space radial samples",
+        #                   nargs=1,header=ch[0],pathflag=False)
 
         self.add_parameter("nx", int(-1), cmdline="--nx",cmdline2="-nx",
                            help="Number of x samples",
@@ -340,14 +336,14 @@ class paramsCORR(params):
         f.write(f"outpath = {str(self.outpath.resolve())}\n")
         f.write(f"tag = "+tag+"\n")
         f.write(f'wl = {self.wl}\n')
-        f.write(f'nq = {self.nq}\n')
+        f.write(f'nq = {self.nx//2}\n')
         f.write(f'nth = {self.nth}\n')
         f.write(f'qmax = {self.qmax}\n')
-        rmax = self.nq/(self.qmax)
+        rmax = self.nx/(2*self.qmax)
         f.write(f'rmax = {rmax}\n')
         f.write(f'#\n')
         f.write(f'#THESE PARAMETERS ARE DEFAULT VALUES\n')
-        f.write(f'nr = {self.nq}\n')
+        f.write(f'nr = {self.nx//2}\n')
         f.write(f'nl = 32\n')
         f.write(f'method = svd\n')
         f.write(f'lnorm = True')
