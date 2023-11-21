@@ -826,7 +826,7 @@ class padfcl:
         """
         padfout = np.zeros( padfshape )
         lmax = len(blrr)
-        for l in np.arange(2,lmax):
+        for l in np.arange(self.nlmin,lmax):
 
              if (l%2)!=0:
                   continue
