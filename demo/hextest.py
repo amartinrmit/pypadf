@@ -21,14 +21,14 @@ def print_result( sname, result):
     print(f"****** {sname} test : {result}" )
     print("*******************************\n")
 
-test_diff = True
-test_corr = True
-test_mask = True
+test_diff = False
+test_corr = False
+test_mask = False
 test_padf = True
 test_plot = True
-test_dc   = True
+test_dc   = False
 
-npatterns = 6   #change this to 1000 to reproduce the paper results; set it to a low number like 6 to quickly check the code is working 
+npatterns = 1000   #change this to 1000 to reproduce the paper results; set it to a low number like 6 to quickly check the code is working 
 
 # diffraction calculation
 if test_diff:
@@ -61,6 +61,7 @@ if test_dc:
 if test_mask:
     print("\n Performing maskcorr.py test")
     os.system("python ../maskcorr.py --config ./configs/config_hex_mask.txt")
+    test = check_for_output( "./output/corr", "hex_a_correlation_sum_sintheta.npy")
     print("\n maskcorr.py test passed")
     print_result( "maskcorr.py", test)
 
@@ -78,6 +79,8 @@ if test_plot:
     check_and_make_dir("./output/figs")
     print("\n Performing plotfxs3d.py test")
     os.system("python ../plotfxs3d.py --config ./configs/config_hex_plot.txt")
+    os.system("python ../plotfxs3d.py --config ./configs/config_hex_corrplot.txt")
+    os.system("python ../plotfxs3d.py --config ./configs/config_hex_corrplot.txt --fname ./output/corr/hex_a_correlation_sum_allmasks.npy")
     test = check_for_output( "./output/figs", "hex_a_padf_test_reqr.npy")
     print("\n plotfxs3d.py test :", test)
     print_result( "plotfxs3d.py", test)

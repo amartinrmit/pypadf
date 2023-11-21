@@ -14,7 +14,7 @@ tag = hex
 fext = .npy
 
 # the number of pixels along the side of the detector
-nx = 200
+nx = 512
 
 # the sample to detector distance (metres)
 dz = 0.5

@@ -6,7 +6,7 @@ corrfile = ./output/corr/hex_a_correlation_sum.npy
 outpath = ./output/corr
 
 # a suffix to append to all output files
-suffix = _allmasks
+suffix = _sintheta
 
 # subtract the mean value from each q,q' ring of the correlation function
 submean = True
@@ -15,10 +15,10 @@ submean = True
 sintheta = True
 
 # set this flag to apply a band pass filter on the q dimensions
-maskq = True
+maskq = False
 
 # set this flag to mask values close to theta=0
-maskth = True
+maskth = False
 
 # the q value of the lowest q ring in the correlation volume (arb. units)
 qmin = 0

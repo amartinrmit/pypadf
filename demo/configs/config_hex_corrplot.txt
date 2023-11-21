@@ -1,0 +1,89 @@
+[PYPADFPLOT]
+
+# correlation or PADF volume to plot
+fname = ./output/corr/hex_a_correlation_sum_sintheta.npy
+
+# location of output files
+outpath = ./output/figs/
+
+# suffix is appended to all output files
+suffix = test
+
+# slice or line to plot
+#   reqr  :  r=r' slice
+#   rconst : a slice of constant r value (rval)
+#   thconst : a slice of constant theta value (thval)
+#   rline : a r=r' line at constant theta value (thval)
+#   thline : a line with r and r' values fixed (rval, rpval), theta varies
+stype = reqr
+
+# subtract the mean value from each ring
+submean = False
+
+# mutliply by |sin\theta|
+sintheta = False
+
+# convolve the volume by a Gaussian blurring kernal
+convolve = False
+
+# real-space or q-space volume (changes axis labels)
+rq = q
+
+# minimum radial value (r or q) in the volume
+rmin = 0
+
+# maximum radial value (r or q) in the volume
+rmax = 0.25
+
+# minimum radial value to display in the plots
+rmindisp = 0 
+#0.025
+
+# maximum radial value to display in the plots
+rmaxdisp = 0.25
+
+rscale = 1
+
+# units for the radial values
+runits = nm
+
+# mimimum theta value in the volume
+thmin = 0
+
+# maximum theta value in the volume
+thmax = 360
+
+# mutliply volume by (r*r')^(power)
+power = 0
+
+# max()*scale gives maximum colour limit
+scale = 1.0
+
+# min()*scalel gives minimim colour limit
+scalel = 1.0
+
+# clow, chigh absolute colour value limits
+# (either use this or the scale parameters)
+#clow = 1e-6
+#chigh = 6e-6
+
+# plot on a log scale
+log = False
+
+# multiply the volume by **gamma
+#gamma = 1.0
+
+# radial width of Gaussian blurring kernal
+rwid = 1000000
+
+# theta width of Gaussian blurring kernal
+thwid = 20
+
+# r value for selecting slice or line to plot
+rval  = 200000000
+
+# r' value for selecting slice or line to plot
+rpval = 200000000
+
+# theta value for selecting slice or line to plot
+thval = 60

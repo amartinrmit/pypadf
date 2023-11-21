@@ -38,7 +38,7 @@ nstart = 1
 npatterns = 6
 
 # rebin each diffraction pattern by this factor
-rebin = 2
+rebin = 1
 
 # Set this flag to use the mask
 maskflag = False
@@ -50,7 +50,7 @@ outputdp = True
 dp_shift_flag = True
 
 # set this flag to crop the diffraction patterns
-cropflag = True
+cropflag = False
 
 # x and y width of crop area (pixels)
 nxcrop = 100

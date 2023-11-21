@@ -44,6 +44,7 @@ elif fname[-3:]=='npy':
 else:
     print("Correlation volume must be dbin or npy format", p.fname)
 
+print("Dimensions :", fxsvol.shape )
 
 # scale radial dimension
 if p.power!=0:
