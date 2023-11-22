@@ -399,11 +399,13 @@ class correlation:
                     #print("DEBUG renbinning diffration pattern", image.shape)
                
                 # mask diffraction pattern
+                """
                 if self.mask_flag == 1:
                     #print("dp mask applied")
                     image *= mask_scb
                     if (self.bg_estimate is True) or (self.diffcorrflag is True):
                         image2 *= mask_scb
+                """
 
                 self.nx = image.shape[0]
                 #print("<correlation.py: calculate_correlation(): self.nx image.dtype", self.nx, image.shape, image.dtype)
@@ -473,9 +475,11 @@ class correlation:
         else:
             polar2 = polar
         #pcorr[j,:,:,:] = self.ac.polarplot_angular_intershell_correlation( polar, polar2)
-        #print( "max pcorr:", np.max(pcorr), np.max(dps[0]) ) 
-        return_dict[j] =  self.ac.polarplot_angular_intershell_correlation( polar, polar2)   
-
+        #print( "max pcorr:", np.max(pcorr), np.max(dps[0]) )
+        if self.mask_flag: 
+            return_dict[j] =  self.ac.polarplot_angular_intershell_correlation( polar*self.maskpolar, polar2*self.maskpolar)   
+        else:  
+            return_dict[j] =  self.ac.polarplot_angular_intershell_correlation( polar, polar2)   
 
     def radial_profile_to_correlation(self, rad=np.ones(1)):
         """
@@ -568,14 +572,18 @@ class correlation:
             self.mask = io.read_image(self.maskname, nx=self.nxorig, ny=self.nyorig).astype(np.float64)
             self.mask *= 1.0 / np.max(self.mask)
             self.mask_scb = self.shift_crop_bin(self.mask, True)
+         
+            #make the polar representation of the mask
+            self.maskpolar = self.ac.polar_plot_with_qbins( self.mask_scb, self.qbins, self.nth, 0, 2*np.pi, self.cx, self.cy, False)
+            self.maskpolar[ self.maskpolar <0.95 ] = 0
+            self.maskpolar[ self.maskpolar >= 0.95 ] = 1
 
 
     def calculate_mask_correlation(self):
         """
         Calculates the angular corrrelation of the mask file
         """ 
-        polar = self.ac.polar_plot_with_qbins( self.mask_scb, self.qbins, self.nth, 0, 2*np.pi, self.cx, self.cy, False)
-        self.maskcorr = self.ac.polarplot_angular_intershell_correlation( polar )   
+        self.maskcorr = self.ac.polarplot_angular_intershell_correlation( self.maskpolar )   
 
     #
     # Divide by mask function correlation
