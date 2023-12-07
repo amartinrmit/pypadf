@@ -39,10 +39,10 @@ elif corrfile[-3:]=='npy':
     corrvol = np.load(corrfile)
     if corrvol.shape[0]!=p.nq:
         p.nq = corrvol.shape[0]
-        print("input nq value did not match input correlation function; nq reset to ", p.nq) 
+        print("nq value read from input correlation file; nq set to ", p.nq) 
     if corrvol.shape[2]!=p.nth:
         p.nth = corrvol.shape[2]
-        print("input nth value did not match input correlation function; nth reset to ", p.nth) 
+        print("nth value read from input correlation file; nth set to ", p.nth)
 else:
     print("Correlation volume must be dbin or npy format", corrfile)
     exit()

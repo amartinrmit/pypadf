@@ -443,7 +443,7 @@ class correlation:
                 #print( "max corrsum:", np.max(corrsum), np.max(return_dict[j]) ) 
             
             stop = time.perf_counter()
-            print(f"correlated: {i*self.nthreads+1} / {self.npatterns+1}; time: {stop-t0:.2}s (last {self.nthreads} patterns:, {stop-start:.2}s); time remaining: {(stop-t0)*((self.npatterns/(i*self.nthreads+1))-1):.2}s", end='\r') 
+            print(f" correlated: {i*self.nthreads+1} / {self.npatterns+1}; time: {stop-t0:.2}s (last {self.nth    reads} patterns:, {stop-start:.2}s); time remaining: {(stop-t0)*((self.npatterns/(i*self.nthreads+1))-1):.2}s"    , end='\x1b\r')
 
         corrsum *= 1.0 / float(self.npatterns)
         return corrsum
