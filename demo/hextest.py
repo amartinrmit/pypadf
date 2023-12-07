@@ -80,7 +80,7 @@ if test_plot:
     print("\n Performing plotfxs3d.py test")
     os.system("python ../plotfxs3d.py --config ./configs/config_hex_plot.txt")
     os.system("python ../plotfxs3d.py --config ./configs/config_hex_corrplot.txt")
-    os.system("python ../plotfxs3d.py --config ./configs/config_hex_corrplot.txt --fname ./output/corr/hex_a_correlation_sum_allmasks.npy")
+    os.system("python ../plotfxs3d.py --config ./configs/config_hex_corrplot.txt --fname ./output/corr/hex_a_correlation_sum_sintheta.npy")
     test = check_for_output( "./output/figs", "hex_a_padf_test_reqr.npy")
     print("\n plotfxs3d.py test :", test)
     print_result( "plotfxs3d.py", test)
