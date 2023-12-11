@@ -73,16 +73,16 @@ log = False
 #gamma = 1.0
 
 # radial width of Gaussian blurring kernal
-rwid = 1000000
+rwid = 0.75
 
 # theta width of Gaussian blurring kernal
-thwid = 20
+thwid = 1
 
 # r value for selecting slice or line to plot
-rval  = 200000000
+rval  = 15
 
 # r' value for selecting slice or line to plot
-rpval = 200000000
+rpval = 15
 
 # theta value for selecting slice or line to plot
 thval = 60
