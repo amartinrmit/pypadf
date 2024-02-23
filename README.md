@@ -11,14 +11,16 @@ Clone this repo:
 
 ### Requirements
 
-The following packages are required by pypadf:
+The following packages are required by pypadf. All testing has used the following versions, but later versions should also work.
 
+    python==3.9
     numpy==1.26.3
     scipy==1.11.4
     matplotlib==3.8.0
     numba==0.59.0
     h5py==3.9.0
     imageio==2.33.1
+
 
 To install with conda (suggested), create and activate a conda environment and install the packages.
 
