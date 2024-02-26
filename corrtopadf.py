@@ -61,7 +61,7 @@ corrvol *= 1.0/(p.beamnorm**2)
 #
 padf = plib.padfcl( nl=p.nl+2, nlmin=p.nlmin, nr=p.nr, nq=p.nq, 
                    qmin=p.qmin, qmax=p.qmax, rmax=p.rmax, nth=p.nth,
-                   corrvol=corrvol, wl=p.wl, method=p.method,legendre_norm=p.lnorm)
+                   corrvol=corrvol, wl=p.wl, method=p.method,legendre_norm=p.lnorm,svdcutoff=p.svdcutoff)
 
 #
 # calculate the padf

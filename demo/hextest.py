@@ -21,10 +21,10 @@ def print_result( sname, result):
     print(f"****** {sname} test : {result}" )
     print("*******************************\n")
 
-test_diff = False
-test_corr = False
-test_mask = False
-test_padf = False
+test_diff = True
+test_corr = True
+test_mask = True
+test_padf = True
 test_plot = True
 test_dc   = False
 

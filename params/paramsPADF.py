@@ -78,6 +78,9 @@ class paramsPADF(params):
     beamnorm: float
         normalization for the experimental intensity (r_e^2 I_0 d\Omega)
         (TODO add a script to pre-calculate)
+
+    svdcutoff : float
+        absolute cutoff value for the svd regularisation (default = 0.5)
     """
 
 
@@ -142,6 +145,10 @@ class paramsPADF(params):
 
         self.add_parameter("lnorm", True, cmdline="--lnorm",cmdline2="-ln", help="Normalise  the legendre polynomials",
                             nargs=1,header=ch[0],pathflag=False)   
+        
+        self.add_parameter("svdcutoff", True, cmdline="--scf",cmdline2="-scf", help="Cutoff value for the svd regularisation (default value: 0.5)",
+                            nargs=1,header=ch[0],pathflag=False)   
+
 
     def read_config_file(self):
         """Read the values of the input parameters from a text (config) file.

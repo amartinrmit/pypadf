@@ -108,7 +108,7 @@ class padfcl:
     
     def __init__(self, nl=2, nlmin=0, nr=100, nth=100, nq=100, qmin=0.0, qmax=0.0, rmax=0.0, corrvol=None,\
                     wl=0.0, units_flag=0,\
-                    tablenzero=1000, tablelmax=100, method='svd',mult=1, legendre_norm=True):
+                    tablenzero=1000, tablelmax=100, method='svd',mult=1, legendre_norm=True, svdcutoff=0.5):
         """
         Constructs an instance of the padfcl class
         Initialises padf and blqq objects
@@ -128,6 +128,7 @@ class padfcl:
         self.method=method 
         self.mult = mult
         self.legendre_norm = legendre_norm
+        self.svdcutoff = svdcutoff
 
         #
         # parameters to read a lookup table of spherical bessel zeros
@@ -263,7 +264,7 @@ class padfcl:
             
             u, s, vh = np.linalg.svd( mat, full_matrices=False )
             #print( "resamp smax smin", s[0], s[-1], "; dims u s vh", u.shape, s.shape, vh.shape )
-            igood = np.where(s > 0.5)
+            igood = np.where(s > self.svdcutoff)
             sinv = s*0.0
             sinv[igood] = 1.0/s[igood]
             inv = np.dot(np.dot(vh.transpose(), np.diag(sinv)), u.transpose())
@@ -481,7 +482,7 @@ class padfcl:
             
             u, s, vh = np.linalg.svd( mat, full_matrices=False )
             #print( "resamp smax smin", s[0], s[-1], "; dims u s vh", u.shape, s.shape, vh.shape )
-            igood = np.where(s > 0.5)
+            igood = np.where(s > self.svdcutoff)
             sinv = s*0.0
             sinv[igood] = 1.0/s[igood]
             inv = np.dot(np.dot(vh.transpose(), np.diag(sinv)), u.transpose())
@@ -1035,7 +1036,7 @@ class padfcl:
             
             u, s, vh = np.linalg.svd( mat, full_matrices=False )
             #print( "resamp smax smin", s[0], s[-1], "; dims u s vh", u.shape, s.shape, vh.shape )
-            igood = np.where(s > 0.5)
+            igood = np.where(s > self.svdcutoff)
             sinv = s*0.0
             sinv[igood] = 1.0/s[igood]
             inv = np.dot(np.dot(vh.transpose(), np.diag(sinv)), u.transpose())
