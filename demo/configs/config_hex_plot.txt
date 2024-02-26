@@ -1,7 +1,7 @@
 [PYPADFPLOT]
 
 # correlation or PADF volume to plot
-fname = ./output/padf/hex_a_padf.npy
+fname = ./output/padf/hex_ab_padf.npy
 
 # location of output files
 outpath = ./output/figs/

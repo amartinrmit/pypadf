@@ -1,7 +1,7 @@
 [PYPADFPLOT]
 
 # correlation or PADF volume to plot
-fname = ./output/corr/hex_a_correlation_sum.npy
+fname = ./output/corr/hex_ab_correlation_sum.npy
 
 # location of output files
 outpath = ./output/figs/
@@ -30,13 +30,13 @@ convolve = False
 rq = q
 
 # minimum radial value (r or q) in the volume
-rmin = 0.025
+rmin = 0.0
 
 # maximum radial value (r or q) in the volume
 rmax = 0.25
 
 # minimum radial value to display in the plots
-rmindisp = 0 
+rmindisp = 0.025 
 #0.025
 
 # maximum radial value to display in the plots

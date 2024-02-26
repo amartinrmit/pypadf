@@ -165,6 +165,10 @@ class paramsDIFFCORR(params):
     writeconfigs : bool
         write prefilled config files for corrtopadf.py, maskcorr.py, fxsplot3d.py;
         default parameters need to be modified before use
+
+    outputsum : bool
+        output the sum of the odd and even correlations (total correlation)
+        Default = False to save disk space
     """
 
 
@@ -297,6 +301,10 @@ class paramsDIFFCORR(params):
         
         self.add_parameter("writeconfigs", True, cmdline="--writeconfigs",cmdline2="-wc", 
                  help="write template config files for corrtopadf.py, maskcorr.py and fxsplot3d.py",
+                 nargs=1,header=ch[0],pathflag=False)
+        
+        self.add_parameter("outputsum", False, cmdline="--outputsum",cmdline2="-os", 
+                 help="output the sum of the odd and even frame correlation functions",
                  nargs=1,header=ch[0],pathflag=False)
 
         # diffraction parameters 

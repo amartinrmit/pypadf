@@ -115,6 +115,10 @@ if __name__ == '__main__':
     outname = p.outpath / (p.tag+"_b_correlation_sum.npy")  #append diff or bg as appropriate
     np.save( outname, corrsum[:,:,:,1] ) 
     print("Written correlation sum:", outname)
+    if p.outputsum:
+        outname = p.outpath / (p.tag+"_ab_correlation_sum.npy")
+        np.save( outname, corrsum[:,:,:,0]+corrsum[:,:,:,1] ) 
+        print("Written correlation sum:", outname)
     #if p.writeconfigs: 
     #    p.write_padf_config(outname, p.tag+"_b")
     #    p.write_mask_config(outname, p.tag+"_b")
