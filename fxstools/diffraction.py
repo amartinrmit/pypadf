@@ -202,12 +202,12 @@ class diffraction(sfdata):
         for ie in np.arange(len(self.pdb.elements)):
 
  
-            
+            """
             tmp = np.zeros( (self.nx,self.nx), dtype=np.complex128 )
             for a in self.pdb.sorted_atom_list[ie]:
                 
 
-                """
+                
                 v = np.array([a.x, a.y, a.z])
 
                 # add option to rotate the vector
