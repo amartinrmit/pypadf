@@ -80,31 +80,31 @@ for i in np.arange(p.npatterns):
     difrct.diffraction1D()
 
 
+if p.display==True:
+    #
+    # Plot the output to screen
+    #
 
-#
-# Plot the output to screen
-#
-
-# q data
-nq = p.nx
-q = np.arange( nq) * 0.1 * 2 * np.pi
-invAngstromSymbol = r'$\mathrm{\AA}^{-1}$'
-
-
-gamma = 1.0
-#plt.imshow( np.log(difrct.dp2d) )
-plt.imshow( np.abs(difrct.dp2d)**gamma )
-#plt.imshow( difrct.sflist[2].sf2d)
+    # q data
+    nq = p.nx
+    q = np.arange( nq) * 0.1 * 2 * np.pi
+    invAngstromSymbol = r'$\mathrm{\AA}^{-1}$'
 
 
-plt.figure()
-plt.plot( difrct.q1d, difrct.dp1d**gamma )
+    gamma = 1.0
+    #plt.imshow( np.log(difrct.dp2d) )
+    plt.imshow( np.abs(difrct.dp2d)**gamma )
+    #plt.imshow( difrct.sflist[2].sf2d)
 
-plt.xlabel( 'q ('+invAngstromSymbol+')' )
-plt.ylabel( 'Intensity (arb. units)' )
-plt.ylim([0,np.max(difrct.dp1d)**gamma])
-plt.xlim([0,np.max(difrct.q1d)])
 
-plt.draw()
-plt.show()
+    plt.figure()
+    plt.plot( difrct.q1d, difrct.dp1d**gamma )
+
+    plt.xlabel( 'q ('+invAngstromSymbol+')' )
+    plt.ylabel( 'Intensity (arb. units)' )
+    plt.ylim([0,np.max(difrct.dp1d)**gamma])
+    plt.xlim([0,np.max(difrct.q1d)])
+
+    plt.draw()
+    plt.show()
 

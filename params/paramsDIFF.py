@@ -98,6 +98,8 @@ class paramsDIFF(params):
 
     poly : float
         compnonent of the polarisation vector is the vertical direction
+    display : Bool
+        display the diffraction pattern to the screen (Default True)
     """
 
     def __init__(self):
@@ -157,6 +159,8 @@ class paramsDIFF(params):
         self.add_parameter("polx", 1, cmdline="--polx",cmdline2="-px", help="component of polarisation vector in the horizontal direction",
                         nargs=1,header=ch[0],pathflag=False) 
         self.add_parameter("poly", 0, cmdline="--poly",cmdline2="-py", help="component of polarisation vector in the vertical direction",
+                        nargs=1,header=ch[0],pathflag=False)
+        self.add_parameter("display", True, cmdline="--display",cmdline2="-disp", help="display diffraction pattern True/False - Boolean",
                         nargs=1,header=ch[0],pathflag=False)
 
  
