@@ -64,6 +64,9 @@ class paramsPLOT(params):
 
     submean : Bool
         subtract the angular mean from each r/r' line
+    
+    csampling : Bool
+        specify the padf was computed with cos(theta) sampling (True/False)
 
     convolve : Bool
         convolve the volume with a gaussian
@@ -145,6 +148,9 @@ class paramsPLOT(params):
                         nargs=1,header=ch[0],pathflag=False)
 
         self.add_parameter("sintheta", True, cmdline="--sintheta",cmdline2="-sth", help="Scale the correlation function by |sin\theta|",
+                        nargs=1,header=ch[0],pathflag=False)
+        
+        self.add_parameter("csampling", False, cmdline="--csampling",cmdline2="-csmp", help="Specify that the padf was computed with cos(theta) sampling",
                         nargs=1,header=ch[0],pathflag=False)
 
         self.add_parameter("convolve", True, cmdline="--convolve",cmdline2="-cv", help="Convolve the volume by a Gaussian",

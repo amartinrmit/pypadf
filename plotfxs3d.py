@@ -29,7 +29,8 @@ print("Plotting :", p.fname)
 #
 # set up plotting dimensions
 #
-pdims = pp.padfplot_dims(rmin=p.rmin,rmax=p.rmax,rval=p.rval,rval2=p.rpval,thval=p.thval,rwid=p.rwid)
+pdims = pp.padfplot_dims(rmin=p.rmin,rmax=p.rmax,rval=p.rval,rval2=p.rpval,\
+                            thval=p.thval,rwid=p.rwid,thmin=p.thmin,thmax=p.thmax)
 
 #
 # read the correlation file
@@ -65,7 +66,7 @@ if p.convolve==True:
     fxsvol = pp.convolve_gaussian_n( fxsvol, rad=cr, rady=cr, radz=cth)
 
 #extract the slice or line
-disp = pp.extract_section( fxsvol, pdims, p.stype ) 
+disp = pp.extract_section( fxsvol, pdims, p.stype, p.csampling ) 
 
 #
 # Plot the section of the 3D volume

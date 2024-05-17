@@ -19,10 +19,11 @@ Functions:
 
 
 import numpy as np
+from scipy.ndimage import map_coordinates
 
 class padfplot_dims():
 
-    def __init__(self,rmin=0.0,rmax=1.0,rval=0.5,rval2=0.5,thval=0.0,rwid=0.05):
+    def __init__(self,rmin=0.0,rmax=1.0,rval=0.5,rval2=0.5,thval=0.0,rwid=0.05,thmin=0,thmax=360):
         
         self.rmin = rmin
         self.rmax = rmax
@@ -30,6 +31,8 @@ class padfplot_dims():
         self.rval2 = rval2
         self.thval = thval
         self.rwid = rwid
+        self.thmin = thmin
+        self.thmax = thmax
 
     def get_ir(self, nr, r, flt=False):
         ir = nr*(r-self.rmin)/(self.rmax-self.rmin)
@@ -37,7 +40,7 @@ class padfplot_dims():
         return ir
 
     def get_ith(self, nth, th, flt=False):
-        ith = nth*th/360
+        ith = nth*(th-self.thmin)/(self.thmax-self.thmin)
         if flt==False: ith=int(ith)
         return ith
 
@@ -167,10 +170,27 @@ def corr_rescale( plane, gamma ):
 
      return disp
 
+def costh_coordinate_correction(disp,ppdims):
+     
+    dispout = disp*0.0
+
+    if disp.ndim==1:
+        nth = disp.shape[0]
+        th = ppdims.thmin + (ppdims.thmax-ppdims.thmin)*np.arange(nth)/nth
+        z = nth*(np.cos(th[::-1]*np.pi/180)+1)/2            
+        dispout = map_coordinates(disp, [z], order=3)
+    elif disp.ndim==2:
+        nth = disp.shape[1]
+        th = ppdims.thmin + (ppdims.thmax-ppdims.thmin)*np.arange(nth)/nth
+        z = nth*(np.cos(th[::-1]*np.pi/180)+1)/2
+        for i in np.arange( disp.shape[0] ):
+            zcorr = map_coordinates(disp[i,:], [z], order=3)
+            dispout[i,:] = zcorr
+    return dispout
 
 
 # extract slice (see below for options)
-def extract_section( corr, ppdims, stype='reqr' ):
+def extract_section( corr, ppdims, stype='reqr', csampling=False ):
     #stype: 'reqr', 'rconst', 'roffset', 'thconst'
     print("Section extracted :",stype)
 
@@ -178,10 +198,12 @@ def extract_section( corr, ppdims, stype='reqr' ):
         disp = np.zeros( (corr.shape[0], corr.shape[2] ) )
         for i in np.arange(corr.shape[0]):
              disp[i,:] = corr[i,i,:]
+        if csampling: disp = costh_coordinate_correction(disp,ppdims)
 
     elif stype=='rconst': 
         ir = ppdims.get_ir(corr.shape[0],ppdims.rval)
         disp = np.real(corr[:,ir,:])
+        if csampling: disp = costh_coordinate_correction(disp,ppdims)
 
     elif stype=='thconst':        
         ith = ppdims.get_ith(corr.shape[2],ppdims.thval)
@@ -192,6 +214,7 @@ def extract_section( corr, ppdims, stype='reqr' ):
         ir2 = ppdims.get_ir(corr.shape[0],ppdims.rval2)
         w = ppdims.get_rwid_index(corr.shape[0])
         disp = np.real(np.sum(np.sum(corr[ir-w:ir+1+w,ir2-w:ir2+1+w,:],0),0))
+        if csampling: disp = costh_coordinate_correction(disp,ppdims)
 
     elif stype=='rline':        
         ith = ppdims.get_ith(corr.shape[2],ppdims.thval)
