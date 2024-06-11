@@ -176,16 +176,18 @@ def costh_coordinate_correction(disp,ppdims):
 
     if disp.ndim==1:
         nth = disp.shape[0]
-        th = ppdims.thmin + (ppdims.thmax-ppdims.thmin)*np.arange(nth)/nth
-        z = nth*(np.cos(th[::-1]*np.pi/180)+1)/2            
+        th = ppdims.thmin + (ppdims.thmax-ppdims.thmin)*(np.arange(nth)+1)/nth
+        z = nth*(np.cos(th[::-1]*np.pi/180)-np.cos(th[-1]*np.pi/180))/2            
         dispout = map_coordinates(disp, [z], order=3)
+        #dispout = np.roll(dispout,1,axis=0)
     elif disp.ndim==2:
         nth = disp.shape[1]
-        th = ppdims.thmin + (ppdims.thmax-ppdims.thmin)*np.arange(nth)/nth
-        z = nth*(np.cos(th[::-1]*np.pi/180)+1)/2
+        th = ppdims.thmin + (ppdims.thmax-ppdims.thmin)*(np.arange(nth)+1)/nth
+        z = nth*(np.cos(th[::-1]*np.pi/180)-np.cos(th[-1]*np.pi/180))/2
         for i in np.arange( disp.shape[0] ):
             zcorr = map_coordinates(disp[i,:], [z], order=3)
             dispout[i,:] = zcorr
+        #dispout=np.roll(dispout,1,axis=1)
     return dispout
 
 

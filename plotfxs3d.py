@@ -79,7 +79,7 @@ th1 = int( disp.shape[1]*p.thmaxdisp/(p.thmax-p.thmin))
 thstep = (p.thmaxdisp-p.thmindisp)/(disp.shape[1]-1)
 ax = plt.gca()
 if p.stype=='reqr' or p.stype=='rconst':
-    plt.imshow(disp[r0:r1,th0:th1], origin='lower', extent=[p.thmindisp,p.thmaxdisp-1.0*thstep,p.rmindisp/p.rscale,p.rmaxdisp/p.rscale], aspect=p.asp*360*p.rscale/(p.rmaxdisp-p.rmindisp), interpolation='gaussian')
+    plt.imshow(disp[r0:r1,th0:th1], origin='lower', extent=[p.thmindisp,p.thmaxdisp-0.0*thstep,p.rmindisp/p.rscale,p.rmaxdisp/p.rscale], aspect=p.asp*360*p.rscale/(p.rmaxdisp-p.rmindisp), interpolation='gaussian')
     if (p.chigh>0) and (p.chigh>p.clow):
         plt.clim([p.clow, p.chigh])
     else:
