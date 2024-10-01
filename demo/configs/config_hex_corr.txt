@@ -4,7 +4,7 @@
 outpath = ./output/corr/
 
 # path where diffraction files are located
-samplepath = ./output/diff/hex*.npy
+samplepath = ./output/diff/hex_2D*.npy
 
 # a binary mask of good detector pixels, if required
 #maskname = ./output/mask/hex_mask.npy

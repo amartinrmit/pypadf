@@ -162,6 +162,8 @@ class paramsDIFF(params):
                         nargs=1,header=ch[0],pathflag=False)
         self.add_parameter("display", True, cmdline="--display",cmdline2="-disp", help="display diffraction pattern True/False - Boolean",
                         nargs=1,header=ch[0],pathflag=False)
+        self.add_parameter("output1d", True, cmdline="--output1d",cmdline2="-oned", help="save the 1D diffraction to file",
+                        nargs=1,header=ch[0],pathflag=False)
 
  
     def read_diff_parameters_from_file(self):

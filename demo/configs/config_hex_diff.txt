@@ -43,3 +43,6 @@ beamarea = 1e-14
 
 # Add Poisson noise
 poisson = False
+
+# output the 1d diffraction pattern
+output1d = False

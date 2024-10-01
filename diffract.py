@@ -70,14 +70,18 @@ for i in np.arange(p.npatterns):
     #
     # output 2D diffraction pattern to file
     #
-    fname = difrct.outpath / (difrct.tag+"_"+str(i)+difrct.fext)
+    fname = difrct.outpath / (difrct.tag+"_2D_"+str(i)+difrct.fext)
     #print("Output file:", fname)
     pio.write_image( str(fname.resolve()), difrct.dp2d )
 
     #
     # Calculate 1D pattern
     #
-    difrct.diffraction1D()
+    if p.output1d:
+        difrct.diffraction1D()
+        fname = difrct.outpath / (difrct.tag+"_1D_"+str(i)+difrct.fext)
+        #print("Output file:", fname)
+        pio.write_image( str(fname.resolve()), difrct.dp1d )
 
 
 if p.display==True:
