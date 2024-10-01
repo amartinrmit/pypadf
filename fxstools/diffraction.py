@@ -22,6 +22,7 @@ import fxstools.scatfact as sf
 from fxstools.scatfact import sfdata
 from fxstools.quaternions import rotation_matrix
 from numba import jit
+import time
 #import jax
 
 @jit(nopython=True, cache=True)
@@ -347,3 +348,125 @@ class diffraction(sfdata):
 
     def poisson_sample(self, dp):
         return np.random.poisson(dp)
+    
+    
+    def saxs(self):
+        """Calculate the SAXS pattern from the pair distribution function
+        """
+        #intialise scattered wave
+        nelem = len(self.pdb.elements)
+        rmax = self.nx/self.q1d[-1] 
+        nr = self.nx*100
+        r = np.arange(nr)*rmax/nr
+        rinv = r*0.0
+        rinv[1:] = 1.0/r[1:]
+        self.partial_pd = np.zeros( (nelem,nelem,nr), dtype=np.complex128 )
+
+        # put atoms into arrays
+        xyz_arrays = []
+        for ie in np.arange(len(self.pdb.elements)):
+            xyz = np.zeros( (len(self.pdb.sorted_atom_list[ie]),3))
+            for i, a in enumerate(self.pdb.sorted_atom_list[ie]):
+                xyz[i,:] = np.array([a.x,a.y,a.z])
+            xyz_arrays.append(xyz) 
+
+
+        #
+        # Compute the partial pair distributions
+        #
+        start = time.time()
+        for ie in np.arange(len(self.pdb.elements)):
+            for ie2 in np.arange(len(self.pdb.elements)):
+                if ie==ie2:
+                    m=1
+                elif ie2>ie:
+                    m=2
+                else:
+                    continue
+                    
+                print( "computing pair distribution ie ie2", ie, ie2, len(self.pdb.sorted_atom_list[ie]), len(self.pdb.sorted_atom_list[ie2]))              
+                icount = 0  
+                nchunkmax = 1000
+                nchunk1 = np.min([nchunkmax,len(self.pdb.sorted_atom_list[ie])])
+                nchunk2 = np.min([nchunkmax,len(self.pdb.sorted_atom_list[ie2])])
+                niter = len(self.pdb.sorted_atom_list[ie])//nchunk1
+                niter2 = len(self.pdb.sorted_atom_list[ie2])//nchunk2
+                if niter%nchunkmax  != 0: niter+=1    
+                if niter2%nchunkmax != 0: niter2+=1    
+
+                for i in range(niter):
+                    chunk1 = xyz_arrays[ie][i*nchunk1:(i+1)*nchunk1,:]
+                    nc1 = chunk1.shape[0]
+                    for j in range(niter2):
+                        if i==j:
+                            m2 = 1
+                        if j>i:
+                            m2 = 2
+                        else:
+                            continue
+
+                        chunk2 = xyz_arrays[ie2][j*nchunk2:(j+1)*nchunk2,:]
+                        nc2 = chunk2.shape[0]
+                        x = (np.outer(chunk1[:,0], np.ones(nc2)) - np.outer(np.ones(nc1),chunk2[:,0])).flatten()
+                        y = (np.outer(chunk1[:,1], np.ones(nc2)) - np.outer(np.ones(nc1),chunk2[:,1])).flatten()
+                        z = (np.outer(chunk1[:,2], np.ones(nc2)) - np.outer(np.ones(nc1),chunk2[:,2])).flatten()
+                        rchunk = np.sqrt(x*x + y*y + z*z)
+                        h, be =  np.histogram( rchunk, bins=nr, range=(0,rmax)) 
+                        if m==1:
+                            self.partial_pd[ie,ie2,:] += m2*h
+                        elif m==2:
+                            self.partial_pd[ie,ie2,:] += m2*h
+                            self.partial_pd[ie2,ie,:] += m2*h
+                             
+                        #print("chunks ", i, j, niter, niter2, rchunk.shape, np.sum(self.partial_pd[ie,ie2,:]))
+        
+                """
+                for a in self.pdb.sorted_atom_list[ie]:
+                    for b in self.pdb.sorted_atom_list[ie2]:
+                        icount += 1
+                        if icount%100000==0: print(icount)
+                        v = np.array([a.x, a.y, a.z])
+                        v2 = np.array([b.x, b.y, b.z])
+                        n = vec_norm(v2-v)
+            
+                        ir = np.where( np.abs(n-r) == np.min(np.abs(n-r)) )
+                        self.partial_pd[ie,ie2,ir] += 1
+                """
+        end = time.time()
+        print("time to calculate pd: ", end-start)
+    
+        #
+        # Compute the SAXS pattern
+        #   
+        self.saxs = np.zeros( self.nx ).astype(np.float64)
+        nelem = len(self.pdb.elements)
+        self.saxs_partial = np.zeros( (nelem,nelem,self.nx) ).astype(np.float64)
+        self.normalisation = np.zeros( self.nx ).astype(np.float64)
+        for ie in np.arange(len(self.pdb.elements)):
+            sf = self.sflist[ie].sf1d**2
+            self.saxs += np.real(len(self.pdb.sorted_atom_list[ie])*sf)
+            self.normalisation += np.real(len(self.pdb.sorted_atom_list[ie])*sf)
+            for ie2 in np.arange(len(self.pdb.elements)):
+                if ie==ie2:
+                    m=1
+                elif ie2>ie:
+                    m=2
+                else:
+                    continue
+                    
+                #if ie==0 and ie2==0: 
+                #    plt.plot( self.partial_pd[ie,ie2,:]*rinv**2)
+                #    plt.draw()
+                #    plt.show()
+                #print( "computing saxs ie ie2", ie, ie2)                
+                sf = self.sflist[ie].sf1d*self.sflist[ie2].sf1d
+                #print(np.max(np.abs(sf)), np.max(self.partial_pd[ie,ie2,:]), np.max(np.sin(2*np.pi*self.q1d*r[50])), np.max(self.q1d))
+                tmp = np.zeros( self.nx )
+                for ir in np.arange(nr):
+                   tmp += m*np.real(sf*self.partial_pd[ie,ie2,ir]*np.sin( 2*np.pi*self.q1d*r[ir])*r[ir])
+                tmp[self.q1d>0] *= 1.0/self.q1d[self.q1d>0]
+                self.saxs += tmp
+                self.saxs_partial[ie,ie2,:] = tmp
+                   #if ir<3: print( "saxs max", np.max(self.saxs), np.max(np.real(sf)), np.real(self.partial_pd[ie,ie2,ir]), np.max(np.sin(2*np.pi*self.q1d*r[ir])) )
+        self.saxs *= 1.0/self.normalisation
+
