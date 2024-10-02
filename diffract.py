@@ -100,14 +100,14 @@ if p.display==True:
     plt.imshow( np.abs(difrct.dp2d)**gamma )
     #plt.imshow( difrct.sflist[2].sf2d)
 
+    if p.output1d:
+        plt.figure()
+        plt.plot( difrct.q1d, difrct.dp1d**gamma )
 
-    plt.figure()
-    plt.plot( difrct.q1d, difrct.dp1d**gamma )
-
-    plt.xlabel( 'q ('+invAngstromSymbol+')' )
-    plt.ylabel( 'Intensity (arb. units)' )
-    plt.ylim([0,np.max(difrct.dp1d)**gamma])
-    plt.xlim([0,np.max(difrct.q1d)])
+        plt.xlabel( 'q ('+invAngstromSymbol+')' )
+        plt.ylabel( 'Intensity (arb. units)' )
+        plt.ylim([0,np.max(difrct.dp1d)**gamma])
+        plt.xlim([0,np.max(difrct.q1d)])
 
     plt.draw()
     plt.show()
