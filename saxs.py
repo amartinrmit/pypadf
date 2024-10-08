@@ -15,7 +15,7 @@ import fxstools.pydiffractionio as pio
 #
 p = params.paramsDIFFBATCH()
 
-print("diffract.py")
+print("saxs.py")
 print("pypadf version ",p.version,"\n")
 
 #
@@ -33,6 +33,12 @@ difrct = df.diffraction(pdbname, p.outpath, p.tag, p.fext, p.nx, p.wl, p.dz, p.p
                         p.ceny, p.henkeflag, np.array([p.rx,p.ry,p.rz]),p.rtheta,p.rotflag,
                         npulse=p.npulse,beamarea=p.beamarea )
 
+with open(p.outname,'a') as f:
+    f.write(f"qmax = {difrct.q1d[-1]}\n")
+    f.write(f"elements =")
+    for ie in difrct.pdb.elements:
+        f.write(f' {ie}')
+
 difrct.pdb.maxdims()
 mins =  (difrct.pdb.xmin,difrct.pdb.ymin,difrct.pdb.zmin)
 
@@ -44,56 +50,31 @@ else:
 #save the pdbname
 pdbsave = pdbname
  
-pdbname  = pdbname[:-4]+"_shifted.pdb"
+#
+# calculate the saxs pattern
+#
+difrct.load_pdb()
+
+start = time.perf_counter()
+difrct.saxs(nr=p.saxs_nr, box_nx=p.saxs_box_nx, norm_rmin=p.saxs_norm_rmin, norm_rmax=p.saxs_norm_rmax)
+end = time.perf_counter()
+print("Time to calculate the saxs pattern:", end-start, "seconds")
+fname = difrct.outpath / (difrct.tag+"_saxs"+difrct.fext)
+pio.write_image( str(fname.resolve()), difrct.saxs) 
+
+fname = difrct.outpath / (difrct.tag+"_saxs_partial"+difrct.fext)
+pio.write_image( str(fname.resolve()), difrct.saxs_partial) 
+
+fname = difrct.outpath / (difrct.tag+"_pairdist"+difrct.fext)
+pio.write_image( str(fname.resolve()), difrct.partial_pd) 
+
+fname = difrct.outpath / (difrct.tag+"_boxpd"+difrct.fext)
+pio.write_image( str(fname.resolve()), difrct.pdbox) 
+
 
 #
-# calculate the 2D diffraction pattern
+# display the saxs pattern
 #
-for i in np.arange(p.npatterns):
-    difrct.axis, difrct.theta = quaternions.random_vec_angle() 
-
-    # shift the pdb coordinates using a unit cell
-    difrct.circ_shift_coordinates( uc, mins,True)
-    # write a new pdb file with the shifted coordinates
-    #outname = p.pdbname[:-4]+"_shifted.pdb"
-    difrct.pdb.write_pdb(pdbname)
-    # load the pdb file, to ensure new atom infomration is appropriately sorted
-    difrct.load_pdb()
-    """
-    start = time.perf_counter()
-    difrct.diffraction2D()
-    if p.polarisation is True: difrct.dp2d *= difrct.polarisation_factor([p.px, p.py])
-    if p.poisson is True: difrct.dp2d = difrct.poisson_sample(difrct.dp2d)
-    end = time.perf_counter()
-    print( i+1,"/",p.npatterns,"  Time to calculate 2D diffraction pattern:", end-start, "seconds", end="\r")
-
-    #
-    # output 2D diffraction pattern to file
-    #
-    fname = difrct.outpath / (difrct.tag+"_2D_"+str(i)+difrct.fext)
-    #print("Output file:", fname)
-    pio.write_image( str(fname.resolve()), difrct.dp2d )
-
-    #
-    # Calculate 1D pattern
-    #
-    if p.output1d:
-        difrct.diffraction1D()
-        fname = difrct.outpath / (difrct.tag+"_1D_"+str(i)+difrct.fext)
-        #print("Output file:", fname)
-        pio.write_image( str(fname.resolve()), difrct.dp1d )
-    """
-    start = time.perf_counter()
-    difrct.saxs()
-    end = time.perf_counter()
-    print("Time to calculate the saxs pattern:", end-start, "seconds")
-    fname = difrct.outpath / (difrct.tag+"_saxs_"+str(i)+difrct.fext)
-    pio.write_image( str(fname.resolve()), difrct.saxs) 
-
-    fname = difrct.outpath / (difrct.tag+"_saxs_partial_"+str(i)+difrct.fext)
-    pio.write_image( str(fname.resolve()), difrct.saxs_partial) 
-
-
 if p.display==True:
     #
     # Plot the output to screen

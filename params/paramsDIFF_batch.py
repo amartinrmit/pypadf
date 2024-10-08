@@ -67,8 +67,8 @@ class paramsDIFFBATCH(paramsDIFF):
         self.checkpaths()
 #        self.read_config_file(cwd+self.parser.parse_args().config[0] )
         print("config file name:", abspath )
-        outname = self.makefname( self.outpath, self.tag, "_diffraction_batch_parameter_log", ".txt")
-        self.write_params_to_file( outname )
+        self.outname = self.makefname( self.outpath, self.tag, "_diffraction_batch_parameter_log", ".txt")
+        self.write_params_to_file( self.outname )
 
         ## TODO: clean up the rotation axis - normalise vector etc; convert angle to radians etc
         rnorm = np.sqrt( self.rx*self.rx + self.ry*self.ry + self.rz*self.rz)

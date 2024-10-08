@@ -98,8 +98,21 @@ class paramsDIFF(params):
 
     poly : float
         compnonent of the polarisation vector is the vertical direction
+    
     display : Bool
         display the diffraction pattern to the screen (Default True)
+    
+    saxs_nr : int
+        number of radial bins in the saxs calculation
+
+    saxs_norm_rmin : float
+        minimium q value (no 2 pi) used to normalise the background (box correlations) for the saxs calculation 
+
+    saxs_norm_rmax : float
+        maximum q value (no 2 pi) used to normalise the background (box correlations) for the saxs calculation 
+
+    saxs_box_nx : int
+        number of samples for backgound volume estimate
     """
 
     def __init__(self):
@@ -165,7 +178,16 @@ class paramsDIFF(params):
         self.add_parameter("output1d", True, cmdline="--output1d",cmdline2="-oned", help="save the 1D diffraction to file",
                         nargs=1,header=ch[0],pathflag=False)
 
- 
+        self.add_parameter("saxs_nr", int(1000), cmdline="--saxs_nr",cmdline2="-sxnr", help="Number of radial bins in the saxs calculation",
+                        nargs=1,header=ch[0],pathflag=False)
+        self.add_parameter("saxs_norm_rmin", int(10), cmdline="--saxs_norm_rmin",cmdline2="-sxmin", help="minimium q value (no 2 pi) used to normalise the background (box correlations) for the saxs calculation",
+                        nargs=1,header=ch[0],pathflag=False)
+        self.add_parameter("saxs_norm_rmax", int(20), cmdline="--saxs_norm_rmax",cmdline2="-sxmax", help="maximum q value (no 2 pi) used to normalise the background (box correlations) for the saxs calculation",
+                        nargs=1,header=ch[0],pathflag=False)
+        self.add_parameter("saxs_box_nx", int(100), cmdline="--saxs_box_nx",cmdline2="-sxbx", help="Number of bins for background volume estimate",
+                        nargs=1,header=ch[0],pathflag=False)
+
+
     def read_diff_parameters_from_file(self):
         """Read the values of the input parameters from a text (config) file.
         
@@ -181,8 +203,8 @@ class paramsDIFF(params):
         self.checkpaths()
 
         #outname =  self.d["outpath"].value / (self.d["tag"].value+"_parameter_log.txt")
-        outname = self.makefname( self.outpath, self.tag, "_diffract_parameter_log.txt")
-        self.write_params_to_file( outname )
+        self.outname = self.makefname( self.outpath, self.tag, "_diffract_parameter_log.txt")
+        self.write_params_to_file( self.outname )
 
         rnorm = np.sqrt( self.rx*self.rx + self.ry*self.ry + self.rz*self.rz)
         if rnorm > 0.0:

@@ -348,18 +348,90 @@ class diffraction(sfdata):
 
     def poisson_sample(self, dp):
         return np.random.poisson(dp)
+
+    def gaussian(self, nr, wid):
+        r = np.arange(nr) - nr/2
+        g = np.exp(- r*r/(2*wid*wid))
+        g = np.roll(g, nr//2)
+        g *= 1.0/np.sum(g)
+        return g
+  
+    def convolve_gaussian( self, data, wid):
+        g = self.gaussian( data.size, wid)
+        fg = np.fft.fft(g)
+        fdata = np.fft.fft(data)
+        fout = np.fft.ifft( fdata*fg.conjugate())
+        return fout
+
+
+
+    def box_pair_distribution(self, nxin, rmax, nr, xlim, ylim, zlim):
+        """Estimate the background contribution from the mean density to the radial distribution function
+        """
+        #print("box pair debug limits:", xlim, ylim, zlim) 
+        nx, ny, nz = nxin, nxin, nxin
+        xyz = np.mgrid[:nx,:ny,:nz]
+
+        x = xyz[0]*xlim/nx #-xlim/2 
+        y = xyz[1]*ylim/ny #-ylim/2
+        z = xyz[2]*zlim/nz #-zlim/2
+        rvol = np.sqrt( x*x + y*y + z*z)
+        vol = np.zeros( (nx,ny,nz) )
+        vol = (xlim - np.abs(x)) * (ylim - np.abs(y)) * (zlim - np.abs(z))
+
+        # make the 1D r array and find the reverse indices.
+        r = np.arange(nr)*rmax/nr
+         
+        pd, be = np.histogram( rvol.flatten(), bins=nr, range=(0,rmax), weights=vol.flatten() )
+                
+        """
+        breakflag = False
+        mind = np.min([xlim,ylim,zlim])
+        limits = [2.0, 5.0, 10.0, 20.0,mind)
+        for i, lim in enuerate(limits):
+            if lim>mind:
+                lim = mind
+                breakflag = True
+            if i==(len(limits)-1):
+                tmp_xlim, tmp_ylim, tmp_zlim = xlim, ylim, zlim
+            else:
+                tmp_xlim, tmp_ylim, tmp_zlim = lim, lim, lim
+
+            x = xyz[0]*tmp_xlim/nx #-xlim/2 
+            y = xyz[1]*tmp_ylim/ny #-ylim/2
+            z = xyz[2]*tmp_zlim/nz #-zlim/2
+            rvol = np.sqrt( x*x + y*y + z*z)
+            vol = np.zeros( (nx,ny,nz) )
+            vol = (xlim - np.abs(x)) * (ylim - np.abs(y)) * (zlim - np.abs(z))
+
+            # make the 1D r array and find the reverse indices.
+            r = np.arange(nr)*rmax/nr
+         
+            pd, be = np.histogram( rvol.flatten(), bins=nr, range=(0,rmax), weights=vol.flatten() )
+            if i==0:
+                pdsum = pd
+            else:
+                pdsum += pd   ###FIX WEIGHTS BEFORE I USE THIS!!!!!
+
+    
+            if breakflag: break
+        """
+        return pd
+             
+        
     
     
-    def saxs(self):
+    def saxs(self, nr=-1, box_nx=350, norm_rmin=10, norm_rmax=20):
         """Calculate the SAXS pattern from the pair distribution function
         """
         #intialise scattered wave
         nelem = len(self.pdb.elements)
-        rmax = self.nx/self.q1d[-1] 
-        nr = self.nx*100
+        rmax = self.nx/self.q1d[-1]
+        if nr<0: nr = self.nx*10
         r = np.arange(nr)*rmax/nr
         rinv = r*0.0
         rinv[1:] = 1.0/r[1:]
+
         self.partial_pd = np.zeros( (nelem,nelem,nr), dtype=np.complex128 )
 
         # put atoms into arrays
@@ -370,10 +442,36 @@ class diffraction(sfdata):
                 xyz[i,:] = np.array([a.x,a.y,a.z])
             xyz_arrays.append(xyz) 
 
+        # compute the box pair distribution
+        xmin, xmax, ymin, ymax, zmin, zmax = 1e6, -1e6, 1e6, -1e6, 1e6, -1e6
+        for xyz in xyz_arrays:
+            if np.max(xyz[:,0])>xmax: xmax=np.max(xyz[:,0])
+            if np.max(xyz[:,0])<xmin: xmin=np.min(xyz[:,0])
+            if np.max(xyz[:,1])>ymax: ymax=np.max(xyz[:,1])
+            if np.max(xyz[:,1])<ymin: ymin=np.min(xyz[:,1])
+            if np.max(xyz[:,2])>zmax: zmax=np.max(xyz[:,2])
+            if np.max(xyz[:,2])<zmin: zmin=np.min(xyz[:,2])
+        print("xyz min max", xmin, xmax, ymin, ymax, zmin, zmax)            
+        xlim, ylim, zlim  = xmax-xmin, ymax-ymin, zmax-zmin
+
+        print("computing box pair distribution (background)")
+        t0 = time.perf_counter()
+        self.pdbox = self.box_pair_distribution( box_nx, rmax, nr, xlim, ylim, zlim )
+        self.pdbox[r>0] *= 1.0/(r[r>0]**2)
+        print("done - time taken for box pair distribution:", time.perf_counter()-t0, "s" )
+
+        #plt.figure("r")
+        #plt.plot(r)
+        #plt.draw()
+        #plt.show()
+        irnorm = (r>norm_rmin)*(r<norm_rmax) 
+
+        pdboxnorm = np.sum(self.pdbox[irnorm])
 
         #
         # Compute the partial pair distributions
         #
+        print("Computing the partial pair distributions...")
         start = time.time()
         for ie in np.arange(len(self.pdb.elements)):
             for ie2 in np.arange(len(self.pdb.elements)):
@@ -384,7 +482,6 @@ class diffraction(sfdata):
                 else:
                     continue
                     
-                print( "computing pair distribution ie ie2", ie, ie2, len(self.pdb.sorted_atom_list[ie]), len(self.pdb.sorted_atom_list[ie2]))              
                 icount = 0  
                 nchunkmax = 1000
                 nchunk1 = np.min([nchunkmax,len(self.pdb.sorted_atom_list[ie])])
@@ -398,9 +495,10 @@ class diffraction(sfdata):
                     chunk1 = xyz_arrays[ie][i*nchunk1:(i+1)*nchunk1,:]
                     nc1 = chunk1.shape[0]
                     for j in range(niter2):
+                        if (ie==2) and (ie2==2): print("ij", i, j)
                         if i==j:
                             m2 = 1
-                        if j>i:
+                        elif j<i:
                             m2 = 2
                         else:
                             continue
@@ -417,56 +515,55 @@ class diffraction(sfdata):
                         elif m==2:
                             self.partial_pd[ie,ie2,:] += m2*h
                             self.partial_pd[ie2,ie,:] += m2*h
-                             
-                        #print("chunks ", i, j, niter, niter2, rchunk.shape, np.sum(self.partial_pd[ie,ie2,:]))
         
-                """
-                for a in self.pdb.sorted_atom_list[ie]:
-                    for b in self.pdb.sorted_atom_list[ie2]:
-                        icount += 1
-                        if icount%100000==0: print(icount)
-                        v = np.array([a.x, a.y, a.z])
-                        v2 = np.array([b.x, b.y, b.z])
-                        n = vec_norm(v2-v)
-            
-                        ir = np.where( np.abs(n-r) == np.min(np.abs(n-r)) )
-                        self.partial_pd[ie,ie2,ir] += 1
-                """
         end = time.time()
-        print("time to calculate pd: ", end-start)
-    
+        print("time to calculate pair distributions: ", end-start)
+
+        #plt.figure()
+        #plt.plot( r, self.partial_pd[0,0,:])
+        #plt.title("pd")
+        #plt.draw()
+        #plt.show()
+        print( "Peforming SAXS calculation")
+        print( "elements used in saxs calculation", self.pdb.elements) 
         #
         # Compute the SAXS pattern
         #   
         self.saxs = np.zeros( self.nx ).astype(np.float64)
         nelem = len(self.pdb.elements)
+        first_term = 0
         self.saxs_partial = np.zeros( (nelem,nelem,self.nx) ).astype(np.float64)
         self.normalisation = np.zeros( self.nx ).astype(np.float64)
         for ie in np.arange(len(self.pdb.elements)):
             sf = self.sflist[ie].sf1d**2
             self.saxs += np.real(len(self.pdb.sorted_atom_list[ie])*sf)
-            self.normalisation += np.real(len(self.pdb.sorted_atom_list[ie])*sf)
+            first_term +=  np.real(len(self.pdb.sorted_atom_list[ie])*sf)
+            self.normalisation += np.real(len(self.pdb.sorted_atom_list[ie])*sf)*(nr/rmax)
             for ie2 in np.arange(len(self.pdb.elements)):
+                self.partial_pd[ie,ie2,r>0] *= 1.0/(r[r>0]**2)
+                norm = np.sum(self.partial_pd[ie,ie2,irnorm])/pdboxnorm         
+                self.partial_pd[ie,ie2,:] += -norm*self.pdbox
+                self.partial_pd[ie,ie2,:] *= nr/rmax
+                self.partial_pd[ie,ie2,:10] *= 0.0
                 if ie==ie2:
                     m=1
-                elif ie2>ie:
+                elif ie2<ie:
                     m=2
                 else:
                     continue
                     
-                #if ie==0 and ie2==0: 
-                #    plt.plot( self.partial_pd[ie,ie2,:]*rinv**2)
-                #    plt.draw()
-                #    plt.show()
-                #print( "computing saxs ie ie2", ie, ie2)                
                 sf = self.sflist[ie].sf1d*self.sflist[ie2].sf1d
-                #print(np.max(np.abs(sf)), np.max(self.partial_pd[ie,ie2,:]), np.max(np.sin(2*np.pi*self.q1d*r[50])), np.max(self.q1d))
                 tmp = np.zeros( self.nx )
                 for ir in np.arange(nr):
                    tmp += m*np.real(sf*self.partial_pd[ie,ie2,ir]*np.sin( 2*np.pi*self.q1d*r[ir])*r[ir])
                 tmp[self.q1d>0] *= 1.0/self.q1d[self.q1d>0]
                 self.saxs += tmp
                 self.saxs_partial[ie,ie2,:] = tmp
-                   #if ir<3: print( "saxs max", np.max(self.saxs), np.max(np.real(sf)), np.real(self.partial_pd[ie,ie2,ir]), np.max(np.sin(2*np.pi*self.q1d*r[ir])) )
         self.saxs *= 1.0/self.normalisation
+
+        for ie in np.arange(len(self.pdb.elements)):
+            for ie2 in np.arange(len(self.pdb.elements)):
+                self.saxs_partial[ie,ie2,:] += first_term
+                self.saxs_partial[ie,ie2,:] *= 1./self.normalisation
+
 
