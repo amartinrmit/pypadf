@@ -335,7 +335,13 @@ class sfdata:
         if self.henkeflag:
             sfz.sf2d += fvals[0] - np.sum(p)
             sfz.sf1d += fvals[0] - np.sum(p)
-            
+           
+        # Hydrogen parameters are actually helium so...
+        if Z==1:
+            sfz.sf2d *= 0.5
+            sfz.sf1d *= 0.5
+        
+ 
         return sfz
 
     def sf_list_calc( self, zlist, elist ):
