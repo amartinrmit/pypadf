@@ -5,7 +5,7 @@ import os
 import glob
 import params.paramsCORR as params
 import fxstools.padfio as padfio
-import fxstools.correlation as correlation
+import fxstools.correlation2 as correlation
 
 
 
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     print(f'Background estimate?   {corr.bg_estimate}')
     print(f'Difference correlation?  {corr.diffcorrflag}')
     print("\n")
-    corrsum = corr.calculate_correlation()
+    corrsum = corr.calculate_correlation_v2()
 
 
     #
