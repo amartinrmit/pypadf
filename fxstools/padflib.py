@@ -14,7 +14,6 @@ Classes:
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-from scipy.special import spherical_jn, legendre
 from scipy.interpolate import interp1d
 from scipy.ndimage import map_coordinates
 import scipy as sp
