@@ -383,6 +383,15 @@ class diffraction(sfdata):
         r = np.arange(nr)*rmax/nr
          
         pd, be = np.histogram( rvol.flatten(), bins=nr, range=(0,rmax), weights=vol.flatten() )
+
+        minlim = np.min([xlim,ylim,zlim])
+        irnorm = np.where( (r<0.9*minlim)*(r>0.7*minlim))
+        # analytic low r version
+        boxpd_theory = (np.pi/2)*xlim*ylim*zlim*r*r  - (np.pi/4)*(xlim*ylim + ylim*zlim + xlim*zlim)*(r**3)
+        boxpd_theory += (1.0/3.0)*(xlim + ylim + zlim)*(r**4) - (1.0/8.0)*(r**5) 
+
+        irlow = np.where(r<0.9*minlim)
+        pd[irlow] = boxpd_theory[irlow]*np.sum(pd[irnorm])/np.sum(boxpd_theory[irnorm])
                 
         """
         breakflag = False
