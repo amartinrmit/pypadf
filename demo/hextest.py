@@ -45,7 +45,7 @@ if test_diff:
     check_and_make_dir( outdir / "diff")
     print("\n Performing diffract.py test")
     os.system(f"python ../diffract.py --config ./configs/config_hex_diff.txt --npatterns {npatterns}")
-    test = check_for_output( outdir / "diff", "hex_0.npy")
+    test = check_for_output( outdir / "diff", "hex_2D_0.npy")
     #print("\n diffract.py test :", test)
     print_result( "diffract.py", test)
 
