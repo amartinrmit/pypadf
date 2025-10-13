@@ -244,6 +244,7 @@ class diffraction(sfdata):
             for a in self.pdb.sorted_atom_list[ie]:
                 
                 v = np.array([a.x, a.y, a.z])
+                #print( "v", v)
                 if (self.rmax>0)and(vec_norm(v)>self.rmax): continue
 
                 if self.rotflag:
