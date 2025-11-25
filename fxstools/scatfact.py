@@ -333,8 +333,8 @@ class sfdata:
             sfz.sf1d +=  p[ic]*np.exp( -p[ic+5]*self.q1dsq/4)
 
         if self.henkeflag:
-            sfz.sf2d += fvals[0] - np.sum(p)
-            sfz.sf1d += fvals[0] - np.sum(p)
+            sfz.sf2d += fvals[0] - np.sum(p[:5])
+            sfz.sf1d += fvals[0] - np.sum(p[:5])
            
         # Hydrogen parameters are actually helium so...
         if Z==1:
