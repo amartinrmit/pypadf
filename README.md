@@ -20,6 +20,8 @@ The following packages are required by pypadf. All testing has used the followin
     numba==0.59.0
     h5py==3.9.0
     imageio==2.33.1
+    tqdm==4.67.1
+    pyshtools==4.13.1
 
 
 To install with conda (suggested), create and activate a conda environment and install the packages.
@@ -32,6 +34,8 @@ To install with conda (suggested), create and activate a conda environment and i
     conda install numba==0.59.0 -y
     conda install h5py==3.9.0 -y
     conda install imageio==2.33.1 -y
+    conda install tqdm==4.67.1 -y
+    conda install conda-forge::pyshtools==4.13.1 -y
 
 ### Getting Started
 
