@@ -98,6 +98,12 @@ To display the correlation plot, we can use the same config file and update some
 
     python ../plotfxs3d.py --config configs/config_hex_plot.txt --fname ./output/corr/hex_a_correlation_sum.npy --rq q --rmax 0.25 --rmaxdisp 0.25 --rmindisp 0.05 --sintheta False --submean True
 
+## 7) Model PADF
+
+It is now possible to generate a model PADF directly from an atomic structure.
+
+
+
 
 
 
