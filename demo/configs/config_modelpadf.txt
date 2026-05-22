@@ -1,0 +1,20 @@
+[MODELPADF]
+
+outpath = <set in code>
+tag = diamond9_sph_circ
+subjectxyz = diamond_9_9_9.xyz
+supercellxyz = diamond_9_9_9.xyz
+use_supercell = False
+method = spharmonic
+mode = stm
+nlmin = 2
+nl = 100
+nr = 48
+nth = 360
+nthvol = 360
+nphivol = 720
+rmax = 6
+check_convergence = False
+convergence_target = 0.99
+r_power = 0
+nthreads = 1
