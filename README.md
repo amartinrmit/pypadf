@@ -1,6 +1,8 @@
 # pypadf
 ***
-Compute the pair-angle distribution function (PADF) from a fluctuation scattering dataset.
+Compute the pair-angle distribution function (PADF) from a fluctuation scattering dataset,
+or
+compute the pair-angle distribution function (PADF) from an atomic model (directly, without a diffraction calculation).
 
 
 ### Install
