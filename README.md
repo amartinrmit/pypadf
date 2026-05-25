@@ -24,7 +24,7 @@ The following packages are required by pypadf. All testing has used the followin
     pyshtools==4.13.1
 
 
-To install with conda (suggested), create and activate a conda environment and install the packages.
+To install with conda (suggested), create and activate a conda environment and install the packages. This may take 10-15 minutes to install all from scratch.
 
     conda create --name pypadf python==3.9 -y
     conda activate pypadf
@@ -39,4 +39,4 @@ To install with conda (suggested), create and activate a conda environment and i
 
 ### Getting Started
 
-For demonstration of the package, see instructions in the `demo` directory.
+For demonstration of the package, see instructions in the `demo` directory. This code has been run on Windows, Mac and Linux systems. We have not identified minimum OS requirements - if you can install the dependent python packages, it should work to our knowledge.
