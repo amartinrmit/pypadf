@@ -42,3 +42,7 @@ To install with conda (suggested), create and activate a conda environment and i
 ### Getting Started
 
 For demonstration of the package, see instructions in the `demo` directory. This code has been run on Windows, Mac and Linux systems. We have not identified minimum OS requirements - if you can install the dependent python packages, it should work to our knowledge.
+
+If you have a dataset, you can also implement the analysis pipeline via a jupyter notebook: padf_all_analysis.ipynb  
+(By default this notebook can be run on the diffraction data generated in the demo script ./demo/hextest.py; run this demo first if you want to test the notebook.)
+To implement the notebook on your dataset, you will need to copy the config files from demo and update the experimental parameters in the config files to match your data.
