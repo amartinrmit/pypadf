@@ -1,6 +1,6 @@
 # Demos
 
-There 3 demonstrations included:
+There are 3 demonstrations included:
 
 1) All-in-One Demonstration (hextest.py). This demo computes diffraction patterns from a hexagon to produce the results in Martin et al. J. Appl. Cryst. (2024). 57, 877–884 (https://doi.org/10.1107/S1600576724002796)
    
