@@ -1,10 +1,21 @@
-# All-In-One Demonstration
+# Demos
+
+There 3 demonstrations included:
+
+1) All-in-One Demonstration (hextest.py). This demo computes diffraction patterns from a hexagon to produce the results in Martin et al. J. Appl. Cryst. (2024). 57, 877–884 (https://doi.org/10.1107/S1600576724002796)
+   
+2) padf_all_analysis.ipynb (in the main folder). This repeats the hexagon analysis in a jupyter notebook using the diffraction patterns produced by hextest.py. See instructions in the notebook.
+
+3) Direct calculation of a PADF from an atomic model (modelpadf_test.py).  
+
+
+# All-In-One Demonstration (hextest.py)
 
 Run the `hextest.py` script to run through all steps of the PADF calculation.
 
     python hextest.py
 
-This will automattically make an output directory to save various simulated quantaties during the PADF calculation. If the `hextest.py` script runs with no errors, then everything should be installed correctly.
+This will automatically make an output directory to save various simulated quantaties during the PADF calculation. If the `hextest.py` script runs with no errors, then everything should be installed correctly. It takes about 12-15 minutes on a standard laptop.
 
 
 To run scripts individually, edit the `hextest.py` script and set the following parameters:
@@ -98,9 +109,11 @@ To display the correlation plot, we can use the same config file and update some
 
     python ../plotfxs3d.py --config configs/config_hex_plot.txt --fname ./output/corr/hex_a_correlation_sum.npy --rq q --rmax 0.25 --rmaxdisp 0.25 --rmindisp 0.05 --sintheta False --submean True
 
-## 7) Model PADF
+# Model PADF (modelpadf_test.py)
 
-It is now possible to generate a model PADF directly from an atomic structure.
+It is now possible to generate a model PADF directly from an atomic structure. To test this on a fcc crystal structure run
+
+    python modelpadf_test.py
 
 
 
